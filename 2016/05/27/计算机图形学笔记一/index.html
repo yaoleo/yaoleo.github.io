@@ -1,0 +1,621 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="图形学,技术," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="##什么是计算机图形学计算机图形学是研究怎样用计算机生成、处理和显示图形的一门学科。计算机图形学是研究通过计算机将数据转换为图形，并在专门显示设备上显示的原理、方法和技术的学科。 ##什么是计算机图像处理计算机图像处理是研究如何按照一定的目的和要求将一种图像处理变换成另一种图像的一门学科,内容包括：图像增强、图像复原、图像解析与理解、图像编码与数据压缩以及图像匹配等等 ##相关学科的关系 ##发展">
+<meta name="keywords" content="图形学,技术">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机图形学笔记一">
+<meta property="og:url" content="http://yoursite.com/2016/05/27/计算机图形学笔记一/index.html">
+<meta property="og:site_name" content="Yaoleo">
+<meta property="og:description" content="##什么是计算机图形学计算机图形学是研究怎样用计算机生成、处理和显示图形的一门学科。计算机图形学是研究通过计算机将数据转换为图形，并在专门显示设备上显示的原理、方法和技术的学科。 ##什么是计算机图像处理计算机图像处理是研究如何按照一定的目的和要求将一种图像处理变换成另一种图像的一门学科,内容包括：图像增强、图像复原、图像解析与理解、图像编码与数据压缩以及图像匹配等等 ##相关学科的关系 ##发展">
+<meta property="og:updated_time" content="2016-05-27T13:43:38.304Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="计算机图形学笔记一">
+<meta name="twitter:description" content="##什么是计算机图形学计算机图形学是研究怎样用计算机生成、处理和显示图形的一门学科。计算机图形学是研究通过计算机将数据转换为图形，并在专门显示设备上显示的原理、方法和技术的学科。 ##什么是计算机图像处理计算机图像处理是研究如何按照一定的目的和要求将一种图像处理变换成另一种图像的一门学科,内容包括：图像增强、图像复原、图像解析与理解、图像编码与数据压缩以及图像匹配等等 ##相关学科的关系 ##发展">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 计算机图形学笔记一 | Yaoleo </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Yaoleo</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">I pray to myself, for myself.</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                计算机图形学笔记一
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-27T00:29:36+08:00" content="2016-05-26">
+              2016-05-26
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/黑客/" itemprop="url" rel="index">
+                    <span itemprop="name">黑客</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>##什么是计算机图形学<br>计算机图形学是研究怎样用计算机生成、处理和显示图形的一门学科。<br>计算机图形学是研究通过计算机将数据转换为图形，并在专门显示设备上显示的原理、方法和技术的学科。</p>
+<p>##什么是计算机图像处理<br>计算机图像处理是研究如何按照一定的目的和要求将一种图像处理变换成另一种图像的一门学科,内容包括：图像增强、图像复原、图像解析与理解、图像编码与数据压缩以及图像匹配等等</p>
+<p>##相关学科的关系</p>
+<p>##发展简史</p>
+<p>###准备阶段（50年代）-“被动式”图形学<br>1950年，第一台图形显示器作为美国麻省理工学院（MIT）旋风I（Whirlwind I）计算机的附件诞生了。该显示器用一个类似于示波器的阴极射线管（CRT）来显示一些简单的图形。1958年美国Calcomp公司由联机的数字记录仪发展成滚筒式绘图仪，GerBer公司把数控机床发展成为平板式绘图仪。在整个50年代，只有电子管计算机，用机器语言编程，主要应用于科学计算，为这些计算机配置的图形设备仅具有输出功能。计算机图形学处于准备和酝酿时期，并称之为：“被动式”图形学。到50年代末期，MIT的林肯实验室在“旋风”计算机上开发SAGE空中防御体系，第一次使用了具有指挥和控制功能的CRT显示器，操作者可以用笔在屏幕上指出被确定的目标。与此同时，类似的技术在设计和生产过程中也陆续得到了应用，它预示着交互式计算机图形学的诞生。<br>1962年，MIT林肯实验室的Ivan E.Sutherland 发表了一篇题“Sketchpad：一个人机交互通信的图形系统”的博士论文，他在论文中首次使用了计算机图形学Computer Graphics”这个术语，证明了交互计算机图形学是一个可行的、有用的研究领域，从而确定了计算机图形学作为一个崭新的科学分支的独立地位。他在论文中所提出的一些基本概念和技术,如交互技术、分层存储符号的数据结构等至今还在广为应用。1964年MIT的教授Steven A. Coons提出了被后人称为超限插值的新思想，通过插值四条任意的边界曲线来构造曲面。同在60年代早期，法国雷诺汽车公司的工程师Pierre Bézier发展了一套被后人称为Bézier曲线、曲面的理论，成功地用于几何外形设计，并开发了用于汽车外形设计的UNISURF系统。Coons方法和Bézier方法是CAGD最早的开创性工作。值得一提的是，计算机图形学的最高奖是以 Coons的名字命名的，而获得第一届（1983）和第二届(1985) Steven A.Coons 奖的，恰好是Ivan E.Sutherland和Pierre Bézier，这也算是计算机图形学的一段佳话。<br>70年代是计算机图形学发展过程中一个重要的历史时期。由于光栅显示器的产生，在60年代就已萌芽的光栅图形学算法，迅速发展起来，区域填充、裁剪、消隐等基本图形概念、及其相应算法纷纷诞生，图形学进入了第一个兴盛的时期，并开始出现实用的CAD图形系统。又因为通用、与设备无关的图形软件的发展，图形软件功能的标准化问题被提了出来。1974年，美国国家标准化局（ANSI）在ACM SIGGRAPH的一个与“与机器无关的图形技术”的工作会议上，提出了制定有关标准的基本规则。此后ACM专门成立了一个图形标准化委员会，开始制定有关标准。该委员会于1977、1979年先后制定和修改了“核心图形系统”（Core Graphics System）。ISO随后又发布了计算机图形接口GI(Computer Graphics Interface)、计算机图形元文件标准CGM（Computer Graphics Metafile）、计算机图形核心系统GKS(Graphics Kernel system)、面向程序员的层次交互图形标准 PHIGS（Programmer’s Hierarchical Interactive Graphics Standard）等。这些标准的制定，为计算机图形学的推广、应用、资源信息共享，起到了重要作用。70年代，计算机图形学另外两个重要进展是真实感图形学和实体造型技术的产生。1970 Bouknight提出了第一个光反射模型，1971年Gourand提出“漫反射模型＋插值”的思想，被称为Gourand明暗处理。1975年Phong提出了著名的简单光照模型-Phong模型。这些可以算是真实感图形学最早的开创性工作。另外，从1973年开始，相继出现了英国剑桥大学CAD小组的Build系统、美国罗彻斯特大学的PADL-1系统等实体造型系统。1980年Whitted提出了一个光透视模型-Whitted模型，并第一次给出光线跟踪算法的范例，实现Whitted模型；1984年，美国Cornell大学和日本广岛大学的学者分别将热辐射工程中的辐射度方法引入到计算机图形学中，用辐射度方法成功地模拟了理想漫反射表面间的多重漫反射效果；光线跟踪算法和辐射度算法的提出，标志着真实感图形的显示算法已逐渐成熟。从80年代中期以来，超大规模集成电路的发展，为图形学的飞速发展奠定了物质基础。计算机的运算能力的提高，图形处理速度的加快，使得图形学的各个研究方向得到充分发展，图形学已广泛应用于动画、科学计算可视化、CAD/CAM、影视娱乐等各个领域。<br>最后，我们以SIGGRAPH会议的情况，来结束计算机图形学的历史回顾。ACM SIGGRAPH会议是计算机图形学最权威的国际会议，每年在美国召开，参加会议的人在50,000人左右。世界上没有第二个领域每年召开如此规模巨大的专业会议，SIGGRAPH会议很大程度上促进了图形学的发展。SIGGRAPH会议是由Brown大学教授Andries van Dam (Andy) 和IBM公司Sam Matsa在60年代中期发起的，全称是“the Special Interest Group on Computer Graphics and Interactive Techniques”。1974年，在Colorado大学召开了第一届SIGGRAPH 年会，并取得了巨大的成功，当时大约有600位来自世界各地的专家参加了会议。到了1997年，参加会议的人数已经增加到48,700。因为每年只录取大约50篇论文，在Computer Graphics杂志上发表，因此论文的学术水平较高，基本上代表了图形学的主流方向。AD小组的Build系统、美国罗彻斯特大学的PADL-1系统等实体造型系统。1980年Whitted提出了一个光透视模型-Whitted模型，并第一次给出光线跟踪算法的范例，实现Whitted模型；1984年，美国Cornell大学和日本广岛大学的学者分别将热辐射工程中的辐射度方法引入到计算机图形学中，用辐射度方法成功地模拟了理想漫反射表面间的多重漫反射效果；光线跟踪算法和辐射度算法的提出，标志着真实感图形的显示算法已逐渐成熟。从80年代中期以来，超大规模集成电路的发展，为图形学的飞速发展奠定了物质基础。计算机的运算能力的提高，图形处理速度的加快，使得图形学的各个研究方向得到充分发展，图形学已广泛应用于动画、科学计算可视化、CAD/CAM、影视娱乐等各个领域。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/图形学/" rel="tag">#图形学</a>
+          
+            <a href="/tags/技术/" rel="tag">#技术</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/05/23/javascript数组需要注意的点/" rel="next" title="javascript数组需要注意的点">
+                <i class="fa fa-chevron-left"></i> javascript数组需要注意的点
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/05/28/五月/" rel="prev" title="五月">
+                五月 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="yaoleo" />
+          <p class="site-author-name" itemprop="name">yaoleo</p>
+          <p class="site-description motion-element" itemprop="description">极简不矫情&无知不作恶</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yaoleo" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/yaoleo" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yaoleo</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
