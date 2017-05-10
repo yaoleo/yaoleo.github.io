@@ -408,22 +408,22 @@
 <li>clustering 聚类</li>
 </ul>
 <p>需要注意的是，机器学习的目标是学得的模型可以很好的适用“新样本”，而不仅是在训练样本上工作良好，即使对于聚类这样的无监督学习任务，也希望他能适用于新样本，称为 泛化 generaliazation</p>
-<h1 id="Model-and-Cost-Function"><a href="#Model-and-Cost-Function" class="headerlink" title="Model and Cost Function"></a>Model and Cost Function</h1><h2 id="Model-Representation"><a href="#Model-Representation" class="headerlink" title="Model Representation"></a>Model Representation</h2><p><img src="../images/ML1.2ModelRepresentation.png" alt="ML1.2ModelRepresentation"></p>
+<h1 id="Model-and-Cost-Function"><a href="#Model-and-Cost-Function" class="headerlink" title="Model and Cost Function"></a>Model and Cost Function</h1><h2 id="Model-Representation"><a href="#Model-Representation" class="headerlink" title="Model Representation"></a>Model Representation</h2><p><img src="..\images\ML1.2ModelRepresentation.png" alt="ML1.2ModelRepresentation"></p>
 <h2 id="Cost-Function"><a href="#Cost-Function" class="headerlink" title="Cost Function"></a>Cost Function</h2><p>measure the accuracy of our hypothesis function by using a cost function</p>
-<p><img src="../images/ML1.2CostFunction.png" alt="ML1.2CostFunction.png"></p>
+<p><img src="..\images\ML1.2CostFunction.png" alt="ML1.2CostFunction.png"></p>
 <p>This function is otherwise called the “Squared error function”, or “Mean squared error”. </p>
-<p>1/2 后面梯度下降的时候会消掉<br>1/m 是求和的平均</p>
+<p>1\2 后面梯度下降的时候会消掉<br>1\m 是求和的平均</p>
 <p>理解 Cost Function<br>先把 参数 Θ0 看作零 使参数只有一个的时候</p>
-<p><img src="../images/ML1.2CostFunctionIntuition1.png" alt="ML1.2CostFunctionIntuition1"></p>
+<p><img src="..\images\ML1.2CostFunctionIntuition1.png" alt="ML1.2CostFunctionIntuition1"></p>
 <p>左面是假设函数，在确定Θ1值的情况下 可以画出一条直线 这时候就可以计算出相应的Θ值在右侧cost函数里的对应值<br>明显可以看出 Θ=1 代价函数值为零 完全拟合</p>
 <p>那么 加一个参数 Θ0 的话 相应的cost function的函数图像就会是</p>
-<p><img src="../images/ML1.2CostFunctionIntuition2.png" alt="ML1.2CostFunctionIntuition2"></p>
-<h1 id="Parameter-Learning"><a href="#Parameter-Learning" class="headerlink" title="Parameter Learning"></a>Parameter Learning</h1><h2 id="Gradient-Descent"><a href="#Gradient-Descent" class="headerlink" title="Gradient Descent"></a>Gradient Descent</h2><p><img src="../images/ML1.3GradientDecent.png" alt="ML1.3GradientDecent"></p>
+<p><img src="..\images\ML1.2CostFunctionIntuition2.png" alt="ML1.2CostFunctionIntuition2"></p>
+<h1 id="Parameter-Learning"><a href="#Parameter-Learning" class="headerlink" title="Parameter Learning"></a>Parameter Learning</h1><h2 id="Gradient-Descent"><a href="#Gradient-Descent" class="headerlink" title="Gradient Descent"></a>Gradient Descent</h2><p><img src="..\images\ML1.3GradientDecent.png" alt="ML1.3GradientDecent"></p>
 <p>step1 确定初始值 Θ0 Θ1<br>step2 环顾四周 确定一个方向可以下降最快 往下走一步<br>重复step2 直到走到局部最低点</p>
 <p>特点 每一次迈的步长不一样 那么下一步的方向可能就不一样<br>     出发点不一样 最后的局部最低点可能也不一样</p>
-<p><img src="../images/ML1.3GradientDecentAlgorithm.png" alt="ML1.3GradientDecentAlgorithm"></p>
+<p><img src="..\images\ML1.3GradientDecentAlgorithm.png" alt="ML1.3GradientDecentAlgorithm"></p>
 <p>ɑ 是 learning rate 控制下山的步长 后面是一个求偏导 是方向<br>ɑ 太小 下降 很慢<br>ɑ 太大 可能错过最低点 导致无法收敛 甚至发散<br>以为求导数 越接近最低点 倒数越接近零 所以ɑ*后面导数值就越小 以至于步长越小 最后收敛</p>
-<p>但是要同时更新 Θ0 和 Θ1<br>怎么办呢？<br><img src="../images/ML1.3GradientDecentAlgorithm2.png" alt="ML1.3GradientDecentAlgorithm2"></p>
+<p>但是要同时更新 Θ0 和 Θ1<br>怎么办呢？<br><img src="..\images\ML1.3GradientDecentAlgorithm2.png" alt="ML1.3GradientDecentAlgorithm2"></p>
 <h2 id="理解-Gradient-Descent"><a href="#理解-Gradient-Descent" class="headerlink" title="理解 Gradient Descent"></a>理解 Gradient Descent</h2><h2 id="线性回归的梯度下降"><a href="#线性回归的梯度下降" class="headerlink" title="线性回归的梯度下降"></a>线性回归的梯度下降</h2>
           
         
