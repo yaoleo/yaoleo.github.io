@@ -84,19 +84,20 @@
 
 
 
-<meta name="description" content="Coursera 机器学习 – 线性回归 Cost FunctionCost Function的用途：对假设的函数进行评价，cost function越小的函数，说明拟合训练数据拟合的越好； 当cost function为黑盒的时候，cost function 的作用； Gradient Descent但是又一个问题引出了，虽然给定一个函数，我们能够根据cost function知道这个函数拟合的">
+<meta name="description" content="Multivariate Linear RegressionGradient Descent in Practice I - Feature Scaling 特征缩放why？因为多个特征的时候，代价函数图形可能非常的”偏斜”梯度下降在一个漫长的斜坡上来回波动 下降很慢所以要划分到一个相近的范围里来做， 下降就会很快。 how？ Feature Scaling特征缩放：  每个值除以范围 得到-1">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Yaoleo">
-<meta property="og:url" content="http://yoursite.com/2017/05/09/Coursera 机器学习 -- 线性回归/index.html">
+<meta property="og:url" content="http://yoursite.com/2017/05/09/Coursera 机器学习2/index.html">
 <meta property="og:site_name" content="Yaoleo">
-<meta property="og:description" content="Coursera 机器学习 – 线性回归 Cost FunctionCost Function的用途：对假设的函数进行评价，cost function越小的函数，说明拟合训练数据拟合的越好； 当cost function为黑盒的时候，cost function 的作用； Gradient Descent但是又一个问题引出了，虽然给定一个函数，我们能够根据cost function知道这个函数拟合的">
-<meta property="og:image" content="http://yoursite.com/2017/05/09/images/ML1.1函数代价.png">
-<meta property="og:image" content="http://yoursite.com/2017/05/09/images/ML2.1梯度下降.png">
-<meta property="og:updated_time" content="2017-05-09T09:48:02.748Z">
+<meta property="og:description" content="Multivariate Linear RegressionGradient Descent in Practice I - Feature Scaling 特征缩放why？因为多个特征的时候，代价函数图形可能非常的”偏斜”梯度下降在一个漫长的斜坡上来回波动 下降很慢所以要划分到一个相近的范围里来做， 下降就会很快。 how？ Feature Scaling特征缩放：  每个值除以范围 得到-1">
+<meta property="og:image" content="http://yoursite.com/2017/05/09/Coursera%20机器学习2/ML2.1FeatureScaling.png">
+<meta property="og:image" content="http://yoursite.com/2017/05/09/Coursera%20机器学习2/ML2.1LearningRate.png">
+<meta property="og:image" content="http://yoursite.com/2017/05/09/Coursera%20机器学习2/ML2.1PolynomialRegression.png">
+<meta property="og:updated_time" content="2017-05-17T11:36:09.474Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Yaoleo">
-<meta name="twitter:description" content="Coursera 机器学习 – 线性回归 Cost FunctionCost Function的用途：对假设的函数进行评价，cost function越小的函数，说明拟合训练数据拟合的越好； 当cost function为黑盒的时候，cost function 的作用； Gradient Descent但是又一个问题引出了，虽然给定一个函数，我们能够根据cost function知道这个函数拟合的">
-<meta name="twitter:image" content="http://yoursite.com/2017/05/09/images/ML1.1函数代价.png">
+<meta name="twitter:description" content="Multivariate Linear RegressionGradient Descent in Practice I - Feature Scaling 特征缩放why？因为多个特征的时候，代价函数图形可能非常的”偏斜”梯度下降在一个漫长的斜坡上来回波动 下降很慢所以要划分到一个相近的范围里来做， 下降就会很快。 how？ Feature Scaling特征缩放：  每个值除以范围 得到-1">
+<meta name="twitter:image" content="http://yoursite.com/2017/05/09/Coursera%20机器学习2/ML2.1FeatureScaling.png">
 
 
 
@@ -284,15 +285,22 @@
       
 
       
-        <p>Coursera 机器学习 – 线性回归</p>
-<h1 id="Cost-Function"><a href="#Cost-Function" class="headerlink" title="Cost Function"></a>Cost Function</h1><p>Cost Function的用途：对假设的函数进行评价，cost function越小的函数，说明拟合训练数据拟合的越好；</p>
-<p>当cost function为黑盒的时候，cost function 的作用；<br><img src="..\images\ML1.1函数代价.png" alt="函数代价"></p>
-<h1 id="Gradient-Descent"><a href="#Gradient-Descent" class="headerlink" title="Gradient Descent"></a>Gradient Descent</h1><p>但是又一个问题引出了，虽然给定一个函数，我们能够根据cost function知道这个函数拟合的好不好，但是毕竟函数有这么多，总不可能一个一个试吧？<br>因此我们引出了梯度下降：能够找出cost function函数的最小值；<br>梯度下降原理：将函数比作一座山，我们站在某个山坡上，往四周看，从哪个方向向下走一小步，能够下降的最快；</p>
-<p>当然解决问题的方法有很多，梯度下降只是其中一个，还有一种方法叫Normal Equation；</p>
-<p>方法：<br>(1)先确定向下一步的步伐大小，我们称为Learning rate；<br>(2)任意给定一个初始值：；<br>(3)确定一个向下的方向，并向下走预先规定的步伐，并更新；<br>(4)当下降的高度小于某个定义的值，则停止下降；</p>
-<p><img src="..\images\ML2.1梯度下降.png" alt="梯度下降"></p>
-<h1 id="Gradient-Descent-For-Multiple-Variables"><a href="#Gradient-Descent-For-Multiple-Variables" class="headerlink" title="Gradient Descent For Multiple Variables"></a>Gradient Descent For Multiple Variables</h1><h1 id="Multiple-Features"><a href="#Multiple-Features" class="headerlink" title="Multiple Features"></a>Multiple Features</h1><p><a href="http://blog.csdn.net/xiazdong/article/details/7950084" target="_blank" rel="external">http://blog.csdn.net/xiazdong/article/details/7950084</a></p>
-
+        <h1 id="Multivariate-Linear-Regression"><a href="#Multivariate-Linear-Regression" class="headerlink" title="Multivariate Linear Regression"></a>Multivariate Linear Regression</h1><h2 id="Gradient-Descent-in-Practice-I-Feature-Scaling-特征缩放"><a href="#Gradient-Descent-in-Practice-I-Feature-Scaling-特征缩放" class="headerlink" title="Gradient Descent in Practice I - Feature Scaling 特征缩放"></a>Gradient Descent in Practice I - Feature Scaling 特征缩放</h2><h3 id="why？"><a href="#why？" class="headerlink" title="why？"></a>why？</h3><p>因为多个特征的时候，代价函数图形可能非常的”偏斜”<br><img src="ML2.1FeatureScaling.png" alt="ML2.1FeatureScaling"><br>梯度下降在一个漫长的斜坡上来回波动 下降很慢<br>所以要划分到一个相近的范围里来做， 下降就会很快。</p>
+<h3 id="how？"><a href="#how？" class="headerlink" title="how？"></a>how？</h3><ul>
+<li><p>Feature Scaling特征缩放：<br>  每个值除以范围 得到-1 - +1 以内数字 最好<br>  -3 +3 以内可以接受 -1/3 +1/3 也可 太小 或太大就不行 要靠经验 看实验结果</p>
+</li>
+<li><p>Mean normalization均值归一化<br>  每个值减去平均值再除以（最大值减去最小值）</p>
+</li>
+</ul>
+<h2 id="Gradient-Descent-in-Practice-II-Learning-Rate-学习率-（步长）"><a href="#Gradient-Descent-in-Practice-II-Learning-Rate-学习率-（步长）" class="headerlink" title="Gradient Descent in Practice II - Learning Rate 学习率 （步长）"></a>Gradient Descent in Practice II - Learning Rate 学习率 （步长）</h2><p>try 0.001 0.003 0.01 0.03 0.1 1 …<br>画出横坐标迭代次数 纵坐标代价函数值的图形 观察<br><img src="ML2.1LearningRate.png" alt="ML2.1LearningRate"></p>
+<p>这还真是显而易见的方法啊。。。</p>
+<h2 id="Features-and-Polynomial-Regression"><a href="#Features-and-Polynomial-Regression" class="headerlink" title="Features and Polynomial Regression"></a>Features and Polynomial Regression</h2><ul>
+<li><p>特征选择：<br>具体问题具体分析 房价 房子的长宽就可以合成面积特征</p>
+</li>
+<li><p>多项式回归：<br><img src="ML2.1PolynomialRegression.png" alt="ML2.1PolynomialRegression"></p>
+</li>
+</ul>
+<h1 id="Computing-Parameters-Analytically"><a href="#Computing-Parameters-Analytically" class="headerlink" title="Computing Parameters Analytically"></a>Computing Parameters Analytically</h1><h2 id="Normal-Equation-正规方程"><a href="#Normal-Equation-正规方程" class="headerlink" title="Normal Equation 正规方程"></a>Normal Equation 正规方程</h2><h2 id="Normal-Equation-Noninvertibility"><a href="#Normal-Equation-Noninvertibility" class="headerlink" title="Normal Equation Noninvertibility"></a>Normal Equation Noninvertibility</h2>
       
     </div>
 
@@ -394,7 +402,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">18</span>
+              <span class="site-state-item-count">19</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -460,7 +468,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Cost-Function"><span class="nav-number">1.</span> <span class="nav-text">Cost Function</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Gradient-Descent"><span class="nav-number">2.</span> <span class="nav-text">Gradient Descent</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Gradient-Descent-For-Multiple-Variables"><span class="nav-number">3.</span> <span class="nav-text">Gradient Descent For Multiple Variables</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Multiple-Features"><span class="nav-number">4.</span> <span class="nav-text">Multiple Features</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Multivariate-Linear-Regression"><span class="nav-number">1.</span> <span class="nav-text">Multivariate Linear Regression</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Gradient-Descent-in-Practice-I-Feature-Scaling-特征缩放"><span class="nav-number">1.1.</span> <span class="nav-text">Gradient Descent in Practice I - Feature Scaling 特征缩放</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#why？"><span class="nav-number">1.1.1.</span> <span class="nav-text">why？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#how？"><span class="nav-number">1.1.2.</span> <span class="nav-text">how？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Gradient-Descent-in-Practice-II-Learning-Rate-学习率-（步长）"><span class="nav-number">1.2.</span> <span class="nav-text">Gradient Descent in Practice II - Learning Rate 学习率 （步长）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Features-and-Polynomial-Regression"><span class="nav-number">1.3.</span> <span class="nav-text">Features and Polynomial Regression</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Computing-Parameters-Analytically"><span class="nav-number">2.</span> <span class="nav-text">Computing Parameters Analytically</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Normal-Equation-正规方程"><span class="nav-number">2.1.</span> <span class="nav-text">Normal Equation 正规方程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Normal-Equation-Noninvertibility"><span class="nav-number">2.2.</span> <span class="nav-text">Normal Equation Noninvertibility</span></a></li></ol></li></ol></div>
             
           </div>
         </section>
