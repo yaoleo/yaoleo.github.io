@@ -94,7 +94,7 @@
 <meta property="og:image" content="http://yoursite.com/2017/05/18/Coursera机器学习2/ML2.1FeatureScaling.png">
 <meta property="og:image" content="http://yoursite.com/2017/05/18/Coursera机器学习2/ML2.1LearningRate.png">
 <meta property="og:image" content="http://yoursite.com/2017/05/18/Coursera机器学习2/ML2.1PolynomialRegression.png">
-<meta property="og:updated_time" content="2017-05-19T01:50:04.922Z">
+<meta property="og:updated_time" content="2017-05-20T12:26:45.101Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Coursera机器学习2">
 <meta name="twitter:description" content="Multivariate Linear RegressionGradient Descent in Practice I - Feature Scaling 特征缩放why？因为多个特征的时候，代价函数图形可能非常的”偏斜”梯度下降在一个漫长的斜坡上来回波动 下降很慢所以要划分到一个相近的范围里来做， 下降就会很快。 how？ Feature Scaling特征缩放：  每个值除以范围 得到-1">
@@ -320,7 +320,18 @@
 <li><p>多项式回归：<br><img src="ML2.1PolynomialRegression.png" alt="ML2.1PolynomialRegression"></p>
 </li>
 </ul>
-<h1 id="Computing-Parameters-Analytically"><a href="#Computing-Parameters-Analytically" class="headerlink" title="Computing Parameters Analytically"></a>Computing Parameters Analytically</h1><h2 id="Normal-Equation-正规方程"><a href="#Normal-Equation-正规方程" class="headerlink" title="Normal Equation 正规方程"></a>Normal Equation 正规方程</h2><h2 id="Normal-Equation-Noninvertibility"><a href="#Normal-Equation-Noninvertibility" class="headerlink" title="Normal Equation Noninvertibility"></a>Normal Equation Noninvertibility</h2>
+<h1 id="Computing-Parameters-Analytically"><a href="#Computing-Parameters-Analytically" class="headerlink" title="Computing Parameters Analytically"></a>Computing Parameters Analytically</h1><h2 id="Normal-Equation-正规方程"><a href="#Normal-Equation-正规方程" class="headerlink" title="Normal Equation 正规方程"></a>Normal Equation 正规方程</h2><p>why?<br>一次性求解Θ的最优值<br>what？<br>理解：<br>    Θ是个实数 即可以简化代价函数J(Θ)是个二次函数(开口显然向上啊) 那么求什么时候二次函数有最小值呢 Θ = A/2B<br>    或者三次 四次函数 那么求导 导数为零的点就是Θ值</p>
+<pre><code>Θ是个N+1维的向量怎么办？
+![ML2.2NormalEquation1.png](ML2.2NormalEquation1.png)
+理论上 微积分 从Θ0 到 Θn 一直求偏导 都让偏导数得零 那么就能求出多维向量Θ
+但是这样太复杂了
+
+所以有一个公式：
+![ML2.2NormalEquation2.1.png](ML2.2NormalEquation2.1.png)
+![ML2.2NormalEquation2.2.png](ML2.2NormalEquation2.2.png)
+公式推导
+![ML2.2NormalEquation3.png](ML2.2NormalEquation3.png)
+</code></pre><h2 id="Normal-Equation-Noninvertibility"><a href="#Normal-Equation-Noninvertibility" class="headerlink" title="Normal Equation Noninvertibility"></a>Normal Equation Noninvertibility</h2>
       
     </div>
 
