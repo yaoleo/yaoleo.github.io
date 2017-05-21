@@ -243,6 +243,211 @@
             
               
                 
+                <a class="post-title-link" href="/2016/06/07/聊聊Disruptor/" itemprop="url">
+                  聊聊Disruptor
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-06T17:01:26Z" content="2016-06-06">
+              2016-06-06
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/黑客/" itemprop="url" rel="index">
+                    <span itemprop="name">黑客</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="一起聊聊-LMAX-Disruptor"><a href="#一起聊聊-LMAX-Disruptor" class="headerlink" title="一起聊聊 LMAX Disruptor"></a>一起聊聊 LMAX Disruptor</h1><p>关键词：Cache buffer CAS原子操作 Disruptor 低延迟latency</p>
+<h2 id="why为什么要聊这个东西呢？"><a href="#why为什么要聊这个东西呢？" class="headerlink" title="why为什么要聊这个东西呢？"></a>why为什么要聊这个东西呢？</h2><p>关键词：量化交易 高频交易策略 搏杀最短的时间</p>
+<p>相关的深入了解 推荐书籍 Flash Boys -Michael Lewis</p>
+<p><img src="http://o8fvkqeus.bkt.clouddn.com/why.PNG" alt=""></p>
+<p>当大量的orders涌入，那么怎样高效的处理这些输入呢？</p>
+<p>这时就可以用disruptor</p>
+<h2 id="how怎么解决呢？"><a href="#how怎么解决呢？" class="headerlink" title="how怎么解决呢？"></a>how怎么解决呢？</h2><p>主要需要解决两个问题：量化和高频</p>
+<p>其中量化数据问题其实就是老问题，其实大家都能想到。</p>
+<p>当输入速度大于处理速度的时候。可以用一个buffer把这些处理不完的数据缓存起来，然后让consumer慢慢处理。</p>
+<p><img src="http://o8fvkqeus.bkt.clouddn.com/how.PNG" alt=""></p>
+<p>量化解决了，而高频怎么办呢？毕竟交易的时候 speed = $$$(money) 所以对低延迟要求很高，而buffer必然会带来延迟latency</p>
+<p>latency = computational time（计算的延迟时间）+latency of moving data（数据移动延迟时间）</p>
+<p>平时我们上课都讨论的是计算复杂性，但是在这种实际的生产环境中，会发现其实数据移动的延迟占了大部分的延迟时间。</p>
+<p>那么用一个简单的buffer(array-based)有什么问题呢？？</p>
+<p>主要是有这样几个竞争的存在：</p>
+<ul>
+<li>producer的头指针的竞争</li>
+<li>consumer的尾指针的竞争</li>
+<li>buffer空的时候头尾指针指向一块，生产者消费者都有竞争</li>
+</ul>
+<p>这个简单buffer需要解决竞争：</p>
+<ul>
+<li>需要锁</li>
+<li>false sharing of tail</li>
+<li>频繁的读存数据是一个很大的开销</li>
+<li><p>阻塞队列对缓存是不友好的</p>
+<p>  什么是memery hierarchy<br>  存储空间的分层 这和计算机体系结构学的一样<br>  总之就是利用不同硬件的性能不同 和容量大小的不同来完成数据处理效率的提高<br>  cache是核心部分</p>
+</li>
+</ul>
+<h2 id="design-of-disruptor"><a href="#design-of-disruptor" class="headerlink" title="design of disruptor"></a>design of disruptor</h2><p>思路：避免写竞争</p>
+<ul>
+<li>同一时间只有一个写</li>
+<li>no locks</li>
+<li>avoid false sharing</li>
+</ul>
+<h2 id="disruptor的核心简单理解"><a href="#disruptor的核心简单理解" class="headerlink" title="disruptor的核心简单理解"></a>disruptor的核心简单理解</h2><h3 id="核心：circular-array-with-a-sequence-number"><a href="#核心：circular-array-with-a-sequence-number" class="headerlink" title="核心：circular array with a sequence number"></a>核心：circular array with a sequence number</h3><p><img src="http://o8fvkqeus.bkt.clouddn.com/disruptor.PNG" alt=""></p>
+<h3 id="环形，producer超出就覆盖"><a href="#环形，producer超出就覆盖" class="headerlink" title="环形，producer超出就覆盖"></a>环形，producer超出就覆盖</h3><p><img src="http://o8fvkqeus.bkt.clouddn.com/overwrite2.PNG" alt=""></p>
+<p>需要注意producer的指针不能超过consumer，因为那后面的数据还没有处理</p>
+<p>而且也不能读18-5的数据，因为那部分还没有被producer更新</p>
+<p><img src="http://o8fvkqeus.bkt.clouddn.com/overwrite3.PNG" alt=""></p>
+<p>而多个consumer就展现disruptor的优越性了</p>
+<p>因为consumer1和2是没有交流的，他们都可以一直读到18而无竞争</p>
+<p><img src="http://o8fvkqeus.bkt.clouddn.com/overwrite4.PNG" alt=""></p>
+<p>consumer落后太多的时候，还可以有batch effect追上进度</p>
+<h3 id="2-PC（两阶段提交）"><a href="#2-PC（两阶段提交）" class="headerlink" title="2-PC（两阶段提交）"></a>2-PC（两阶段提交）</h3><pre><code>2-PC 称为“两阶段提交”，2-PC 是分布式事务协议。
+
+比如说一个事务涉及 Oracle、MySQL 和 MS SQLServer 三个数据库的操作
+举个最简单的例子，要在这三个数据库中各插入一条数据，但必须保持在一个事务中
+要三个插入全部成功才算成功，如果只成功了一个或者两个，那么所有的操作都进行回滚
+而 2-PC 就是用来干这事的。
+
+两个阶段如下：
+
+一、
+各数据库在执行完 INSERT 后，J2EE 应用服务器在收到提交指令
+这时通知各数据库进行事务提交准备。
+数据库在收到响应后，进行准备工作，基本上是一个预提交工作，
+如果能提交则响应 J2EE 应用服务器是 能成功提交的，
+如果无法提交则响应 J2EE 应用服务器是无法提交的。
+
+二、J2EE 应用服务器在收集到所有的响应之后进行判断，
+如果在第一阶段收到的信息都是可提交的，那么就通知所有的数据库进行提交；
+如果在第一阶段收到的信息有一个是无法提交的，那么就通知所有的数据库进行回滚操作。
+
+要支持分布式事务，那么数据库就必须支持两阶段提交协议，否则是不能支持的。
+</code></pre><h3 id="多个producer怎么办？"><a href="#多个producer怎么办？" class="headerlink" title="多个producer怎么办？"></a>多个producer怎么办？</h3><pre><code>这个也是无锁的，怎么处理呢？就是用CAS。没详细讲这部分。
+CAS原子操作——Compare &amp; Set，或是 Compare &amp; Swap，
+现在几乎所image有的CPU指令都支持CAS的原子操作，X86下对应的是 CMPXCHG 汇编指令。
+大家应该还记得操作系统里面关于“原子操作”的概念，一个操作是原子的(atomic)，
+如果这个操作所处的层(layer)的更高层不能发现其内部实现与结构。
+原子操作可以是一个步骤，也可以是多个操作步骤，
+但是其顺序是不可以被打乱，或者切割掉只执行部分。
+有了这个原子操作这个保证我们就可以实现无锁了。
+</code></pre><p>CAS原子操作在维基百科中的代码描述如下:</p>
+<pre><code>1: int compare_and_swap(int* reg, int oldval, int newval)
+2: {i
+3:   ATOMIC();
+4:   int old_reg_val = *reg;
+5:   if (old_reg_val == oldval)
+6:      *reg = newval;
+7:   END_ATOMIC();
+8:   return old_reg_val;
+9: }
+</code></pre><p>也就是检查内存*reg里的值是不是oldval，如果是的话，则对其赋值newval。<br>上面的代码总是返回old_reg_value，调用者如果需要知道是否更新成功还需要做进一步判断，<br>为了方便，它可以变种为直接返回是否更新成功，如下：</p>
+<pre><code>1: bool compare_and_swap (int *accum, int *dest, int newval)
+2: {
+3:   if ( *accum == *dest ) {
+4:       *dest = newval;
+5:       return true;
+6:   }
+7:   return false;
+8: }
+</code></pre><p>有关Cache很多内容,然而不是这次讨论的焦点，但是不知道又不能很好的理解Disruptor。<br>实验课有一个图形化展示多Cache一致性的软件，有兴趣可以尝试一下:<a href="http://o8fvkqeus.bkt.clouddn.com/Cache%E6%A8%A1%E6%8B%9F%E5%99%A8.zip" title="Cache模拟器" target="_blank" rel="external">http://o8fvkqeus.bkt.clouddn.com/Cache%E6%A8%A1%E6%8B%9F%E5%99%A8.zip</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/05/28/五月/" itemprop="url">
                   五月
                 </a>
@@ -859,6 +1064,123 @@
             
               
                 
+                <a class="post-title-link" href="/2016/03/31/4-4/" itemprop="url">
+                  three.js初步
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-03-30T21:26:11Z" content="2016-03-30">
+              2016-03-30
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/黑客/" itemprop="url" rel="index">
+                    <span itemprop="name">黑客</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h4 id="照相机"><a href="#照相机" class="headerlink" title="照相机"></a>照相机</h4><p>我们使用Three.js创建的场景是三维的，而通常情况下显示屏是二维的，那么三维的场景如何显示到二维的显示屏上呢？照相机就是这样一个抽象，它定义了三维空间到二维屏幕的投影方式，用“照相机”这样一个类比，可以使我们直观地理解这一投影方式。</p>
+<p>而针对投影方式的不同，照相机又分为正交投影照相机与透视投影照相机。</p>
+<p>使用透视投影照相机获得的结果是类似人眼在真实世界中看到的有“近大远小”的效果；<br>而使用正交投影照相机获得的结果就像我们在数学几何学课上老师教我们画的效果，对于在三维空间内平行的线，投影到二维空间中也一定是平行的。</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/03/31/4-4/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/03/31/3-30/" itemprop="url">
                   Web Storage和cookie
                 </a>
@@ -927,123 +1249,6 @@
 <p>而localStorage用于持久化的本地存储，除非主动删除数据，否则数据是永远不会过期的。</p>
           <div class="post-more-link text-center">
             <a class="btn" href="/2016/03/31/3-30/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/03/31/4-4/" itemprop="url">
-                  three.js初步
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-03-30T21:26:11Z" content="2016-03-30">
-              2016-03-30
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/黑客/" itemprop="url" rel="index">
-                    <span itemprop="name">黑客</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h4 id="照相机"><a href="#照相机" class="headerlink" title="照相机"></a>照相机</h4><p>我们使用Three.js创建的场景是三维的，而通常情况下显示屏是二维的，那么三维的场景如何显示到二维的显示屏上呢？照相机就是这样一个抽象，它定义了三维空间到二维屏幕的投影方式，用“照相机”这样一个类比，可以使我们直观地理解这一投影方式。</p>
-<p>而针对投影方式的不同，照相机又分为正交投影照相机与透视投影照相机。</p>
-<p>使用透视投影照相机获得的结果是类似人眼在真实世界中看到的有“近大远小”的效果；<br>而使用正交投影照相机获得的结果就像我们在数学几何学课上老师教我们画的效果，对于在三维空间内平行的线，投影到二维空间中也一定是平行的。</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/03/31/4-4/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1358,7 +1563,7 @@ echo();
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">19</span>
+              <span class="site-state-item-count">20</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1375,7 +1580,7 @@ echo();
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">15</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

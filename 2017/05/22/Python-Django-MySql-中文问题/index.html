@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="技术笔记,django,中文乱码," />
 
 
 
@@ -84,15 +84,17 @@
 
 
 
-<meta name="description" content="极简不矫情&amp;无知不作恶">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Yaoleo">
-<meta property="og:url" content="http://yoursite.com/archives/2016/05/index.html">
+<meta name="description" content="以前就遇到这个问题，那时候年轻也没记录，再次遇到，真是恶心人。这样几点setting文件里面有个时区和文字要改views文件 #coding=utf-8   网上还有冒号形式的 感觉有点不对啊 不确定 相关的文件最好也加上这句 比如urls 实际上它是保证文件里的中文可以正常用的关键的是 链接数据库的语句 db = MySQLdb.connect(user=’root’, db=’fog’, pa">
+<meta name="keywords" content="技术笔记,django,中文乱码">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python Django MySql 中文问题">
+<meta property="og:url" content="http://yoursite.com/2017/05/22/Python-Django-MySql-中文问题/index.html">
 <meta property="og:site_name" content="Yaoleo">
-<meta property="og:description" content="极简不矫情&amp;无知不作恶">
+<meta property="og:description" content="以前就遇到这个问题，那时候年轻也没记录，再次遇到，真是恶心人。这样几点setting文件里面有个时区和文字要改views文件 #coding=utf-8   网上还有冒号形式的 感觉有点不对啊 不确定 相关的文件最好也加上这句 比如urls 实际上它是保证文件里的中文可以正常用的关键的是 链接数据库的语句 db = MySQLdb.connect(user=’root’, db=’fog’, pa">
+<meta property="og:updated_time" content="2017-05-21T12:45:47.656Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Yaoleo">
-<meta name="twitter:description" content="极简不矫情&amp;无知不作恶">
+<meta name="twitter:title" content="Python Django MySql 中文问题">
+<meta name="twitter:description" content="以前就遇到这个问题，那时候年轻也没记录，再次遇到，真是恶心人。这样几点setting文件里面有个时区和文字要改views文件 #coding=utf-8   网上还有冒号形式的 感觉有点不对啊 不确定 相关的文件最好也加上这句 比如urls 实际上它是保证文件里的中文可以正常用的关键的是 链接数据库的语句 db = MySQLdb.connect(user=’root’, db=’fog’, pa">
 
 
 
@@ -110,7 +112,7 @@
   };
 </script>
 
-  <title> 归档 | Yaoleo </title>
+  <title> Python Django MySql 中文问题 | Yaoleo </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -131,7 +133,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left  page-archive  ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -219,177 +221,145 @@
           <div id="content" class="content">
             
 
-  <section id="posts" class="posts-collapse">
-    <span class="archive-move-on"></span>
-
-    <span class="archive-page-counter">
-      
-      
-      
-        
-      
-      嗯..! 目前共计 20 篇日志。 继续努力。
-    </span>
-
+  <div id="posts" class="posts-expand">
     
-
-      
-      
-      
-
-      
-        
-        <div class="collection-title">
-          <h2 class="archive-year motion-element" id="archive-year-2016">2016</h2>
-        </div>
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2016/05/28/五月/" itemprop="url">
-              
-                <span itemprop="name">五月</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2016-05-27T20:53:26Z"
-              content="2016-05-27" >
-          05-27
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2016/05/27/计算机图形学笔记一/" itemprop="url">
-              
-                <span itemprop="name">计算机图形学笔记一</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2016-05-26T16:29:36Z"
-              content="2016-05-26" >
-          05-26
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2016/05/23/javascript数组需要注意的点/" itemprop="url">
-              
-                <span itemprop="name">javascript数组需要注意的点</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2016-05-22T21:45:57Z"
-              content="2016-05-22" >
-          05-22
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2016/05/01/四月/" itemprop="url">
-              
-                <span itemprop="name">四月</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2016-04-30T20:24:09Z"
-              content="2016-04-30" >
-          04-30
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-  </section>
 
   
+  
 
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Python Django MySql 中文问题
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-05-22T04:37:26+08:00" content="2017-05-21">
+              2017-05-21
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/黑客/" itemprop="url" rel="index">
+                    <span itemprop="name">黑客</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>以前就遇到这个问题，那时候年轻也没记录，再次遇到，真是恶心人。<br>这样几点<br>setting文件里面有个时区和文字要改<br>views文件 #coding=utf-8   网上还有冒号形式的 感觉有点不对啊 不确定 相关的文件最好也加上这句 比如urls 实际上它是保证文件里的中文可以正常用的<br>关键的是 链接数据库的语句 db = MySQLdb.connect(user=’root’, db=’fog’, passwd=’zjy2580925?’, host=’localhost’, charset=’utf8’)<br>一定要设置charset=’utf8’<br>关于MySQL 除了修改my.conf让编码改成utf8 主要是新建数据库的时候 create语句结尾有一个set utf8</p>
+<p>总之就是这些方面 网上说的都不全面啊 具体细节百度即可<br>实在不行<br>manage.py 设置sys reload 反正我觉得没用这句</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/技术笔记/" rel="tag">#技术笔记</a>
+          
+            <a href="/tags/django/" rel="tag">#django</a>
+          
+            <a href="/tags/中文乱码/" rel="tag">#中文乱码</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/18/Coursera机器学习2/" rel="next" title="Coursera机器学习2">
+                <i class="fa fa-chevron-left"></i> Coursera机器学习2
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -397,6 +367,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -416,8 +390,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.jpg"
@@ -487,6 +470,17 @@
 
       </section>
 
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
       
 
     </div>
@@ -590,11 +584,9 @@
 
 
   
-  
-    <script type="text/javascript" id="motion.page.archive">
-      $('.archive-year').velocity('transition.slideLeftIn');
-    </script>
-  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
 
 
   
