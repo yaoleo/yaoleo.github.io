@@ -94,7 +94,11 @@
 <meta property="og:image" content="http://yoursite.com/2017/05/18/Coursera机器学习2/ML2.1FeatureScaling.png">
 <meta property="og:image" content="http://yoursite.com/2017/05/18/Coursera机器学习2/ML2.1LearningRate.png">
 <meta property="og:image" content="http://yoursite.com/2017/05/18/Coursera机器学习2/ML2.1PolynomialRegression.png">
-<meta property="og:updated_time" content="2017-05-20T12:26:45.101Z">
+<meta property="og:image" content="http://yoursite.com/2017/05/18/Coursera机器学习2/ML2.2NormalEquation1.png">
+<meta property="og:image" content="http://yoursite.com/2017/05/18/Coursera机器学习2/ML2.2NormalEquation2.1.png">
+<meta property="og:image" content="http://yoursite.com/2017/05/18/Coursera机器学习2/ML2.2NormalEquation2.2.png">
+<meta property="og:image" content="http://yoursite.com/2017/05/18/Coursera机器学习2/ML2.2NormalEquation3.png">
+<meta property="og:updated_time" content="2017-05-21T01:37:24.746Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Coursera机器学习2">
 <meta name="twitter:description" content="Multivariate Linear RegressionGradient Descent in Practice I - Feature Scaling 特征缩放why？因为多个特征的时候，代价函数图形可能非常的”偏斜”梯度下降在一个漫长的斜坡上来回波动 下降很慢所以要划分到一个相近的范围里来做， 下降就会很快。 how？ Feature Scaling特征缩放：  每个值除以范围 得到-1">
@@ -320,18 +324,18 @@
 <li><p>多项式回归：<br><img src="ML2.1PolynomialRegression.png" alt="ML2.1PolynomialRegression"></p>
 </li>
 </ul>
-<h1 id="Computing-Parameters-Analytically"><a href="#Computing-Parameters-Analytically" class="headerlink" title="Computing Parameters Analytically"></a>Computing Parameters Analytically</h1><h2 id="Normal-Equation-正规方程"><a href="#Normal-Equation-正规方程" class="headerlink" title="Normal Equation 正规方程"></a>Normal Equation 正规方程</h2><p>why?<br>一次性求解Θ的最优值<br>what？<br>理解：<br>    Θ是个实数 即可以简化代价函数J(Θ)是个二次函数(开口显然向上啊) 那么求什么时候二次函数有最小值呢 Θ = A/2B<br>    或者三次 四次函数 那么求导 导数为零的点就是Θ值</p>
-<pre><code>Θ是个N+1维的向量怎么办？
-![ML2.2NormalEquation1.png](ML2.2NormalEquation1.png)
-理论上 微积分 从Θ0 到 Θn 一直求偏导 都让偏导数得零 那么就能求出多维向量Θ
-但是这样太复杂了
+<h1 id="Computing-Parameters-Analytically"><a href="#Computing-Parameters-Analytically" class="headerlink" title="Computing Parameters Analytically"></a>Computing Parameters Analytically</h1><h2 id="Normal-Equation-正规方程"><a href="#Normal-Equation-正规方程" class="headerlink" title="Normal Equation 正规方程"></a>Normal Equation 正规方程</h2><p>why?</p>
+<ul>
+<li>一次性求解Θ的最优值</li>
+<li>不需特征缩放-&gt;不要忘记特征缩放需要做是因为梯度下降那个坡太漫长，会坡上来回波动 下降很慢<br>what？<br>理解：<br>Θ是个实数 即可以简化代价函数J(Θ)是个二次函数(开口显然向上啊) 那么求什么时候二次函数有最小值呢 Θ = A/2B<br>或者三次 四次函数 那么求导 导数为零的点就是Θ值</li>
+</ul>
+<p>Θ是个N+1维的向量怎么办？<br><img src="ML2.2NormalEquation1.png" alt="ML2.2NormalEquation1.png"><br>理论上 微积分 从Θ0 到 Θn 一直求偏导 都让偏导数得零 那么就能求出多维向量Θ<br>但是这样太复杂了</p>
+<p>所以有一个公式：<br><img src="ML2.2NormalEquation2.1.png" alt="ML2.2NormalEquation2.1.png"><br><img src="ML2.2NormalEquation2.2.png" alt="ML2.2NormalEquation2.2.png"><br>    公式推导<br><img src="ML2.2NormalEquation3.png" alt="ML2.2NormalEquation3.png"></p>
+<p>怎样选择梯度下降还是正规方程？</p>
+<p>梯度下降需要选择步长 这需要多次尝试 还需要多次迭代 这需要时间<br>但是特征种类数目很多的时候也能正常运行</p>
+<p>而正规方程需要计算矩阵转置乘以矩阵再求逆， n*n矩阵运算 O(N^3) n很大的时候就会很慢</p>
+<h2 id="Normal-Equation-Noninvertibility-不可逆性"><a href="#Normal-Equation-Noninvertibility-不可逆性" class="headerlink" title="Normal Equation Noninvertibility 不可逆性"></a>Normal Equation Noninvertibility 不可逆性</h2><p>即讲什么呢？ 就是说有的矩阵可以求逆运算有的不行<br>Octave里面有两个求逆运算的函数 pinv 和inv<br>pinv可以求出伪值 即不可逆矩阵也能算 </p>
 
-所以有一个公式：
-![ML2.2NormalEquation2.1.png](ML2.2NormalEquation2.1.png)
-![ML2.2NormalEquation2.2.png](ML2.2NormalEquation2.2.png)
-公式推导
-![ML2.2NormalEquation3.png](ML2.2NormalEquation3.png)
-</code></pre><h2 id="Normal-Equation-Noninvertibility"><a href="#Normal-Equation-Noninvertibility" class="headerlink" title="Normal Equation Noninvertibility"></a>Normal Equation Noninvertibility</h2>
       
     </div>
 
@@ -503,7 +507,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Multivariate-Linear-Regression"><span class="nav-number">1.</span> <span class="nav-text">Multivariate Linear Regression</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Gradient-Descent-in-Practice-I-Feature-Scaling-特征缩放"><span class="nav-number">1.1.</span> <span class="nav-text">Gradient Descent in Practice I - Feature Scaling 特征缩放</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#why？"><span class="nav-number">1.1.1.</span> <span class="nav-text">why？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#how？"><span class="nav-number">1.1.2.</span> <span class="nav-text">how？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Gradient-Descent-in-Practice-II-Learning-Rate-学习率-（步长）"><span class="nav-number">1.2.</span> <span class="nav-text">Gradient Descent in Practice II - Learning Rate 学习率 （步长）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Features-and-Polynomial-Regression"><span class="nav-number">1.3.</span> <span class="nav-text">Features and Polynomial Regression</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Computing-Parameters-Analytically"><span class="nav-number">2.</span> <span class="nav-text">Computing Parameters Analytically</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Normal-Equation-正规方程"><span class="nav-number">2.1.</span> <span class="nav-text">Normal Equation 正规方程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Normal-Equation-Noninvertibility"><span class="nav-number">2.2.</span> <span class="nav-text">Normal Equation Noninvertibility</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Multivariate-Linear-Regression"><span class="nav-number">1.</span> <span class="nav-text">Multivariate Linear Regression</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Gradient-Descent-in-Practice-I-Feature-Scaling-特征缩放"><span class="nav-number">1.1.</span> <span class="nav-text">Gradient Descent in Practice I - Feature Scaling 特征缩放</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#why？"><span class="nav-number">1.1.1.</span> <span class="nav-text">why？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#how？"><span class="nav-number">1.1.2.</span> <span class="nav-text">how？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Gradient-Descent-in-Practice-II-Learning-Rate-学习率-（步长）"><span class="nav-number">1.2.</span> <span class="nav-text">Gradient Descent in Practice II - Learning Rate 学习率 （步长）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Features-and-Polynomial-Regression"><span class="nav-number">1.3.</span> <span class="nav-text">Features and Polynomial Regression</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Computing-Parameters-Analytically"><span class="nav-number">2.</span> <span class="nav-text">Computing Parameters Analytically</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Normal-Equation-正规方程"><span class="nav-number">2.1.</span> <span class="nav-text">Normal Equation 正规方程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Normal-Equation-Noninvertibility-不可逆性"><span class="nav-number">2.2.</span> <span class="nav-text">Normal Equation Noninvertibility 不可逆性</span></a></li></ol></li></ol></div>
             
           </div>
         </section>
