@@ -243,6 +243,159 @@
             
               
                 
+                <a class="post-title-link" href="/2017/05/30/pandas遇到的麻烦/" itemprop="url">
+                  pandas遇到的麻烦
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-05-29T20:23:16Z" content="2017-05-29">
+              2017-05-29
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="读写磁盘"><a href="#读写磁盘" class="headerlink" title="读写磁盘"></a>读写磁盘</h1><pre><code># book python金融大树据分析 P156
+path = &apos;/home/yaoleo/readsqldata/&apos;
+import numpy as np
+from random import gauss
+
+a = [gauss(1.5, 2) for i in range(100000)]
+#伪随机数保存到列表中
+
+a = [gauss(1.5, 2) for i in range(100000)]
+#伪随机数保存到列表中
+
+pkl_file
+pkl_file.close()
+
+ll $path* #100万浮点数大概有20M大小
+
+# 通过pickle.load 可以将他读入内存
+pkl_file = open(path + &apos;data.pkl&apos;, &apos;r&apos;)
+%time b = pickle.load(pkl_file)
+
+# numpy 有函数 比较不同
+np.allclose(np.array(a), np.array(b))
+# 或者
+np.sum(np.array(a) - np.array(b))
+</code></pre><h1 id="读取数据库"><a href="#读取数据库" class="headerlink" title="读取数据库"></a>读取数据库</h1><pre><code>import MySQLdb
+db = MySQLdb.connect(user=&apos;root&apos;, db=&apos;fog&apos;, passwd=&apos;zjy2580925?&apos;, host=&apos;localhost&apos;, charset=&apos;utf8&apos;)
+cursor = db.cursor()
+query = &quot;select * from city_date_air where city = &apos;北京&apos;&quot;
+cursor.execute(query)
+sqldata = cursor.fetchall()
+！！ 但是这样都出来的数据是元组
+sdata = np.array(sqldata)
+
+或者用！！直接是DataFrame格式
+import pandas.io.sql as pds
+%time data = pds.read_sql(&quot;select * from city_date_air where city=&apos;北京&apos;&quot;, db)
+data.head()
+
+data[&apos;quality2&apos;] = data[&apos;quality&apos;]
+data.loc[data[&apos;quality&apos;] != u&apos;   优&apos;, &apos;quality2&apos;] = 0
+data.loc[data[&apos;quality&apos;] == u&apos;   优&apos;, &apos;quality2&apos;] = 1
+data.loc[data[&apos;quality&apos;] == u&apos;   良&apos;, &apos;quality2&apos;] = 1
+data.tail()
+</code></pre><h1 id="DataFrame-replace"><a href="#DataFrame-replace" class="headerlink" title="DataFrame replace"></a>DataFrame replace</h1><pre><code>![pandas-sql.png](pandas-sql.png)
+
+import pandas as pd
+bbdata=pd.DataFrame(data,columns=[&apos;date&apos;,&apos;quality2&apos;])
+bbdata.head()
+！！这里把这两项单独拿出来 要是不拿出来 后面分组求和就把quality2搞没了 还不知道为什么
+</code></pre><h1 id="按日期汇总信息"><a href="#按日期汇总信息" class="headerlink" title="按日期汇总信息"></a>按日期汇总信息</h1><pre><code>import pandas as pd
+bbdata[&apos;date&apos;] = pd.to_datetime(bbdata[&apos;date&apos;])
+bbdata.head()
+！！日期规范格式必须的
+bbdata = bbdata.set_index(&apos;date&apos;)
+bbdata.head()
+！！时间做index
+bbdata = bbdata.resample(&apos;M&apos;).sum()
+bbdata.head(10)
+！！按月求和
+</code></pre><p>还有一些其他参数在这里 <a href="http://www.cnblogs.com/stream886/p/6022279.html#q5" target="_blank" rel="external">http://www.cnblogs.com/stream886/p/6022279.html#q5</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/05/22/Python-Django-MySql-中文问题/" itemprop="url">
                   Python Django MySql 中文问题
                 </a>
@@ -1348,137 +1501,11 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/07/03/六月/" itemprop="url">
-                  六月
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-02T20:53:26Z" content="2016-07-02">
-              2016-07-02
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/画家/" itemprop="url" rel="index">
-                    <span itemprop="name">画家</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="自己不能感动自己"><a href="#自己不能感动自己" class="headerlink" title="自己不能感动自己"></a>自己不能感动自己</h1><p>这个月，考试月，非常忙。哈尔滨凌晨三点就天亮我不知见了几次，甚至习以为常。</p>
-<p>最忙的时候白天电子实习，晚上考试，还要通宵复习。好在基本都通过了，成绩也马马虎虎。起码考试的成绩还行，只是课程作业和实验以前也没认真对待过。不过我倒是不在意这些。</p>
-<p>但我还是很清楚即使这不是咎由自取，我也没有理由自己感动自己。我之所以这么忙，甚至是有点辛苦，并不是我的努力。有趣的是这大部分是因为我之前并没有在学业上付出太多。以至于面临考试的时候只能手忙脚乱抱抱佛脚。另一部分原因才是偶然与巧合的事情安排冲突到了一起。</p>
-<p>但我觉还好，也并不是太辛苦。唯一不好的是可能因为缺少睡眠，那几天总是丢三落四，不是忘钥匙，就是忘学生证，要不就是忘作业。可见熬夜对我来说还是件不太好的事情。对我的健康有很不好的影响。也很影响我的效率，要尽量避免这样的生活。</p>
-<p>当然，熬过那几天，其实我也睡不了太久了。如果我十二点之前睡，那么早上六点之前就会醒。虽然白天我还是会困，但我基本上不能连续睡六个小时以上了。不知道这是不是一个好的生物钟。</p>
-<h1 id="长大"><a href="#长大" class="headerlink" title="长大"></a>长大</h1><p>国华这个月返校庆典，主题就是“我们长大啦”。没机会回去，非常非常遗憾。想想真的很快，我们已经大三了，除了学长们在朋友圈发毕业的消息外，同届的同学很多都在发大学最后一门考试，大学最后一门必修课之类的。大四我们已经在各自的方向上分道扬镳，时间会过得更加快吧，而毕业真的已经近在眼前。</p>
-<p>老罗来哈尔滨实习，恰好我的小学期还没开始，花了两天时间陪玩，聊点陈年旧事，聊点未来规划，其实挺好的。让我非常还念那些老同学。每个总是回忆的人就肯定已经老了，不是在身体上就是在精神上。那天遇到一个孩子，兴致勃勃的拉着父亲喊着天鹅，而我却只看见了鸭子。这就是长大的代价吧。</p>
-<h1 id="租房"><a href="#租房" class="headerlink" title="租房"></a>租房</h1><p>租房子是件有意思的事情。当时手写了一篇记录，非常有趣，虽然字还是丑。<br><img src="http://o8fvkqeus.bkt.clouddn.com/%E7%BB%84%E6%88%BF.jpg" alt=""></p>
-<h1 id="遗落"><a href="#遗落" class="headerlink" title="遗落"></a>遗落</h1><p>忙是真忙，所以也有很多事情遗落了。把注意力集中在应付课程考试上。</p>
-<p>建筑画，单词，跑步，听力。</p>
-<p>我得重新捡起来继续坚持。</p>
-<h1 id="new-life"><a href="#new-life" class="headerlink" title="new life"></a>new life</h1><p>下个月需要先上半个月的苦逼课，非常忙。毕竟要修七门课程。 我只能尽量吧。</p>
-<p>而且这半个月还要把backbone学好。总不能什么都不会就去实习吧。</p>
-<p>接下来就要开始实习生活了。体验一下，也不知道究竟是什么样的，有点期待吧，当然更多的是对未来的担心。不过倒是没关系，我想要的太多，我自己也清楚这一点。但是我会告诉自己不要着急。 聊胜于无吧。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1519,7 +1546,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">20</span>
+              <span class="site-state-item-count">21</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
