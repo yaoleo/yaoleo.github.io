@@ -243,6 +243,134 @@
             
               
                 
+                <a class="post-title-link" href="/2017/06/01/django显示matplotlib图片/" itemprop="url">
+                  django显示matplotlib图片
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-06-01T14:18:32Z" content="2017-06-01">
+              2017-06-01
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="html"><a href="#html" class="headerlink" title="html"></a>html</h1><pre><code>&lt;img src=&quot;Image.png&quot; width=&quot;500px&quot;&gt;
+</code></pre><h1 id="urls-py"><a href="#urls-py" class="headerlink" title="urls.py"></a>urls.py</h1><pre><code>url(r&apos;^html-location/staticImage.png$&apos;, views.simple, name=&apos;staticImage&apos;),
+</code></pre><h1 id="views-py"><a href="#views-py" class="headerlink" title="views.py"></a>views.py</h1><pre><code>def simple(request):
+    import random
+    import django
+    import datetime
+
+    from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+    from matplotlib.figure import Figure
+    from matplotlib.dates import DateFormatter
+
+    fig=Figure()
+    ax=fig.add_subplot(111)
+    x=[]
+    y=[]
+    now=datetime.datetime.now()
+    delta=datetime.timedelta(days=1)
+    for i in range(10):
+        x.append(now)
+        now+=delta
+        y.append(random.randint(0, 1000))
+    ax.plot_date(x, y, &apos;-&apos;)
+    ax.xaxis.set_major_formatter(DateFormatter(&apos;%Y-%m-%d&apos;))
+    fig.autofmt_xdate()
+    canvas=FigureCanvas(fig)
+    response=django.http.HttpResponse(content_type=&apos;image/png&apos;)
+    canvas.print_png(response)
+    return response
+
+
+/*
+x=[1,2,3]
+y=[4,5,6]
+ax.plot(x, y, &apos;-&apos;)
+*/
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/06/01/2017-5/" itemprop="url">
                   2017-5
                 </a>
@@ -305,15 +433,14 @@
 
       
         
-          
-            <p>今天六一儿童节，像我这种人只能过过儿童节了，毕竟其他的节日都已经被他们过成情人节了，哎呀呀，好气哦。</p>
-<p>这个月还是能给自己打个及格分以上的，一切恢复正规，日常基本是去图书馆，所以虽然无事可做，但也没闲的太厉害，本着没有困难创造困难也要上的精神还是做了那么一点微小的工作的，coursera课上了两周，读书看剧做点记录，有那么几天看了很多杂书，项目也是一点一点做，然后突然就六月了，感觉大学生活就要结束了！</p>
-<p>回过头看了一下去年的记录，发现选择这种东西其实根本不是某一天某一个瞬间做出来的然后就改变了人生轨迹，比如读研这件事情，我在去年三月刚找完实习就做了心理准备的，可是当时的我并没有注意到，而去年五月份的我一边感慨着前年的自己还在加班加点一边抱怨着当时的自己总是被各种无意义的事情折磨，今年的我就只能线的没事自己给自己找点事干了。这种轨迹真的很有趣的，也是感谢曾经突然萌生想法并执行起来做点记录的自己。</p>
-<p>但是后顾过去，就会发现很多计划的事情我都没做好，我总是发现新的领域，新的世界，但是浅尝则止。而结合我过去的精力来看，我这个还有一个很大的毛病就是平均分配精力，这真是一个可怕的缺点啊。作为一个凡人，我真的没办法和大神们一样做到无所不通，无所不精的。所谓的兴趣广泛其实只是控制不住好奇心，深入学习遇到困难就退缩的委婉说法啊。这件事情我在去年就不止一次的反思过，可是今天看来基本上毫无长进啊！！！！！！！！！！！可怕。</p>
-<p>但这个本性一定要改，接下来的六月份，我要做好两件事，第一，毕设做好，顺利毕业；第二，机器学习学好，把coursera学完。我每天的手帐上需要对作者两件事的时间和效率做一个简单的统计。一天早上九点到晚上十二点有十五个小时，一半时间用来做着两件事不过分吧。效率分为四个等级，专注且有成果，不专注但有成果，专注但无成果，不专注且无成果。分别对应0.9，0.6，0.3，0。做个换算统计。这样一天需要达到7<em>0.9=6.3 7</em>0.6=4.2，这样我起码一天需要拿到五分才行。至于其他的事情，以及我总是有各种奇奇怪怪想要做的事情的时候，默念三遍！！“把一件事做完在做另一件”。</p>
-<p>这个月看了很多电影和书并做了记录，加起来突然发现已经超过了万字，明知道没什么意义，但是总要抱着浪费两小时也不差多花二十分钟做记录的心态就行了，或者直接把电影当成两个半小时就行了，哈哈。读书更是，不稍微记一点就感觉什么都不记得了。从7号那天是第一天开始好好学习的，还有点不适应吧，晚上就通宵看了小鱼儿与花无缺，人的精力是不可能长时间集中到一件需要花费努力才能完成的事情上的，总要通过娱乐来恢复精力，唯一靠谱一点的方法就是养成习惯，这样子花费的精力就会少很多。另外还要修改娱乐方式…扯远了。在宿舍根本不能学习，所以坚持去图书馆是有效的，端午节这两天没去，就基本荒废掉了。而且图书馆还可以看到一个美丽的小姐姐，真的非常非常棒，有的时候就是抱着这样的期待去的233.当然看不到也会很失望。其他好像没什么事情了，还有就是一定要买个烤箱，但这是一个月以后才能考虑的事情了。大概就记这么多吧</p>
-
-          
+          <p>今天六一儿童节，像我这种人只能过过儿童节了，毕竟其他的节日都已经被他们过成情人节了，哎呀呀，好气哦。</p>
+<p>这个月还是能给自己打个及格分以上的，一切恢复正轨，日常基本是去图书馆，所以虽然无事可做，但也没闲的太厉害，本着没有困难创造困难也要上的精神还是做了那么一点微小的工作的。coursera课上了两周，读书看剧做点记录，有那么几天看了很多杂书，项目也是一点一点做，然后突然就六月了，感觉大学生活就要结束了！</p>
+<p>回过头看了一下去年的记录，发现选择这种东西其实根本不是某一天某一个瞬间做出来的然后就改变了人生轨迹，比如读研这件事情，我在去年三月刚找完实习就做了心理准备的，可是当时的我并没有注意到，而去年五月份的我一边感慨着前年的自己还在加班加点一边抱怨着当时的自己总是被各种无意义的事情折磨，今年的我就只能闲的没事自己给自己找点事干了。这种轨迹真的很有趣的，也是感谢曾经突然萌生想法并执行起来做点记录的自己。</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2017/06/01/2017-5/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -576,11 +703,12 @@ bbdata.head(10)
 
       
         
-          
-            <p>以前就遇到这个问题，那时候年轻也没记录，再次遇到，真是恶心人。<br>这样几点<br>setting文件里面有个时区和文字要改<br>views文件 #coding=utf-8   网上还有冒号形式的 感觉有点不对啊 不确定 相关的文件最好也加上这句 比如urls 实际上它是保证文件里的中文可以正常用的<br>关键的是 链接数据库的语句 db = MySQLdb.connect(user=’root’, db=’fog’, passwd=’zjy2580925?’, host=’localhost’, charset=’utf8’)<br>一定要设置charset=’utf8’<br>关于MySQL 除了修改my.conf让编码改成utf8 主要是新建数据库的时候 create语句结尾有一个set utf8</p>
-<p>总之就是这些方面 网上说的都不全面啊 具体细节百度即可<br>实在不行<br>manage.py 设置sys reload 反正我觉得没用这句</p>
-
-          
+          <p>以前就遇到这个问题，那时候年轻也没记录，再次遇到，真是恶心人。<br>这样几点<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2017/05/22/Python-Django-MySql-中文问题/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -690,35 +818,18 @@ bbdata.head(10)
 
       
         
-          
-            <h1 id="Multivariate-Linear-Regression"><a href="#Multivariate-Linear-Regression" class="headerlink" title="Multivariate Linear Regression"></a>Multivariate Linear Regression</h1><h2 id="Gradient-Descent-in-Practice-I-Feature-Scaling-特征缩放"><a href="#Gradient-Descent-in-Practice-I-Feature-Scaling-特征缩放" class="headerlink" title="Gradient Descent in Practice I - Feature Scaling 特征缩放"></a>Gradient Descent in Practice I - Feature Scaling 特征缩放</h2><h3 id="why？"><a href="#why？" class="headerlink" title="why？"></a>why？</h3><p>因为多个特征的时候，代价函数图形可能非常的”偏斜”<br><img src="ML2.1FeatureScaling.png" alt="ML2.1FeatureScaling"><br>梯度下降在一个漫长的斜坡上来回波动 下降很慢<br>所以要划分到一个相近的范围里来做， 下降就会很快。</p>
+          <h1 id="Multivariate-Linear-Regression"><a href="#Multivariate-Linear-Regression" class="headerlink" title="Multivariate Linear Regression"></a>Multivariate Linear Regression</h1><h2 id="Gradient-Descent-in-Practice-I-Feature-Scaling-特征缩放"><a href="#Gradient-Descent-in-Practice-I-Feature-Scaling-特征缩放" class="headerlink" title="Gradient Descent in Practice I - Feature Scaling 特征缩放"></a>Gradient Descent in Practice I - Feature Scaling 特征缩放</h2><h3 id="why？"><a href="#why？" class="headerlink" title="why？"></a>why？</h3><p>因为多个特征的时候，代价函数图形可能非常的”偏斜”<br><img src="ML2.1FeatureScaling.png" alt="ML2.1FeatureScaling"><br>梯度下降在一个漫长的斜坡上来回波动 下降很慢<br>所以要划分到一个相近的范围里来做， 下降就会很快。</p>
 <h3 id="how？"><a href="#how？" class="headerlink" title="how？"></a>how？</h3><ul>
 <li><p>Feature Scaling特征缩放：<br>  每个值除以范围 得到-1 - +1 以内数字 最好<br>  -3 +3 以内可以接受 -1/3 +1/3 也可 太小 或太大就不行 要靠经验 看实验结果</p>
 </li>
 <li><p>Mean normalization均值归一化<br>  每个值减去平均值再除以（最大值减去最小值）</p>
 </li>
 </ul>
-<h2 id="Gradient-Descent-in-Practice-II-Learning-Rate-学习率-（步长）"><a href="#Gradient-Descent-in-Practice-II-Learning-Rate-学习率-（步长）" class="headerlink" title="Gradient Descent in Practice II - Learning Rate 学习率 （步长）"></a>Gradient Descent in Practice II - Learning Rate 学习率 （步长）</h2><p>try 0.001 0.003 0.01 0.03 0.1 1 …<br>画出横坐标迭代次数 纵坐标代价函数值的图形 观察<br><img src="ML2.1LearningRate.png" alt="ML2.1LearningRate"></p>
-<p>这还真是显而易见的方法啊。。。</p>
-<h2 id="Features-and-Polynomial-Regression"><a href="#Features-and-Polynomial-Regression" class="headerlink" title="Features and Polynomial Regression"></a>Features and Polynomial Regression</h2><ul>
-<li><p>特征选择：<br>具体问题具体分析 房价 房子的长宽就可以合成面积特征</p>
-</li>
-<li><p>多项式回归：<br><img src="ML2.1PolynomialRegression.png" alt="ML2.1PolynomialRegression"></p>
-</li>
-</ul>
-<h1 id="Computing-Parameters-Analytically"><a href="#Computing-Parameters-Analytically" class="headerlink" title="Computing Parameters Analytically"></a>Computing Parameters Analytically</h1><h2 id="Normal-Equation-正规方程"><a href="#Normal-Equation-正规方程" class="headerlink" title="Normal Equation 正规方程"></a>Normal Equation 正规方程</h2><p>why?</p>
-<ul>
-<li>一次性求解Θ的最优值</li>
-<li>不需特征缩放-&gt;不要忘记特征缩放需要做是因为梯度下降那个坡太漫长，会坡上来回波动 下降很慢<br>what？<br>理解：<br>Θ是个实数 即可以简化代价函数J(Θ)是个二次函数(开口显然向上啊) 那么求什么时候二次函数有最小值呢 Θ = A/2B<br>或者三次 四次函数 那么求导 导数为零的点就是Θ值</li>
-</ul>
-<p>Θ是个N+1维的向量怎么办？<br><img src="ML2.2NormalEquation1.png" alt="ML2.2NormalEquation1.png"><br>理论上 微积分 从Θ0 到 Θn 一直求偏导 都让偏导数得零 那么就能求出多维向量Θ<br>但是这样太复杂了</p>
-<p>所以有一个公式：<br><img src="ML2.2NormalEquation2.1.png" alt="ML2.2NormalEquation2.1.png"><br><img src="ML2.2NormalEquation2.2.png" alt="ML2.2NormalEquation2.2.png"><br>    公式推导<br><img src="ML2.2NormalEquation3.png" alt="ML2.2NormalEquation3.png"></p>
-<p>怎样选择梯度下降还是正规方程？</p>
-<p>梯度下降需要选择步长 这需要多次尝试 还需要多次迭代 这需要时间<br>但是特征种类数目很多的时候也能正常运行</p>
-<p>而正规方程需要计算矩阵转置乘以矩阵再求逆， n*n矩阵运算 O(N^3) n很大的时候就会很慢</p>
-<h2 id="Normal-Equation-Noninvertibility-不可逆性"><a href="#Normal-Equation-Noninvertibility-不可逆性" class="headerlink" title="Normal Equation Noninvertibility 不可逆性"></a>Normal Equation Noninvertibility 不可逆性</h2><p>即讲什么呢？ 就是说有的矩阵可以求逆运算有的不行<br>Octave里面有两个求逆运算的函数 pinv 和inv<br>pinv可以求出伪值 即不可逆矩阵也能算 </p>
-
-          
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2017/05/18/Coursera机器学习2/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -828,71 +939,12 @@ bbdata.head(10)
 
       
         
-          
-            <p>百无一用是书生，读书其实没什么价值，有价值的是读书这个行动本身。这篇四不像的记录的核心价值也在于记录本身，至于里面的内容收获对于我来说其实没太大价值，于将来的我说不定略有价值，但是估计价值也不大。但我需要坚持做这件内容没什么价值的事情，因为我认为这个行动是有价值的的。起码也先做一段时间再说，反正总比闲着打游戏要好，既然我己经花了有两个小时看了电影，也不必计较再花十几分钟或者再多一点记一下当时的想法吧。看一本书花的时间更多，就更是如此了。但我总要谨记的是，这里面其实真没什么有价值的内容，以后的自己也不必太认真的看。记录这东西确实花了我一些精力，但这不是收获，更不算是锦衣夜行，这里面的东西对我都没什么价值，对别人更是，只是记录癖的浪费时间。</p>
-<p>这里面有一部分是回忆的，毕竟我开始做这件事情的时候已经是四月份了，在四月以前虽说没读什么书，但终归还是有那么一点点的，所以这部分就只能是回忆了，从篇幅上也能看出端倪，书里面既有网络小说也有勉为其难的好书，当然还有一些“功利性很强的书”。从收获上看倒是可以显而易见的看出我这个人目前还是看山就是山的低等层次。往往只能从那些直白的填鸭式讲道理的书中才能获得一些自以为是的收获，而在小说里往往看不出人情冷暖，从历史里也看不出波澜壮阔。而所谓的独立思考也只是自欺欺人罢了。但是这不是一蹴而就的，我总要对自己宽容一点，耐心一点吧。</p>
-<p>当然，要说这记录的形式还有什么一点点额外好处的话，就是可以显而易见的把我从网络小说往经典著作上逼，从垃圾的流行电影上往有价值的好电影上逼。因为一本我认为写的非常好的网络小说，我回忆他的时候，想要为所花掉的时间记录一点什么的时候，真的，一无所获，就会有一种无力感和虚度了生命的感觉，即便我在阅读他的时候是心情愉悦的，可我回忆的时候不会记得这一点，而且我阅读优秀作品的时候因为自以为有所收获其实也是心情愉悦的。至于那些垃圾的影视作品，真的，看完之后只想吐槽，负能量很多，可见看他们的过程甚至都不是愉悦的，比网络小说还要不如。</p>
-<p>另，接下来倒是应该尝试模仿待办事项给书单做个分类，因为我的无知，想要抢救一下自己的话要读的书真是太多了，读一本的过程中间往往会遇到几本甚至十几本觉得应该读一读的书，真是无穷无尽。但是读书这件事没什么价值，总不能浪费太多生命，不妨把他们分为重要且紧迫，重要不紧迫，不重要但紧迫，和好奇式略读四类。分别用不同的方式方法去读，当然用什么方法好我还不知道。</p>
-<p>–2017/05/26</p>
-<h1 id="movie"><a href="#movie" class="headerlink" title="movie"></a>movie</h1><h2 id="透明人"><a href="#透明人" class="headerlink" title="透明人"></a>透明人</h2><p>特效在当时应该不错了吧，起码比某某人间要强。。。话说这电影竟然是第二次看，第一次看完还兴致勃勃找了透明人二来看，只记得当时失望透顶。刚好同学在看，顺便跟着看了一遍。我愈发觉得人的记忆是很奇妙的，如果我凭空回忆一部很久以前看过电影，那么很可能一无所获，记得几个关键情节和人物就算不错了。但是当我重新看电影画面时，我的头脑就会非常清晰的浮现出接下来要发生的画面。这是什么原因，记忆的连贯性么？所以很多学习方法讲究快速连贯的多看几遍书么？而且我感觉学习记忆最最最最有价值的方法就是回忆，他和直接看一遍有什么区别呢？有时间真要找本相关的书看一下。</p>
-<h2 id="罗曼蒂克消亡史"><a href="#罗曼蒂克消亡史" class="headerlink" title="罗曼蒂克消亡史"></a>罗曼蒂克消亡史</h2><p>就看了XX那部分 很失望 感觉索然无味233 </p>
-<h2 id="记忆大师"><a href="#记忆大师" class="headerlink" title="记忆大师"></a>记忆大师</h2><p>剧情硬伤太多了<br>但是演技好啊<br>没办法 完全靠演技拉剧情<br>配乐听上去很烈害 但是并没有什么用 很突兀 可能是影院的问题 太响了</p>
-<h2 id="攻壳机动队"><a href="#攻壳机动队" class="headerlink" title="攻壳机动队"></a>攻壳机动队</h2><p>额 我对透明衣很不满意</p>
-<h2 id="春光乍泄-姜文"><a href="#春光乍泄-姜文" class="headerlink" title="春光乍泄 姜文"></a>春光乍泄 姜文</h2><p>值得再看 结尾有一段太短了 </p>
-<h2 id="逃出绝命镇"><a href="#逃出绝命镇" class="headerlink" title="逃出绝命镇"></a>逃出绝命镇</h2><p>额 怎么说呢 一点都不恐怖 甚至有点想笑<br>虽然大部分恐怖片都是逻辑不通的 但是这个脑洞很大啊<br>先是催眠，让人听一下汤勺敲杯子就失去控制，然后移植大脑，把白人思维移植到黑人身体里，但是黑人本体意识却不会消失，而是会像陷在一个黑洞里，从窗口看自己的人生。唯一的bug是闪光灯一拍，控制会失效还是怎样，反正结尾主角靠这一点活了命。家族犯罪的典型啊。父亲神经科医生，负责移植顺便还有身体拍卖，母亲催眠大师，女儿物色黑人男朋友然后骗到家里来。爷爷奶奶移植成功活在黑人身体里然后伪装成仆人的样子。弟弟这个角色有什么作用，完全没什么用吗？爷爷半夜为什么跑步，暗示他是运动员输了黑人么。。。这个梗我看到当时一脸懵逼，想了半天哭笑不得，这也能算是伏笔之类的么？真的垃圾。除了种族这个大概念立意高点，真不觉得和那些国产恐怖片有什么区别。难道人家打色情擦片球就比种族歧视low很多么？不明白为什么评分很高，推荐的人还那么多。</p>
-<h2 id="黑客帝国1"><a href="#黑客帝国1" class="headerlink" title="黑客帝国1"></a>黑客帝国1</h2><p>脑洞很大 但根本不会觉得不合理 这才是优秀的电影啊<br>突然想到红蓝药片是在母体里面吃的 那么为什么母体里会有那种药呢 铺垫很深啊 之前看的时候完全没想过 但是你仔细一想发现还是没漏洞</p>
-<h2 id="海边的曼彻斯特"><a href="#海边的曼彻斯特" class="headerlink" title="海边的曼彻斯特"></a>海边的曼彻斯特</h2><p>绝望不一定会让人痛苦 但希望也不一定不会</p>
-<p>看网络小说，总会有配角本是天之骄子，或为情或为友，一蹶不振，沉迷喝酒，成为一个邋遢乞丐式的扫地僧，一份显而易见的扮猪吃虎相。我琢磨着为什么会有这种人物存在，一直没明白。</p>
-<p>今天我突然发现一蹶不振里的不振是不想振而不是不能振。这一蹶的打击确实很大，伤心也是必然的，一段时间的放浪形骸声色犬马都可以理解。但是为什么会不振呢？因为在摔倒以前他根本没体会到躺着的乐趣啊。他根本不是感情受伤，他只是借着由头喝酒，发现了喝醉的感觉真好而已。</p>
-<p>假设去掉情伤或者挫折的打击剧情，也没有伤心痛苦的心情，而是单纯的看他有了那么一段时间，什么也不用操心和烦恼，生活变得只剩下喝酒睡觉，他也是很有可能沉迷其中不可自拔的吧。</p>
-<p>可能我真的没有体会过这种感情，正如我不会理解为什么初中那个同学会不停的恋爱，不停的分手，而且每次分手都是伤心欲绝恨不得痛哭流涕地样子。我可能也不会理解为什么有人会被一次打击彻底击垮，几十年也无法恢复。</p>
-<p>我只能尽量用我的想法尝试解释一下，虽然都是胡扯，但是起码我觉得当我遇到这样的打击的时候，而且真的非常伤心的时候(我真是觉得难度很大)，我会记得，我可以醉生梦死几天缓解心情，可我一定不要爱上那种感觉，要恢复元气，还勉强算是正能量的吧。更重要的是我知道，邋遢乞丐式的扫地僧配角可以扮猪吃虎，我在现实里一蹶不振就不是扮猪而是真猪了啊。</p>
-<h2 id="一条狗的使命"><a href="#一条狗的使命" class="headerlink" title="一条狗的使命"></a>一条狗的使命</h2><p>还是很感动的 讨厌中间警犬那部分 没有重看的价值</p>
-<h2 id="飞跃疯人院"><a href="#飞跃疯人院" class="headerlink" title="飞跃疯人院"></a>飞跃疯人院</h2><p>哇 演的真的好 谁是疯子谁是正常人呢<br>莫名想起《天才在左疯子在右》 现在只记得里面那些疯子的想法都很天才<br>有时间应该再读一遍<br>说实话 我总觉得这电影在讲一个很厉害的道理 但是我还是有点迷糊 还要再看</p>
-<h2 id="霸王别姬"><a href="#霸王别姬" class="headerlink" title="霸王别姬"></a>霸王别姬</h2><p>顶级中的顶级 编剧顶级 摄影顶级 演员顶级 导演顶级 方方面面都是顶级<br>编剧好像有一句话说 拍着部电影的时候感觉电影事业已经开始了 然而并不是 只是开始倒退 哇 真的退无可退了都要</p>
-<h2 id="金刚不坏"><a href="#金刚不坏" class="headerlink" title="金刚不坏"></a>金刚不坏</h2><p>可能是我电影看得少 反正我觉得这部电影的飙车是最刺激的 肾上腺素飙升 可能是前期慢热铺垫的太足了么<br>比那些大制作的拍了超长系列的商业片不知高出多少倍<br>可是这部电影在昆汀系列里评价倒是不高 不得其解啊<br>至于有人说的什么女权啊 暴力啊 我都没看懂 我就觉得飙车真的好看 而且要把铺垫看完才会好看</p>
-<h2 id="嫌疑人X的献身"><a href="#嫌疑人X的献身" class="headerlink" title="嫌疑人X的献身"></a>嫌疑人X的献身</h2><p>王凯帅的出戏 长太帅演戏类型也受很大限制啊 但是张国荣就不受限制 帅的类型不一样么？？或者演技问题么？剧本总归是个精彩的诡计</p>
-<h2 id="乘风破浪"><a href="#乘风破浪" class="headerlink" title="乘风破浪"></a>乘风破浪</h2><p>赵丽颖拍的真好看 和电视剧里完全不一样 韩寒这种人的天赋是遭人妒忌的 反正我妒忌</p>
-<h2 id="异星觉醒"><a href="#异星觉醒" class="headerlink" title="异星觉醒"></a>异星觉醒</h2><p>我真的讨厌这种恐怖片 单纯的用突发事件和血腥来吓人 中间夹杂着角色的各种愚蠢 我承认人在恐惧的时候会头脑不清醒 但是总要有逻辑吧 而且音量特别大 去电影院看这种类型的恐怖片我真是脑子坏掉了</p>
-<p>活脱脱异形的翻版 想象力完全不行 也不符合我对目前科学世界的理解 你这种星际科幻恐怖 能不能把视野放大不要局限在太阳系里面了 放在火星是因为比较接近目前能达到的现实有境界作用么？ 屁。这种血腥，突发，音量吓人恐怖电影真的垃圾，垃圾中的垃圾。</p>
-<p>而且我为什么会对单纯的血腥产生恐惧呢？和死亡有关么？<br>不是，应该是疼痛。对于平静的死亡画面就不会有恐惧和害怕。<br>乍一听起来死亡比疼痛可怕得多，其实不是的，本质还是怕疼。因为我们对死亡其实一无所知，又怎么害怕未知的东西呢，顶多是好奇，而疼痛才是有切身体会的。所以很多天才人物的自杀让自杀总是有种浪漫主义色彩了，但是根本不是，起码只敢吃安眠药或者煤气中毒的不是。必须是浴缸割腕，一枪爆头，或者自刎切腹才算，他们才算是勇敢的探索未知而对疼痛毫无畏惧。至于跳楼，吃药，中毒之类的，都是软蛋和懦夫。</p>
-<p>好的恐惧应该什么样呢。。。层层深入是基本要求吧？</p>
-<h2 id="盲井"><a href="#盲井" class="headerlink" title="盲井"></a>盲井</h2><p>王宝强那时候真的稚嫩啊 16岁 完全就是个高中生<br>故事就是两个聪明人先是骗人做自己亲戚去矿井干活，然后在矿井下杀人伪装成矿井事故进而获得赔偿金。话说我为什么把两个罪犯形容成两个聪明人啊 我这三观有问题，真的聪明人总不至于犯罪，游走于法律边缘赚大钱的有，法律规则内赚大钱的也有。九十年代下海的很多都赚钱了啊。杨国强先生穿不起鞋子，依旧带着施工队从包工头做到首富了。虽然有幸存者偏差，但我总不能把罪犯想成聪明人。。。切记。<br>开篇就杀了个“弟弟”但是分赃其实略有不均，我还以为是伏笔，可惜不是。后来又有了两次嫖妓的场景，第一次两人中有一人明显出了问题啊，又提了绿帽子的问题，再加上那个人活着完全是为了他自己的儿子，我又以为是伏笔。最后肯定是分赃不均，一人发现还被另一人带了绿帽子然后自相残杀。可惜不是，结局真的很失望啊。<br>王宝强没钱辍学被骗去矿上打工还要引颈受戮，可是他真是天生有股好人面孔，竟是让杀人为生的人下不去手。所以这部电影真的题材很好啊。可惜后面拍的太潦草了，剧情明明可以更丰富的，人物的心理，甚至包括矿长，矿上打工的寡妇式的人物，都没有戏剧冲突，第二次嫖娼我一度以为遇到了矿长，可惜又不是。而王宝强嫖娼遇到的小姐后面只是在汇钱的时候遇到了一次，完全没什么冲突，难道只是单纯想反映下九流人民生活的迫不得已么？<br>总之，这剧本大纲应该交给科恩兄弟，起码能拍出一部冰血暴来了，而且绝对比现在第三季的剧本好的多了。可惜。</p>
-<h2 id="加勒比海盗123"><a href="#加勒比海盗123" class="headerlink" title="加勒比海盗123"></a>加勒比海盗123</h2><p>5要上映了，看了一下前几部，我突然觉得经典的科幻或者魔幻作品往往虚实结合才会代入感很强的，有龙和异鬼的冰与火之歌里，人还是要拼刺刀的；有魔法扫帚飞天入地的哈利波特上学也是要坐火车的；不死诅咒各路海神海怪的加勒比海盗还是要用绞刑的；三体讨论宇宙文明起点也还是文化大革命；<br>所以很明显，想象力作品有一个关键是在于代入感在于真实感。架空的就不如真实的。所以什么VR啊AR啊，也是一样。话说我怎么能想到这来的，脑洞好大啊。</p>
-<h2 id="哆啦A梦"><a href="#哆啦A梦" class="headerlink" title="哆啦A梦"></a>哆啦A梦</h2><p>可能是端午节的原因，影院坐满了，比我觉得好看的电影上座率高很多啊，家人带着孩子，真不错。</p>
-<h1 id="teleplay"><a href="#teleplay" class="headerlink" title="teleplay"></a>teleplay</h1><h2 id="人民的名义"><a href="#人民的名义" class="headerlink" title="人民的名义"></a>人民的名义</h2><p>我就是好奇陆毅老婆到底是什么背景 翻了一下小说也没翻到。<br>不过我震惊的是侯勇老师演的那段贪官被抓在书里就那么寥寥几句话，演的这么丰富，真是佩服到无以复加。</p>
-<h2 id="小鱼儿与花无缺"><a href="#小鱼儿与花无缺" class="headerlink" title="小鱼儿与花无缺"></a>小鱼儿与花无缺</h2><p>又是王晶 王晶那种风格真的感觉是大悲大喜 有点受不住啊<br>前面好搞笑，后面好伤感，小仙女好可爱啊，一感觉她要死，后面直接放弃了。<br>话说里面的打斗场面很丰富啊，丰富到花无缺打小喽喽也要几分钟。<br>把古龙大大的动作戏拍这么丰富也是难为他们了。<br>好吧 忍不住又看了几集 小仙女死那集根本控制不住眼泪啊,哗哗哗的淌，感性之于我，不是没有，只是短暂，理智会很快占上风的。所以我再看到那些感性很强的文字，不应该嘲笑，而应该哭泣，为自己缺少那些情感而伤心。</p>
-<h2 id="少年包青天"><a href="#少年包青天" class="headerlink" title="少年包青天"></a>少年包青天</h2><h2 id="硅谷"><a href="#硅谷" class="headerlink" title="硅谷"></a>硅谷</h2><h2 id="冰血暴"><a href="#冰血暴" class="headerlink" title="冰血暴"></a>冰血暴</h2><h2 id="越狱"><a href="#越狱" class="headerlink" title="越狱"></a>越狱</h2><h1 id="book"><a href="#book" class="headerlink" title="book"></a>book</h1><h2 id="绝代双骄"><a href="#绝代双骄" class="headerlink" title="绝代双骄"></a>绝代双骄</h2><p>看完小鱼儿，看一下小说，想不到是完美结局。成双成对，坏人也基本算是好结局了吧。可我一点一点也不喜欢，我还是觉得悲剧有感染力。难道我有受虐倾向？喜剧结尾真的没感染力，很多作品看到喜剧结尾我都忍不住呸一下它强行大圆满。记忆最深的就是釜山行结尾的时候，男主女儿和那个孕妇（好像）从隧道逃出来的时候，无数枪口盯着他们，竟然没开枪，竟然没开枪，竟然没开枪。我的天，如果砰砰两枪结局，最好是黑屏情况下的，也不用演命中的画面，那结尾多好啊。我真不是说真善美没有力量，没有感染力，但是感觉太假就一定不会有啊。跑题了。。。</p>
-<p>以前总看有人对比金庸和古龙说他们处理武大画面一个讲形，一个讲意。有段子说这是因为他们稿费的计算方法不同导致的，因为一个按字数算，一个按行算。好在这本书里按行写的还不算特别多，不过古龙前辈真的对打斗画面描写的相当之潦草啊，我觉得是潦草，人家说这是写意，我总觉得差不多。小仙女出场那画面是从小鱼儿的所见来描写的，而其中两个人被打倒是怎么写的呢？古龙前辈说小鱼儿没看清。。。我真是醉了。<br>而且书中很多人物和电视剧的关系完全不一样，留了很多眼泪的小仙女在书里只是配角中的配角。说不定小鱼儿与花无缺这部我看来还不错的电视剧在当时一定是被那时候的人骂的狗血喷头了吧。想象一下了盗墓笔记，难道那时候人们看绝代双骄也是一样心情。。。。难道目前十岁左右的小孩长大以后回看盗墓笔记会觉得还不错么？？？我真是万万不敢相信这一点。</p>
-<p>游戏也是这样啊，dota1鄙视dota2，dota2鄙视lol，现在lol又开始鄙视王者荣耀，随着玩家群体的扩大，游戏各方面都要适应更多的人，你永远不知道和你一起开黑的是80岁的老人家还是幼儿园里的小宝宝。那些挂机游戏也有很多人玩的不亦乐乎，其根本不需要任何操作，一个锁住的常亮屏幕放在小笼子里交给猫猫随便点都可以。为什么呢？锤子刚开的发布会里，老罗大概介绍到他的手机是为精英研发的时候说了一句话我觉得有意思，他说 “将来有一天，我们的手机买了几百万几千万，街边随便一个人都在用的时候，你要知道，这个手机是给你们（锤粉？）做的。”我虽然对锤子产品很失望，但是这句话也同样有一个隐含逻辑，迎合大众实际上是降低品质的。最明显就是电影，为什么电影越来越难看，我一度以为请那些没演技的演员全是黑幕操作，所以什么百花华鼎奖才会乱发，后来发现这个原因不是没有，但是狭隘渺小的很啊。资本社会本质还是利益，无非是当红小生能够带来流量进而带来利润，个人那种暗箱操作在资本洪流下还是太微弱了。后来我发现我又错了，这实际上是资本的问题么？不对，钱怎么会有错呢？无非是电影已经从只有精英才有时间和闲钱欣赏的东西变成了全民打发时间的工具了。</p>
-<p>所以真的是乌合之众？那么民主呢？民主哪里来的自信呢？把世界交给精英处理会徒增普通人的困扰么？读书少，还是不要乱想了。。。突然想起乌合之众想看了好几次都没看下去，给自己差评。</p>
-<h2 id="萧十一郎"><a href="#萧十一郎" class="headerlink" title="萧十一郎"></a>萧十一郎</h2><p>打折的可怕之处在于会有一种打折了不买就吃亏了的错觉，主要是看到古龙文集全集第一辑在kindle上只有几块钱，而最可怕的地方其实在于打折的东西买回来要是不用，就会有一种奇怪的痛心。所以看完绝代双骄虽然觉得不是太满意，我还是打开了萧十一郎。<br>对我来说不回忆的话，其实很容易忘记自己已经把过去很多东西都忘了这个事实本事。对于萧十一郎，我肯定是看过电视剧的，百度告诉我是2002年，我大概七八岁左右的样子。可我绞尽脑汁也只想起沈璧君，沈太君和一个人变成了一条蜿蜒的血色的蛇一样的东西，甚至我还一度怀疑是不是和水月洞天记混了。而有一些天才往往能对四五岁的事情如数家珍，对比下来还真是一件让人难过的事情啊。我只能安慰自己他们不过是对一些特别的事情记忆深刻罢，聊以自慰，聊以自慰2333.</p>
-<p>倒不是很长，半个上午差不多就读完了萧十一郎，又一个多小时基本读完了火并萧十一郎的上半部分，可能精力耗尽了，反正不喜欢得很，直接看了一下结尾。总体感觉火并萧十一郎那本名字听上去就是同人作品的书完全是画蛇添足，萧十一郎虽然戛然而止但是总是干净利落的。可能是因为后面人物都有了结局，而我却对结局不满意造成的偏见么？<br>简化下来感觉故事就是一个他爱她，他爱她，她却爱他，他又爱上了他的故事。加上火并那里有一部分我一度以为还有她爱上了她的桥段，可惜并不是。（莫名的遗憾是哪来的。）连城璧，杨开泰分别爱沈璧君和风四娘，而这两个姑娘爱萧十一郎，萧十一郎爱沈璧君不得，后面又有一个花公子（我一度以为她是女的）和风四娘结了婚…人物关系真的很丰富，但是来来去去，我总是感觉不到具体时间和空间很不舒服。可能是网络小说荼毒很深，武力值的划分也是稀里糊涂，不明不白，很不舒服，总是用一些天下第一，风华绝代之类的描写，可是后面想打脸就打脸。</p>
-<p>最总要的是古龙先生真的是潇洒的很的，基本没什么道德观念的束缚，沈璧君有妇之夫，想爱就爱，没有哪怕一点笔墨讨论道德约束的问题，风四娘也是，洞房花烛夜想逃就逃了，又能怎样呢？看怪异君毁经典，说古龙先生笔名的由来是因为早期爱上了个女孩叫小凤或者雏凤，不知真假，总归是风流啊。</p>
-<h2 id="家庭-私有制和国家起源"><a href="#家庭-私有制和国家起源" class="headerlink" title="家庭,私有制和国家起源"></a>家庭,私有制和国家起源</h2><p>这是知乎上，有一个回答，关于婚姻制度与当今社会的意义里提到到，非常之感兴趣，可惜没有kindle电子原版，不过估计有我也看不懂，找了一个解读版本看一下。</p>
-<h2 id="五行天"><a href="#五行天" class="headerlink" title="五行天"></a>五行天</h2><p>好看 满分</p>
-<h2 id="天影"><a href="#天影" class="headerlink" title="天影"></a>天影</h2><p>好看 但是里面的人物感觉黑化的很突然 完全没准备 总是感觉理由不充分啊 可能是个人错觉</p>
-<h2 id="择天记"><a href="#择天记" class="headerlink" title="择天记"></a>择天记</h2><p>垃圾 可惜我竟然还看了很久 改了电视剧之后 垃圾中的战斗机</p>
-<h2 id="黑卡"><a href="#黑卡" class="headerlink" title="黑卡"></a>黑卡</h2><p>设定很好 但是写崩了 意料之中啊</p>
-<h2 id="孺子帝"><a href="#孺子帝" class="headerlink" title="孺子帝"></a>孺子帝</h2><p>好书 满分 结尾的理由说服了我，但是肯定是意犹未尽啊 不过里面的诡计解释的不好 有时感觉牵强的很。</p>
-<h2 id="永夜君王"><a href="#永夜君王" class="headerlink" title="永夜君王"></a>永夜君王</h2><p>整体不好看，大概是烟南水平最烂的一本，整个世界的设定就不好，可能是个人喜好问题，但是人物照例写的不错，和那些看完之后不仅记不住配角名字，连主角名字都记不住的网文比还是好很多。</p>
-<h2 id="人间失格-太宰治"><a href="#人间失格-太宰治" class="headerlink" title="人间失格 太宰治"></a>人间失格 太宰治</h2><p>好早就看过这本书的推荐，一直很想看，记得有一句评论很是吸引我，大概是说它平静的陈述了绝望而毫无希望。我是好奇的，当然，看了之后也不是特别符合我的预估。</p>
-<p>看了之后倒是代入感一般，可能我的心情还没那么差吧。但是倒是感觉很真实，并不是说里面的故事情节之类的真实，而是细节上的真实而是自传自传式的真实。这种真实回避了很多自己不愿意承认的现实，淡化了不愿回想起来的细节，强化了很多自己主观上的想法。我最初发现这种有意思的情况还是在读李嘉诚自传的时候，由于刚翻完一本别人写的李嘉诚传，再看他自己的回忆时，就会发现在一些命运转折点的时候，在不同的角度上看，这命运的关键所在的地方往往区别很大。书里面他第一手札还是第二手札里明明确确的提及其目睹妻子被强奸而无动于衷，可到了后面真真确确的时间线发展到那里的时候，却说的混乱不明，甚至有点从无动于衷变为了无能为力。至于残疾的药店老板给他吗啡治疗酒瘾的时候，他会不清楚老板娘那奇怪的温暖贴心出自何处么？他知道，他不想承认罢了。</p>
-<p>人间失格，失去了做人的资格。很明显，虽然第一手札里，他就笃定自己小时候就体会不到幸福的，但那是他住了精神病院的回忆了，那种情况下的回忆必然是带了色彩而失去客观的。谁又能说那个父亲是议员，家里莺莺燕燕一群小姐姐的主人公是不幸福的呢。即使他明确的认为自己只是逢场作戏，可那也是一种早慧并不是缺陷啊。所以关键的转折点还在于他独自外地上学，经济上没有什么限制又结交了损友。所以，最后从老板娘的口中，他还是说出了自己的心里话，那就是埋怨他的父亲，一个把他一人丢到外地读书，在他学坏又拒之门外的有身份有地位的父亲。</p>
-<p>当然，这都不重要，我发现最重要的还是要帅啊，如果加上一点忧郁的气质才是吸引女人的无上法宝啊，即使你是个酒鬼，人渣，小白脸甚至瘾君子也无所谓的。</p>
-<h2 id="技术奇点"><a href="#技术奇点" class="headerlink" title="技术奇点"></a>技术奇点</h2><p>光速翻了一下，垃圾书。突然觉得应该看一下奇点临近。</p>
-<h2 id="斯坦福极简经济学"><a href="#斯坦福极简经济学" class="headerlink" title="斯坦福极简经济学"></a>斯坦福极简经济学</h2><h2 id="人际影响-个人在大众传播中的作用"><a href="#人际影响-个人在大众传播中的作用" class="headerlink" title="人际影响-个人在大众传播中的作用"></a>人际影响-个人在大众传播中的作用</h2><p>《人际影响》一书首版于1955年，报告了在美国伊利诺伊州迪凯特市所做的先驱性研究的结果。 </p>
-<p>这项研究验证了保罗·拉扎斯菲尔德无意中的发现，即源自大众媒介的讯息在传播过程中经由了“意见领袖”的中转——他们在其所处的人际网络中为其他人筛选、 解释并扩散自己的所见所闻。本项经典性的研究聚焦于日常生活中的决策制定过程 （公共事务、时尚、电影观看、消费行为），为大众媒介与人际影响间互动关系的后继研究开辟了新的领域。本书的第一部分是一篇带有背景性的论文，详细论述了初级群体对于大众传播的令人惊异的现实意义。</p>
-<p><img src="renjiyingxiang.jpg" alt="renjiyingxiang.jpg"></p>
-<h2 id="瞧-这个人"><a href="#瞧-这个人" class="headerlink" title="瞧 这个人"></a>瞧 这个人</h2><p>尼采大大的书，这不是我第一次看了，当然也不会是最后一次，因为除了前言前面的类似译者序的名叫尼采的天鹅之歌的东西我还是看不懂哈哈哈，勉强看了点绪论，反正对以前看的没什么印象，做个记录先。</p>
-<p><img src="qiaozhegeren1.JPG" alt="qiaozhegeren1.JPG"><br><img src="qiaozhegeren2.JPG" alt="qiaozhegeren2.JPG"></p>
-<h2 id="罗素自传"><a href="#罗素自传" class="headerlink" title="罗素自传"></a>罗素自传</h2><p><img src="luosuzizhuan.jpg" alt="luosuzizhuan.jpg"></p>
-<h2 id="大数据银行"><a href="#大数据银行" class="headerlink" title="大数据银行"></a>大数据银行</h2><p><img src="dashujuyinhang1.jpg" alt="dashujuyinhang1.jpg"><br><img src="dashujuyinhang2.jpg" alt="dashujuyinhang2.jpg"></p>
-<h2 id="从大历史的角度读蒋介石日记"><a href="#从大历史的角度读蒋介石日记" class="headerlink" title="从大历史的角度读蒋介石日记"></a>从大历史的角度读蒋介石日记</h2><h2 id="蒋介石日记秘档"><a href="#蒋介石日记秘档" class="headerlink" title="蒋介石日记秘档"></a>蒋介石日记秘档</h2><h2 id="论人类不平等的起源"><a href="#论人类不平等的起源" class="headerlink" title="论人类不平等的起源"></a>论人类不平等的起源</h2><h3 id="本论"><a href="#本论" class="headerlink" title="本论"></a>本论</h3><p>有两种不平等<br>一种是生理/自然的不平等： 年龄 健康 心智等<br>一种是精神/政治的不平等： 依靠特定的制度并给人以特权 让一部分人更富有 更强大 甚至让别人服从于他们</p>
-<p>论述的主题就在于 权力什么时候取代了暴力使得自然让位于法律呢？并说明在经历了怎样一系列奇迹之后，使强者甘心为弱者服务，而人们甘心放弃已有的幸福而去追求空想的安宁。</p>
-<p>宗教的训诫让我们相信，是上帝在创造人之后就让他脱离了自然状态，人生而不平等，仅仅是因为上帝的意志。但是宗教没有禁止我们根据人及周围的事物性质做出推断，如果任由人类自由发展，人类将会变成什么模样。</p>
-<h3 id="第一部分"><a href="#第一部分" class="headerlink" title="第一部分"></a>第一部分</h3>
-          
+          <p>百无一用是书生，读书其实没什么价值，有价值的是读书这个行动本身。这篇四不像的记录的核心价值也在于记录本身，至于里面的内容收获对于我来说其实没太大价值，于将来的我说不定略有价值，但是估计价值也不大。但我需要坚持做这件内容没什么价值的事情，因为我认为这个行动是有价值的的。起码也先做一段时间再说，反正总比闲着打游戏要好，既然我己经花了有两个小时看了电影，也不必计较再花十几分钟或者再多一点记一下当时的想法吧。看一本书花的时间更多，就更是如此了。但我总要谨记的是，这里面其实真没什么有价值的内容，以后的自己也不必太认真的看。记录这东西确实花了我一些精力，但这不是收获，更不算是锦衣夜行，这里面的东西对我都没什么价值，对别人更是，只是记录癖的浪费时间。</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2017/05/11/2017阅读-片报告/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -1002,8 +1054,7 @@ bbdata.head(10)
 
       
         
-          
-            <h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><h2 id="Machine-Learning"><a href="#Machine-Learning" class="headerlink" title="Machine Learning"></a>Machine Learning</h2><ul>
+          <h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><h2 id="Machine-Learning"><a href="#Machine-Learning" class="headerlink" title="Machine Learning"></a>Machine Learning</h2><ul>
 <li><p>The field of study that gives computers the ability to learn without being explicitly programmed.</p>
 </li>
 <li><p>A computer program is said to learn from experience E with respect to some class of tasks T and performance measure P, if its performance at tasks in T, as measured by P, improves with experience E.</p>
@@ -1015,32 +1066,11 @@ bbdata.head(10)
 <li>Recommender systems</li>
 </ul>
 <p>根据训练数据是否有标记信息，可大致把学习任务分成两类，监督学习和无监督学习。前者主要包括分类和回归。后者主要有聚类。</p>
-<h2 id="Supervised-Learning"><a href="#Supervised-Learning" class="headerlink" title="Supervised Learning"></a>Supervised Learning</h2><ul>
-<li>classification </li>
-<li>regression</li>
-</ul>
-<h2 id="Unsupervised-Learning"><a href="#Unsupervised-Learning" class="headerlink" title="Unsupervised Learning"></a>Unsupervised Learning</h2><ul>
-<li>clustering 聚类</li>
-</ul>
-<p>需要注意的是，机器学习的目标是学得的模型可以很好的适用“新样本”，而不仅是在训练样本上工作良好，即使对于聚类这样的无监督学习任务，也希望他能适用于新样本，称为 泛化 generaliazation</p>
-<h1 id="Model-and-Cost-Function"><a href="#Model-and-Cost-Function" class="headerlink" title="Model and Cost Function"></a>Model and Cost Function</h1><h2 id="Model-Representation"><a href="#Model-Representation" class="headerlink" title="Model Representation"></a>Model Representation</h2><img src="/2017/05/08/Coursera机器学习1/ML1.2ModelRepresentation.png" alt="ML1.2ModelRepresentation" title="ML1.2ModelRepresentation">
-<h2 id="Cost-Function"><a href="#Cost-Function" class="headerlink" title="Cost Function"></a>Cost Function</h2><p>measure the accuracy of our hypothesis function by using a cost function</p>
-<p><img src="ML1.2CostFunction.png" alt="ML1.2CostFunction.png"></p>
-<p>This function is otherwise called the “Squared error function”, or “Mean squared error”. </p>
-<p>1\2 后面梯度下降的时候会消掉<br>1\m 是求和的平均</p>
-<p>理解 Cost Function<br>先把 参数 Θ0 看作零 使参数只有一个的时候</p>
-<p><img src="ML1.2CostFunctionIntuition1.png" alt="ML1.2CostFunctionIntuition1"></p>
-<p>左面是假设函数，在确定Θ1值的情况下 可以画出一条直线 这时候就可以计算出相应的Θ值在右侧cost函数里的对应值<br>明显可以看出 Θ=1 代价函数值为零 完全拟合</p>
-<p>那么 加一个参数 Θ0 的话 相应的cost function的函数图像就会是</p>
-<p><img src="ML1.2CostFunctionIntuition2.png" alt="ML1.2CostFunctionIntuition2"></p>
-<h1 id="Parameter-Learning"><a href="#Parameter-Learning" class="headerlink" title="Parameter Learning"></a>Parameter Learning</h1><h2 id="Gradient-Descent"><a href="#Gradient-Descent" class="headerlink" title="Gradient Descent"></a>Gradient Descent</h2><p><img src="ML1.3GradientDecent.png" alt="ML1.3GradientDecent"></p>
-<p>step1 确定初始值 Θ0 Θ1<br>step2 环顾四周 确定一个方向可以下降最快 往下走一步<br>重复step2 直到走到局部最低点</p>
-<p>特点 每一次迈的步长不一样 那么下一步的方向可能就不一样<br>     出发点不一样 最后的局部最低点可能也不一样</p>
-<p><img src="ML1.3GradientDecentAlgorithm.png" alt="ML1.3GradientDecentAlgorithm"></p>
-<p>ɑ 是 learning rate 控制下山的步长 后面是一个求偏导 是方向<br>ɑ 太小 下降 很慢<br>ɑ 太大 可能错过最低点 导致无法收敛 甚至发散<br>以为求导数 越接近最低点 倒数越接近零 所以ɑ*后面导数值就越小 以至于步长越小 最后收敛</p>
-<p>但是要同时更新 Θ0 和 Θ1<br>怎么办呢？<br><img src="ML1.3GradientDecentAlgorithm2.png" alt="ML1.3GradientDecentAlgorithm2"></p>
-<h2 id="理解-Gradient-Descent"><a href="#理解-Gradient-Descent" class="headerlink" title="理解 Gradient Descent"></a>理解 Gradient Descent</h2><h2 id="线性回归的梯度下降"><a href="#线性回归的梯度下降" class="headerlink" title="线性回归的梯度下降"></a>线性回归的梯度下降</h2>
-          
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2017/05/08/Coursera机器学习1/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -1150,13 +1180,12 @@ bbdata.head(10)
 
       
         
-          
-            <p>还是要感谢自己断断续续记的流水账，否则我真的回忆不出来过去一个月发生了些什么。当然，要是能不断而连续的记下来就更好了。可惜于我这样一个懒人来说真是太难了。昨天在图书馆翻到一本蒋介石日记解密，大概是叫这个书名吧。才知道蒋介石这个人坚持记日记超过半个世纪。想想也是厉害，像他那样可能整天忙着所谓国家大事的人，竟然分门别类的写了那么多手稿。果然伟大一点人物之所以能够留名史书，且不论是流芳还是遗臭，都是有其必然性的。而且貌似日记里反思自己的非常多，有时间真要把那本书好好读读。又偶然发现毛选第五卷里好像有一段论述了小资产阶级的通病，论述之直白明确让我胆战心惊，很多词语用来批评我那真是无比合适，入木三分。足见我这种凡人还是要好好学习，好好反省。</p>
-<p>这个月，月初回家呆了三天，回来沉迷星露谷游戏玩了几天，中间穿插着偶尔去健个身，偶尔做一下项目，和同学出去聚餐倒是更多了一点，可能因为要毕业了？我也不知道。中间看了一些老电影还有很大一部分时间用来追了一部很火的电视剧-人民的名义。好看是看好看，可是我这种人总是耐不住性子，很多东西总是习惯一次性看完，所以好像记得还熬了夜，然而为了学习我可没这个劲头，真是差评自己一波。月末倒是需要进行毕设的中期检查，稍微忙了几天赶了一下进度，好让自己看上去有点工作量。但其实还是比较水。</p>
-<p>貌似是三月末办的健身卡，但是这个月其实去的次数比较少，大概勉强能平均三天去一次吧，而且锻炼的时间也很短，主要是练一下就没力了，而且接下来两天肌肉酸痛，总是很困。可见我的体质之差已到了令自己发指的程度了。而最初办卡时候测了一下身体状态，有一个很玄学的体脂称，据说是同电流来测量的。虽然总体还是标准体型，但是大概需要减脂一千克，增肌一千克吧。教练的意思是男孩子增肌一千克可能还是远远不够的。一个月过去了，我倒是对这个指标变化不抱希望，昨天也测了一次，但是好像出了bug，没有打印出结果。很伤。</p>
-<p>至于星露谷，那个游戏真的内容非常之丰富，可惜是个慢性子的游戏，很多人可能玩不下去，但我真心觉得不错，可惜联机版到现在还没有出，估计是等不到了。而人民的名义这部剧真的是热点聚集，老演员们的演技还是非常厉害的，总是要比那些IP剧要好很多。人民富起来业余生活丰富了，第三产业资金聚集，加上广电这个神奇部门，影视行业总是有些畸形存在。但是好作品还是会被认可，总不会一直被劣币驱逐良币，还是勉强对国产剧有点信心吧。毕设我开始真不知道要干嘛，把一个题目拆成两个人做，合作上就是麻烦得很，中间工作就难分配，好在是把工作量做了一些出来。但其实实质性工作做的有限，学到的知识有限，反思，反思，反思。</p>
-
-          
+          <p>还是要感谢自己断断续续记的流水账，否则我真的回忆不出来过去一个月发生了些什么。当然，要是能不断而连续的记下来就更好了。可惜于我这样一个懒人来说真是太难了。昨天在图书馆翻到一本蒋介石日记解密，大概是叫这个书名吧。才知道蒋介石这个人坚持记日记超过半个世纪。想想也是厉害，像他那样可能整天忙着所谓国家大事的人，竟然分门别类的写了那么多手稿。果然伟大一点人物之所以能够留名史书，且不论是流芳还是遗臭，都是有其必然性的。而且貌似日记里反思自己的非常多，有时间真要把那本书好好读读。又偶然发现毛选第五卷里好像有一段论述了小资产阶级的通病，论述之直白明确让我胆战心惊，很多词语用来批评我那真是无比合适，入木三分。足见我这种凡人还是要好好学习，好好反省。</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2017/05/04/2017-4/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -1266,13 +1295,12 @@ bbdata.head(10)
 
       
         
-          
-            <p>重看了一下二月份的手账，可见考研这件是对我的影响真是大得很，出成绩那两天天的记录真是看后让人像是平静的吃屎一样，而后面大片的空白也许无声胜有声了。真觉得自己应该好好读一下太宰治。</p>
-<p>对比一下这个月的手账，前半个月和后半个月也是天壤之别，可见心情对一个人的精神状态真是有很大的影响，那些看面相看气运的人说不定还真有什么依据。我自己看都能体会到自己那时心情的糟糕。</p>
-<p>12号订机票，15号订酒店，18号起飞，20号复试，24号返程。这几天我处在命运的十字路口，眼见风云千樯，但我在当时却相当沉闷而平凡。我不知道什么选择是对的，什么是错的，我对未来一无所知，我只是想挣扎一下而已。</p>
-<p>确定通过了东南大学的复试，独自一人在南京玩了几天，想了很多事情，真的，独处的时候时间就不会那么明确，感觉忽快忽慢，突然明白为什么很多人沉迷于什么骑行西藏，虽然我依旧不认为那能够完成什么心灵洗涤，但是真的可以让感觉很清新。我依旧记得那天刚下完小雨的南京空气是多么清新，朦朦隆隆的水汽打在脸上，真的无比舒服。虽然后来去鸡鸣寺的樱花非常漂亮，但是密密麻麻的人群真是毁了所有，天知道他们举着相机是在拍人还是拍人穿的衣服，总之我不认为他们拍的到樱花。</p>
-
-          
+          <p>重看了一下二月份的手账，可见考研这件是对我的影响真是大得很，出成绩那两天天的记录真是看后让人像是平静的吃屎一样，而后面大片的空白也许无声胜有声了。真觉得自己应该好好读一下太宰治。</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2017/04/02/2017-3/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -1411,122 +1439,6 @@ bbdata.head(10)
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/02/13/2017.1/" itemprop="url">
-                  2017.1
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-02-13T12:28:28Z" content="2017-02-13">
-              2017-02-13
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/画家/" itemprop="url" rel="index">
-                    <span itemprop="name">画家</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="丢失的时间"><a href="#丢失的时间" class="headerlink" title="丢失的时间"></a>丢失的时间</h2><p>从16年三月开始，记录只持续到六月。六月到十二月感觉被丢掉了。其实主客观原因都有，但是对我这种人来说，客观原因都是借口。就是懒而已。而且对一个失败者来说，没有实现全球同步ZS之前，总结自己的失败也是一件很困难的事情。这其中的七月和八月的时间是去上海实习了，从九月开始就沉浸到无尽的复习当中准备考研了，其中也记了一点所思所想，可是考完研迫不及待的装了固态硬盘，电脑丢了好多东西，还是稍微有点难受的，不过七八秒的开机速度还算聊以慰藉，生命短暂要用固态啊。</p>
-<h2 id="驾照"><a href="#驾照" class="headerlink" title="驾照"></a>驾照</h2><p>我这个驾照学的可真是墨迹死了，可见一件事情还是要速战速决为上策，拖下去只会越来越难受。想来我还是大一下学期就报名了驾照考试，结果一个寒假考一门，科目一到科目三刚好三年了，再拖下去都要过期了。好在科目四二月十四号就考。回想一下整个过程，最可怕的就是交通实在是件很麻烦的事情。报名的时候驾校距离二校区还比较近，可是到了一校区之后，坐公交车到驾校需要五十分钟，简直可怕。这也是我根本不想去的原因。每次坐上车我都在心里默念一次自己傻逼。而且报名的时候看似便宜，但是我这样折腾下来，总是避免不了打车，把这去的话真是大大的亏本。可能因为以前家离学校很近，再后来就是住校，所以对这种日常不避免的交通消费体会不深啊。再加上总看到有人说什么在路上听广播，看小说收获满满，不亦乐乎。实习的时候发现人挤人很难实现。而在哈尔滨没那么多人的情况下我才终于确定那他么就完全是在扯淡。路上的时间完完全全就是在消耗生命，千万不要痴心妄想在路上干点什么有意义的事情。</p>
-<h1 id="精神分析"><a href="#精神分析" class="headerlink" title="精神分析"></a>精神分析</h1><p>假期闲着没事啊，看到了一部童年阴影剧–少年包青天。那是真的童年阴影，我记得非常深刻就是自那开始我就开始害怕影子，尤其是自己一个人的时候自己的影子，莫名其妙的很，往往一片漆黑还好，要是让我一个人走在路灯下，我是万万不敢的。只模糊记得剧情里是人被杀死之前留下了一个十字的记号，而这个记号就是凶手的影子，这个模糊的记忆陪伴我太久太久，每次一个人晚上看到影子都忍着撒腿就跑的冲动。可惜我却再也没抽出空看看这个心理阴影的源头。这个寒假没事在家我就开始重新看了一下这部剧，伴着弹幕里不停刷着的前方高能和童年阴影，我竟然很快就把这部剧刷了一遍。但我突然觉得那个心理阴影的情节其实远没有那么吓人啊，远远不及后面隐逸村的吓人。这种精神方面的东西真的是玄学的很。接着我就又在书城推荐看到了弗洛伊德的精神分析引论，原来计划好几次要看那本著名的梦的解析，一直懒，忍不住看了一下精神分析引论的部分，感觉非常有趣，且不论它是否符合现在心理科学的发展，弗洛伊德这种开场学派级别的大师人物，在用语言来深入浅出的阐述一个东西的能力真是让人叹为观止。我刚开始看之前一直觉得心理学的东西普遍性很难确定，避免不了略有牵强。直到我看到这样一句：<br>&gt;</p>
-<p>//后面丢掉了。。。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1572,7 +1484,7 @@ bbdata.head(10)
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">21</span>
+              <span class="site-state-item-count">22</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
