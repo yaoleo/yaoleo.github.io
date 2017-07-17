@@ -924,7 +924,9 @@ bbdata.head(10)
 
       
         
-          <h1 id="Multivariate-Linear-Regression"><a href="#Multivariate-Linear-Regression" class="headerlink" title="Multivariate Linear Regression"></a>Multivariate Linear Regression</h1><h2 id="Gradient-Descent-in-Practice-I-Feature-Scaling-特征缩放"><a href="#Gradient-Descent-in-Practice-I-Feature-Scaling-特征缩放" class="headerlink" title="Gradient Descent in Practice I - Feature Scaling 特征缩放"></a>Gradient Descent in Practice I - Feature Scaling 特征缩放</h2><h3 id="why？"><a href="#why？" class="headerlink" title="why？"></a>why？</h3><p>因为多个特征的时候，代价函数图形可能非常的”偏斜”<br><img src="ML2.1FeatureScaling.png" alt="ML2.1FeatureScaling"><br>梯度下降在一个漫长的斜坡上来回波动 下降很慢<br>所以要划分到一个相近的范围里来做， 下降就会很快。</p>
+          <h1 id="Multivariate-Linear-Regression"><a href="#Multivariate-Linear-Regression" class="headerlink" title="Multivariate Linear Regression"></a>Multivariate Linear Regression</h1><h2 id="Gradient-Descent-in-Practice-I-Feature-Scaling-特征缩放"><a href="#Gradient-Descent-in-Practice-I-Feature-Scaling-特征缩放" class="headerlink" title="Gradient Descent in Practice I - Feature Scaling 特征缩放"></a>Gradient Descent in Practice I - Feature Scaling 特征缩放</h2><p>The objective of linear regression is to minimize the cost function<br>J(θ) = 1<br>2m<br>Xm<br>i=1</p>
+<p>hθ(x<br>(i)<br>) − y<br>(i)<br>2<br>where the hypothesis hθ(x) is given by the linear model<br>hθ(x) = θ<br>T x = θ0 + θ1x1</p>
+<h3 id="why？"><a href="#why？" class="headerlink" title="why？"></a>why？</h3><p>因为多个特征的时候，代价函数图形可能非常的”偏斜”<br><img src="ML2.1FeatureScaling.png" alt="ML2.1FeatureScaling"><br>梯度下降在一个漫长的斜坡上来回波动 下降很慢<br>所以要划分到一个相近的范围里来做， 下降就会很快。</p>
 <h3 id="how？"><a href="#how？" class="headerlink" title="how？"></a>how？</h3><ul>
 <li><p>Feature Scaling特征缩放：<br>  每个值除以范围 得到-1 - +1 以内数字 最好<br>  -3 +3 以内可以接受 -1/3 +1/3 也可 太小 或太大就不行 要靠经验 看实验结果</p>
 </li>
@@ -1165,7 +1167,7 @@ bbdata.head(10)
 </li>
 <li><p>A computer program is said to learn from experience E with respect to some class of tasks T and performance measure P, if its performance at tasks in T, as measured by P, improves with experience E.</p>
 </li>
-<li><p>Supervised Learning</p>
+<li><p>Supervised Learning </p>
 </li>
 <li>Unsupervised Learning </li>
 <li>Reinforcement learning</li>
