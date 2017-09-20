@@ -1,15 +1,22 @@
-<!doctype html>
+<!DOCTYPE html>
 
 
 
   
 
 
-<html class="theme-next pisces use-motion">
+<html class="theme-next muse use-motion" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
 
 
 
@@ -27,9 +34,12 @@
 
 
 
+
+
+
   
   
-  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
 
 
 
@@ -63,9 +73,9 @@
 
 
 
-<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
 
-<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
   <meta name="keywords" content="读书,电影," />
@@ -77,7 +87,7 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
 
 
 
@@ -97,7 +107,7 @@
 <meta property="og:image" content="http://yoursite.com/2017/05/11/2017阅读-片报告/luosuzizhuan.jpg">
 <meta property="og:image" content="http://yoursite.com/2017/05/11/2017阅读-片报告/dashujuyinhang1.jpg">
 <meta property="og:image" content="http://yoursite.com/2017/05/11/2017阅读-片报告/dashujuyinhang2.jpg">
-<meta property="og:updated_time" content="2017-09-04T15:42:48.825Z">
+<meta property="og:updated_time" content="2017-09-15T12:19:40.526Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="2017阅读&#x2F;片报告">
 <meta name="twitter:description" content="百无一用是书生，读书其实没什么价值，有价值的是读书这个行动本身。这篇四不像的记录的核心价值也在于记录本身，至于里面的内容收获对于我来说其实没太大价值，于将来的我说不定略有价值，但是估计价值也不大。但我需要坚持做这件内容没什么价值的事情，因为我认为这个行动是有价值的。起码也先做一段时间再说，反正总比闲着打游戏要好，既然我己经花了有两个小时看了电影，也不必计较再花十几分钟或者再多一点记一下当时的想法吧">
@@ -105,25 +115,38 @@
 
 
 
-<script type="text/javascript" id="hexo.configuration">
+<script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    scheme: 'Pisces',
-    sidebar: {"position":"left","display":"post"},
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
+    tabs: true,
     motion: true,
     duoshuo: {
-      userId: 0,
+      userId: '0',
       author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
     }
   };
 </script>
 
-  <title> 2017阅读/片报告 | Yaoleo </title>
-</head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
+  <link rel="canonical" href="http://yoursite.com/2017/05/11/2017阅读-片报告/"/>
+
+
+
+
+
+  <title>2017阅读/片报告 | Yaoleo</title>
   
 
 
@@ -134,35 +157,47 @@
 
 
 
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
   
   
     
   
 
-  <div class="container one-collumn sidebar-position-left page-post-detail ">
+  <div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-meta ">
-  
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
 
-  <div class="custom-logo-site-title">
-    <a href="/"  class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <span class="site-title">Yaoleo</span>
-      <span class="logo-line-after"><i></i></span>
-    </a>
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Yaoleo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">I pray to myself, for myself.</p>
+      
   </div>
-  <p class="site-subtitle">I pray to myself, for myself.</p>
-</div>
 
-<div class="site-nav-toggle">
-  <button>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-  </button>
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
 </div>
 
 <nav class="site-nav">
@@ -182,18 +217,8 @@
         </li>
       
         
-        <li class="menu-item menu-item-categories">
-          <a href="/categories" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
-            
-            分类
-          </a>
-        </li>
-      
-        
         <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
+          <a href="/archives/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
@@ -203,7 +228,7 @@
       
         
         <li class="menu-item menu-item-tags">
-          <a href="/tags" rel="section">
+          <a href="/tags/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
             
@@ -219,6 +244,8 @@
   
 </nav>
 
+
+
  </div>
     </header>
 
@@ -232,49 +259,68 @@
     
 
   
-  
 
   
   
   
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/11/2017阅读-片报告/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="yaoleo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yaoleo">
+    </span>
 
     
       <header class="post-header">
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                2017阅读/片报告
-              
-            
-          </h1>
+          <h1 class="post-title" itemprop="name headline">2017阅读/片报告</h1>
         
 
         <div class="post-meta">
           <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-05-11T03:36:57+08:00" content="2017-05-10">
-              2017-05-10
-            </time>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-11T03:36:57+08:00">
+                2017-05-10
+              </time>
+            
+
+            
+
+            
           </span>
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp;
+            
+              <span class="post-meta-divider">|</span>
+            
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">分类于</span>
               
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/画家/" itemprop="url" rel="index">
                     <span itemprop="name">画家</span>
                   </a>
@@ -282,7 +328,6 @@
 
                 
                 
-
               
             </span>
           
@@ -292,16 +337,21 @@
           
 
           
-
-          
           
 
           
+
+          
+
+          
+
         </div>
       </header>
     
 
-
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -362,6 +412,7 @@
 <h2 id="乱世佳人"><a href="#乱世佳人" class="headerlink" title="乱世佳人"></a>乱世佳人</h2><p>和霸王别姬同等级，输一手文化认同感而已。</p>
 <h2 id="沉默的羔羊"><a href="#沉默的羔羊" class="headerlink" title="沉默的羔羊"></a>沉默的羔羊</h2><p>很累 而且不是第一次看 看到一半睡着了<br>突然发现汉尼拔和闻香识女人一样 是可以闻出女人用什么香皂和香水的<br>这是塑造敏感魅力人物的通用方法么？我为什么会觉得这种能力很惊艳呢？<br>而剧情里之所以会听取汉尼拔的意见进而造成后面的故事情节可能有很大一部分原因是最近失踪的女孩是议员的女儿， 第一次看的时候完全没注意到啊。</p>
 <h2 id="死侍"><a href="#死侍" class="headerlink" title="死侍"></a>死侍</h2><p>额 不喜欢 知道自己是电影角色这一点有点创意 来回穿插叙事顺序有点意思<br>最后强行讲道理 超级英雄不是always 只是偶尔的几个选择。。。 好有说服力啊 我都信了</p>
+<h2 id="禁闭岛"><a href="#禁闭岛" class="headerlink" title="禁闭岛"></a>禁闭岛</h2><p>敦刻尔克这么火，也没去看，找了一本很早的禁闭岛看一下。<br>只记得第一次看结尾时才发现主角是个疯子的震惊，感觉被玩弄了一整场电影。那时候还不知道诺兰的名头，好像是有个什么悬疑电影推荐导致我打开了它。现在回过头重新看这部作品，带着已知的结局来看这部作品，就会发现非常多有趣的细节。其中很多莫名其妙的情节和对话都是早早铺垫好的。是一部在电影叙事方式上值得反复看的电影，这和那些经典的在内涵意义上值得反复看的略有不同。最有趣的地方在于幻觉和现实部分应该是可以互换的，取决于相信什么。</p>
 <h1 id="teleplay"><a href="#teleplay" class="headerlink" title="teleplay"></a>teleplay</h1><h2 id="人民的名义"><a href="#人民的名义" class="headerlink" title="人民的名义"></a>人民的名义</h2><p>我就是好奇陆毅老婆到底是什么背景 翻了一下小说也没翻到。<br>不过我震惊的是侯勇老师演的那段贪官被抓在书里就那么寥寥几句话，演的这么丰富，真是佩服到无以复加。</p>
 <h2 id="小鱼儿与花无缺"><a href="#小鱼儿与花无缺" class="headerlink" title="小鱼儿与花无缺"></a>小鱼儿与花无缺</h2><p>又是王晶 王晶那种风格真的感觉是大悲大喜 有点受不住啊<br>前面好搞笑，后面好伤感，小仙女好可爱啊，一感觉她要死，后面直接放弃了。<br>话说里面的打斗场面很丰富啊，丰富到花无缺打小喽喽也要几分钟。<br>把古龙大大的动作戏拍这么丰富也是难为他们了。<br>好吧 忍不住又看了几集 小仙女死那集根本控制不住眼泪啊,哗哗哗的淌，感性之于我，不是没有，只是短暂，理智会很快占上风的。所以我再看到那些感性很强的文字，不应该嘲笑，而应该哭泣，为自己缺少那些情感而伤心。</p>
 <h2 id="杀不死"><a href="#杀不死" class="headerlink" title="杀不死"></a>杀不死</h2><p>看了一下午，六七个小时吧，看完好饿。剧情还是不错的，考虑到拍摄条件和背景，起码比热播的IP剧高那么一个段位，但是也不会太热，达到什么余罪，太子妃之类的现象级热播还是希望不大。毕竟还是需要观众有脑子的。本来还想记录一下剧情，算了，懒得很，也没什么意思。</p>
@@ -487,29 +538,29 @@
 
       
     </div>
+    
+    
+    
 
-    <div>
-      
-        
-      
-    </div>
+    
 
-    <div>
-      
-        
+    
 
-      
-    </div>
+    
 
     <footer class="post-footer">
       
         <div class="post-tags">
           
-            <a href="/tags/读书/" rel="tag">#读书</a>
+            <a href="/tags/读书/" rel="tag"># 读书</a>
           
-            <a href="/tags/电影/" rel="tag">#电影</a>
+            <a href="/tags/电影/" rel="tag"># 电影</a>
           
         </div>
+      
+
+      
+      
       
 
       
@@ -521,6 +572,8 @@
               </a>
             
           </div>
+
+          <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
@@ -535,6 +588,10 @@
       
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
@@ -568,6 +625,7 @@
   </div>
 
   <aside id="sidebar" class="sidebar">
+    
     <div class="sidebar-inner">
 
       
@@ -583,25 +641,32 @@
         </ul>
       
 
-      <section class="site-overview sidebar-panel ">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.jpg"
                alt="yaoleo" />
           <p class="site-author-name" itemprop="name">yaoleo</p>
-          <p class="site-description motion-element" itemprop="description">极简不矫情&无知不作恶</p>
+           
+              <p class="site-description motion-element" itemprop="description">极简不矫情&无知不作恶</p>
+          
         </div>
         <nav class="site-state motion-element">
-          <div class="site-state-item site-state-posts">
-            <a href="/archives">
-              <span class="site-state-item-count">26</span>
-              <span class="site-state-item-name">日志</span>
-            </a>
-          </div>
 
           
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
             <div class="site-state-item site-state-categories">
-              <a href="/categories">
+              <a href="/categories/index.html">
                 <span class="site-state-item-count">3</span>
                 <span class="site-state-item-name">分类</span>
               </a>
@@ -609,8 +674,10 @@
           
 
           
+            
+            
             <div class="site-state-item site-state-tags">
-              <a href="/tags">
+              <a href="/tags/index.html">
                 <span class="site-state-item-count">15</span>
                 <span class="site-state-item-name">标签</span>
               </a>
@@ -623,26 +690,6 @@
 
         <div class="links-of-author motion-element">
           
-            
-              <span class="links-of-author-item">
-                <a href="https://github.com/yaoleo" target="_blank" title="GitHub">
-                  
-                    <i class="fa fa-fw fa-github"></i>
-                  
-                  GitHub
-                </a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="http://www.zhihu.com/people/yaoleo" target="_blank" title="知乎">
-                  
-                    <i class="fa fa-fw fa-globe"></i>
-                  
-                  知乎
-                </a>
-              </span>
-            
-          
         </div>
 
         
@@ -651,19 +698,29 @@
         
         
 
+        
+
+
       </section>
 
       
+      <!--noindex-->
         <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
           <div class="post-toc">
+
             
               
             
+
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#movie"><span class="nav-number">1.</span> <span class="nav-text">movie</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#透明人"><span class="nav-number">1.1.</span> <span class="nav-text">透明人</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#罗曼蒂克消亡史"><span class="nav-number">1.2.</span> <span class="nav-text">罗曼蒂克消亡史</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#记忆大师"><span class="nav-number">1.3.</span> <span class="nav-text">记忆大师</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#攻壳机动队"><span class="nav-number">1.4.</span> <span class="nav-text">攻壳机动队</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#春光乍泄-姜文"><span class="nav-number">1.5.</span> <span class="nav-text">春光乍泄 姜文</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#逃出绝命镇"><span class="nav-number">1.6.</span> <span class="nav-text">逃出绝命镇</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#黑客帝国1"><span class="nav-number">1.7.</span> <span class="nav-text">黑客帝国1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#海边的曼彻斯特"><span class="nav-number">1.8.</span> <span class="nav-text">海边的曼彻斯特</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一条狗的使命"><span class="nav-number">1.9.</span> <span class="nav-text">一条狗的使命</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#飞跃疯人院"><span class="nav-number">1.10.</span> <span class="nav-text">飞跃疯人院</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#霸王别姬"><span class="nav-number">1.11.</span> <span class="nav-text">霸王别姬</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#金刚不坏"><span class="nav-number">1.12.</span> <span class="nav-text">金刚不坏</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#嫌疑人X的献身"><span class="nav-number">1.13.</span> <span class="nav-text">嫌疑人X的献身</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#乘风破浪"><span class="nav-number">1.14.</span> <span class="nav-text">乘风破浪</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#异星觉醒"><span class="nav-number">1.15.</span> <span class="nav-text">异星觉醒</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#盲井"><span class="nav-number">1.16.</span> <span class="nav-text">盲井</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#加勒比海盗123"><span class="nav-number">1.17.</span> <span class="nav-text">加勒比海盗123</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#加勒比海盗5"><span class="nav-number">1.18.</span> <span class="nav-text">加勒比海盗5</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#哆啦A梦"><span class="nav-number">1.19.</span> <span class="nav-text">哆啦A梦</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#神奇女侠"><span class="nav-number">1.20.</span> <span class="nav-text">神奇女侠</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#下一站-天后"><span class="nav-number">1.21.</span> <span class="nav-text">下一站 天后</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#异形"><span class="nav-number">1.22.</span> <span class="nav-text">异形</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#闻香识女人"><span class="nav-number">1.23.</span> <span class="nav-text">闻香识女人</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#骗中骗"><span class="nav-number">1.24.</span> <span class="nav-text">骗中骗</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建军大业"><span class="nav-number">1.25.</span> <span class="nav-text">建军大业</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#乱世佳人"><span class="nav-number">1.26.</span> <span class="nav-text">乱世佳人</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#沉默的羔羊"><span class="nav-number">1.27.</span> <span class="nav-text">沉默的羔羊</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#死侍"><span class="nav-number">1.28.</span> <span class="nav-text">死侍</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#teleplay"><span class="nav-number">2.</span> <span class="nav-text">teleplay</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#人民的名义"><span class="nav-number">2.1.</span> <span class="nav-text">人民的名义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小鱼儿与花无缺"><span class="nav-number">2.2.</span> <span class="nav-text">小鱼儿与花无缺</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#杀不死"><span class="nav-number">2.3.</span> <span class="nav-text">杀不死</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#琅琊榜"><span class="nav-number">2.4.</span> <span class="nav-text">琅琊榜</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#少年包青天"><span class="nav-number">2.5.</span> <span class="nav-text">少年包青天</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#硅谷"><span class="nav-number">2.6.</span> <span class="nav-text">硅谷</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#冰血暴"><span class="nav-number">2.7.</span> <span class="nav-text">冰血暴</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#越狱"><span class="nav-number">2.8.</span> <span class="nav-text">越狱</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#铁齿铜牙纪晓岚"><span class="nav-number">2.9.</span> <span class="nav-text">铁齿铜牙纪晓岚</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#钢之炼金术师"><span class="nav-number">2.10.</span> <span class="nav-text">钢之炼金术师</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#权力的游戏s07"><span class="nav-number">2.11.</span> <span class="nav-text">权力的游戏s07</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#银之匙"><span class="nav-number">2.12.</span> <span class="nav-text">银之匙</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#book"><span class="nav-number">3.</span> <span class="nav-text">book</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#绝代双骄"><span class="nav-number">3.1.</span> <span class="nav-text">绝代双骄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#萧十一郎"><span class="nav-number">3.2.</span> <span class="nav-text">萧十一郎</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#家庭-私有制和国家起源"><span class="nav-number">3.3.</span> <span class="nav-text">家庭,私有制和国家起源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五行天"><span class="nav-number">3.4.</span> <span class="nav-text">五行天</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#天影"><span class="nav-number">3.5.</span> <span class="nav-text">天影</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#择天记"><span class="nav-number">3.6.</span> <span class="nav-text">择天记</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#黑卡"><span class="nav-number">3.7.</span> <span class="nav-text">黑卡</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#孺子帝"><span class="nav-number">3.8.</span> <span class="nav-text">孺子帝</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#永夜君王"><span class="nav-number">3.9.</span> <span class="nav-text">永夜君王</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#人间失格-太宰治"><span class="nav-number">3.10.</span> <span class="nav-text">人间失格 太宰治</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#技术奇点"><span class="nav-number">3.11.</span> <span class="nav-text">技术奇点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#斯坦福极简经济学"><span class="nav-number">3.12.</span> <span class="nav-text">斯坦福极简经济学</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#人际影响-个人在大众传播中的作用"><span class="nav-number">3.13.</span> <span class="nav-text">人际影响-个人在大众传播中的作用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#瞧-这个人"><span class="nav-number">3.14.</span> <span class="nav-text">瞧 这个人</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#罗素自传"><span class="nav-number">3.15.</span> <span class="nav-text">罗素自传</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#大数据银行"><span class="nav-number">3.16.</span> <span class="nav-text">大数据银行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#从大历史的角度读蒋介石日记"><span class="nav-number">3.17.</span> <span class="nav-text">从大历史的角度读蒋介石日记</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#蒋介石日记秘档"><span class="nav-number">3.18.</span> <span class="nav-text">蒋介石日记秘档</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#论人类不平等的起源"><span class="nav-number">3.19.</span> <span class="nav-text">论人类不平等的起源</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#本论"><span class="nav-number">3.19.1.</span> <span class="nav-text">本论</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#恶意"><span class="nav-number">3.20.</span> <span class="nav-text">恶意</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#癫狂与恐慌"><span class="nav-number">3.21.</span> <span class="nav-text">癫狂与恐慌</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#思维导图"><span class="nav-number">3.22.</span> <span class="nav-text">思维导图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#活法-稻盛和夫"><span class="nav-number">3.23.</span> <span class="nav-text">活法 -稻盛和夫</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#疯狂、惊恐和崩溃：金融危机史"><span class="nav-number">3.24.</span> <span class="nav-text">疯狂、惊恐和崩溃：金融危机史</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#蒋经国日记"><span class="nav-number">3.25.</span> <span class="nav-text">蒋经国日记</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#佣兵天下"><span class="nav-number">3.26.</span> <span class="nav-text">佣兵天下</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#中国近代史"><span class="nav-number">3.27.</span> <span class="nav-text">中国近代史</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#The-truth-of-fact-the-truth-of-feeling"><span class="nav-number">3.28.</span> <span class="nav-text">The truth of fact, the truth of feeling</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Arrival"><span class="nav-number">3.29.</span> <span class="nav-text">Arrival</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#东京一年"><span class="nav-number">3.30.</span> <span class="nav-text">东京一年</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#movie"><span class="nav-number">1.</span> <span class="nav-text">movie</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#透明人"><span class="nav-number">1.1.</span> <span class="nav-text">透明人</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#罗曼蒂克消亡史"><span class="nav-number">1.2.</span> <span class="nav-text">罗曼蒂克消亡史</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#记忆大师"><span class="nav-number">1.3.</span> <span class="nav-text">记忆大师</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#攻壳机动队"><span class="nav-number">1.4.</span> <span class="nav-text">攻壳机动队</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#春光乍泄-姜文"><span class="nav-number">1.5.</span> <span class="nav-text">春光乍泄 姜文</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#逃出绝命镇"><span class="nav-number">1.6.</span> <span class="nav-text">逃出绝命镇</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#黑客帝国1"><span class="nav-number">1.7.</span> <span class="nav-text">黑客帝国1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#海边的曼彻斯特"><span class="nav-number">1.8.</span> <span class="nav-text">海边的曼彻斯特</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一条狗的使命"><span class="nav-number">1.9.</span> <span class="nav-text">一条狗的使命</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#飞跃疯人院"><span class="nav-number">1.10.</span> <span class="nav-text">飞跃疯人院</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#霸王别姬"><span class="nav-number">1.11.</span> <span class="nav-text">霸王别姬</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#金刚不坏"><span class="nav-number">1.12.</span> <span class="nav-text">金刚不坏</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#嫌疑人X的献身"><span class="nav-number">1.13.</span> <span class="nav-text">嫌疑人X的献身</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#乘风破浪"><span class="nav-number">1.14.</span> <span class="nav-text">乘风破浪</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#异星觉醒"><span class="nav-number">1.15.</span> <span class="nav-text">异星觉醒</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#盲井"><span class="nav-number">1.16.</span> <span class="nav-text">盲井</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#加勒比海盗123"><span class="nav-number">1.17.</span> <span class="nav-text">加勒比海盗123</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#加勒比海盗5"><span class="nav-number">1.18.</span> <span class="nav-text">加勒比海盗5</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#哆啦A梦"><span class="nav-number">1.19.</span> <span class="nav-text">哆啦A梦</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#神奇女侠"><span class="nav-number">1.20.</span> <span class="nav-text">神奇女侠</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#下一站-天后"><span class="nav-number">1.21.</span> <span class="nav-text">下一站 天后</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#异形"><span class="nav-number">1.22.</span> <span class="nav-text">异形</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#闻香识女人"><span class="nav-number">1.23.</span> <span class="nav-text">闻香识女人</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#骗中骗"><span class="nav-number">1.24.</span> <span class="nav-text">骗中骗</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建军大业"><span class="nav-number">1.25.</span> <span class="nav-text">建军大业</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#乱世佳人"><span class="nav-number">1.26.</span> <span class="nav-text">乱世佳人</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#沉默的羔羊"><span class="nav-number">1.27.</span> <span class="nav-text">沉默的羔羊</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#死侍"><span class="nav-number">1.28.</span> <span class="nav-text">死侍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#禁闭岛"><span class="nav-number">1.29.</span> <span class="nav-text">禁闭岛</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#teleplay"><span class="nav-number">2.</span> <span class="nav-text">teleplay</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#人民的名义"><span class="nav-number">2.1.</span> <span class="nav-text">人民的名义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小鱼儿与花无缺"><span class="nav-number">2.2.</span> <span class="nav-text">小鱼儿与花无缺</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#杀不死"><span class="nav-number">2.3.</span> <span class="nav-text">杀不死</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#琅琊榜"><span class="nav-number">2.4.</span> <span class="nav-text">琅琊榜</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#少年包青天"><span class="nav-number">2.5.</span> <span class="nav-text">少年包青天</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#硅谷"><span class="nav-number">2.6.</span> <span class="nav-text">硅谷</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#冰血暴"><span class="nav-number">2.7.</span> <span class="nav-text">冰血暴</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#越狱"><span class="nav-number">2.8.</span> <span class="nav-text">越狱</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#铁齿铜牙纪晓岚"><span class="nav-number">2.9.</span> <span class="nav-text">铁齿铜牙纪晓岚</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#钢之炼金术师"><span class="nav-number">2.10.</span> <span class="nav-text">钢之炼金术师</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#权力的游戏s07"><span class="nav-number">2.11.</span> <span class="nav-text">权力的游戏s07</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#银之匙"><span class="nav-number">2.12.</span> <span class="nav-text">银之匙</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#book"><span class="nav-number">3.</span> <span class="nav-text">book</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#绝代双骄"><span class="nav-number">3.1.</span> <span class="nav-text">绝代双骄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#萧十一郎"><span class="nav-number">3.2.</span> <span class="nav-text">萧十一郎</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#家庭-私有制和国家起源"><span class="nav-number">3.3.</span> <span class="nav-text">家庭,私有制和国家起源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五行天"><span class="nav-number">3.4.</span> <span class="nav-text">五行天</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#天影"><span class="nav-number">3.5.</span> <span class="nav-text">天影</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#择天记"><span class="nav-number">3.6.</span> <span class="nav-text">择天记</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#黑卡"><span class="nav-number">3.7.</span> <span class="nav-text">黑卡</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#孺子帝"><span class="nav-number">3.8.</span> <span class="nav-text">孺子帝</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#永夜君王"><span class="nav-number">3.9.</span> <span class="nav-text">永夜君王</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#人间失格-太宰治"><span class="nav-number">3.10.</span> <span class="nav-text">人间失格 太宰治</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#技术奇点"><span class="nav-number">3.11.</span> <span class="nav-text">技术奇点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#斯坦福极简经济学"><span class="nav-number">3.12.</span> <span class="nav-text">斯坦福极简经济学</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#人际影响-个人在大众传播中的作用"><span class="nav-number">3.13.</span> <span class="nav-text">人际影响-个人在大众传播中的作用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#瞧-这个人"><span class="nav-number">3.14.</span> <span class="nav-text">瞧 这个人</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#罗素自传"><span class="nav-number">3.15.</span> <span class="nav-text">罗素自传</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#大数据银行"><span class="nav-number">3.16.</span> <span class="nav-text">大数据银行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#从大历史的角度读蒋介石日记"><span class="nav-number">3.17.</span> <span class="nav-text">从大历史的角度读蒋介石日记</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#蒋介石日记秘档"><span class="nav-number">3.18.</span> <span class="nav-text">蒋介石日记秘档</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#论人类不平等的起源"><span class="nav-number">3.19.</span> <span class="nav-text">论人类不平等的起源</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#本论"><span class="nav-number">3.19.1.</span> <span class="nav-text">本论</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#恶意"><span class="nav-number">3.20.</span> <span class="nav-text">恶意</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#癫狂与恐慌"><span class="nav-number">3.21.</span> <span class="nav-text">癫狂与恐慌</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#思维导图"><span class="nav-number">3.22.</span> <span class="nav-text">思维导图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#活法-稻盛和夫"><span class="nav-number">3.23.</span> <span class="nav-text">活法 -稻盛和夫</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#疯狂、惊恐和崩溃：金融危机史"><span class="nav-number">3.24.</span> <span class="nav-text">疯狂、惊恐和崩溃：金融危机史</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#蒋经国日记"><span class="nav-number">3.25.</span> <span class="nav-text">蒋经国日记</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#佣兵天下"><span class="nav-number">3.26.</span> <span class="nav-text">佣兵天下</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#中国近代史"><span class="nav-number">3.27.</span> <span class="nav-text">中国近代史</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#The-truth-of-fact-the-truth-of-feeling"><span class="nav-number">3.28.</span> <span class="nav-text">The truth of fact, the truth of feeling</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Arrival"><span class="nav-number">3.29.</span> <span class="nav-text">Arrival</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#东京一年"><span class="nav-number">3.30.</span> <span class="nav-text">东京一年</span></a></li></ol></li></ol></div>
             
+
           </div>
         </section>
+      <!--/noindex-->
+      
+
       
 
     </div>
@@ -676,8 +733,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<div class="copyright" >
+        <div class="copyright" >
   
   &copy; 
   <span itemprop="copyrightYear">2017</span>
@@ -687,22 +743,18 @@
   <span class="author" itemprop="copyrightHolder">yaoleo</span>
 </div>
 
-<div class="powered-by">
-<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
-  本站访客数:<span id="busuanzi_value_site_uv"></span>
-</span>
-</div>
 
 <div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
 </div>
 
 <div class="theme-info">
   主题 -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT.Pisces
+    NexT.Muse
   </a>
 </div>
+
 
         
 
@@ -710,9 +762,13 @@
       </div>
     </footer>
 
-    <div class="back-to-top">
-      <i class="fa fa-arrow-up"></i>
-    </div>
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
   </div>
 
   
@@ -735,67 +791,98 @@
 
 
 
-  
-  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  
-  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
 
-  
 
 
-  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
 
-  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
 
 
 
   
-  
-
-
-  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
-
-  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
-
-
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
 
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
 
   
 
 
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
 
 
 
   
 
 
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
 
   
 
 
 
+
+	
+
+
+
+
+
   
+
+
+
+
+
   
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
   
 
   
@@ -803,6 +890,4 @@
   
 
 </body>
-<!-- 页面点击小红心 -->
-<script type="text/javascript" src="/js/src/love.js"></script>
 </html>
