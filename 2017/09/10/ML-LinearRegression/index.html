@@ -78,7 +78,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="技术,机器学习," />
 
 
 
@@ -94,18 +94,21 @@
 
 
 
-<meta name="description" content="Introduction Machine Learning The field of study that gives computers the ability to learn without being explicitly programmed.  A computer program is said to learn from experience E with respect to s">
+<meta name="description" content="线性回归 梯度下降和正规方程 多元线性回归">
+<meta name="keywords" content="技术,机器学习">
 <meta property="og:type" content="article">
-<meta property="og:title" content="ML:Introduction">
-<meta property="og:url" content="http://yoursite.com/2017/09/20/ML-Introduction/index.html">
+<meta property="og:title" content="ML:LinearRegression">
+<meta property="og:url" content="http://yoursite.com/2017/09/10/ML-LinearRegression/index.html">
 <meta property="og:site_name" content="Yaoleo">
-<meta property="og:description" content="Introduction Machine Learning The field of study that gives computers the ability to learn without being explicitly programmed.  A computer program is said to learn from experience E with respect to s">
-<meta property="og:image" content="http://yoursite.com/2017/09/20/ML-Introduction/Introduction.png">
-<meta property="og:updated_time" content="2017-09-20T02:31:28.675Z">
+<meta property="og:description" content="线性回归 梯度下降和正规方程 多元线性回归">
+<meta property="og:image" content="http://yoursite.com/2017/09/10/ML-LinearRegression/linear-regression.png">
+<meta property="og:image" content="http://yoursite.com/2017/09/10/ML-LinearRegression/gradient.png">
+<meta property="og:image" content="http://yoursite.com/2017/09/10/ML-LinearRegression/linear-regression2.png">
+<meta property="og:updated_time" content="2017-09-20T02:55:13.670Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ML:Introduction">
-<meta name="twitter:description" content="Introduction Machine Learning The field of study that gives computers the ability to learn without being explicitly programmed.  A computer program is said to learn from experience E with respect to s">
-<meta name="twitter:image" content="http://yoursite.com/2017/09/20/ML-Introduction/Introduction.png">
+<meta name="twitter:title" content="ML:LinearRegression">
+<meta name="twitter:description" content="线性回归 梯度下降和正规方程 多元线性回归">
+<meta name="twitter:image" content="http://yoursite.com/2017/09/10/ML-LinearRegression/linear-regression.png">
 
 
 
@@ -134,13 +137,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/09/20/ML-Introduction/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/09/10/ML-LinearRegression/"/>
 
 
 
 
 
-  <title>ML:Introduction | Yaoleo</title>
+  <title>ML:LinearRegression | Yaoleo</title>
   
 
 
@@ -263,7 +266,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/20/ML-Introduction/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/10/ML-LinearRegression/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="yaoleo">
@@ -280,7 +283,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">ML:Introduction</h1>
+          <h1 class="post-title" itemprop="name headline">ML:LinearRegression</h1>
         
 
         <div class="post-meta">
@@ -292,8 +295,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-20T18:26:03+08:00">
-                2017-09-20
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-10T20:25:20+08:00">
+                2017-09-10
               </time>
             
 
@@ -302,6 +305,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/黑客/" itemprop="url" rel="index">
+                    <span itemprop="name">黑客</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -330,28 +355,10 @@
       
 
       
-        <h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><p><img src="Introduction.png" alt="Introduction"></p>
-<h2 id="Machine-Learning"><a href="#Machine-Learning" class="headerlink" title="Machine Learning"></a>Machine Learning</h2><ul>
-<li><p>The field of study that gives computers the ability to learn without being explicitly programmed.</p>
-</li>
-<li><p>A computer program is said to learn from experience E with respect to some class of tasks T and performance measure P, if its performance at tasks in T, as measured by P, improves with experience E.</p>
-</li>
-<li><p>Supervised Learning </p>
-</li>
-<li>Unsupervised Learning </li>
-<li>Reinforcement learning</li>
-<li>Recommender systems</li>
-</ul>
-<p>根据训练数据是否有标记信息，可大致把学习任务分成两类，监督学习和无监督学习。前者主要包括分类和回归。后者主要有聚类。</p>
-<a id="more"></a>
-<h2 id="Supervised-Learning"><a href="#Supervised-Learning" class="headerlink" title="Supervised Learning"></a>Supervised Learning</h2><ul>
-<li>classification </li>
-<li>regression</li>
-</ul>
-<h2 id="Unsupervised-Learning"><a href="#Unsupervised-Learning" class="headerlink" title="Unsupervised Learning"></a>Unsupervised Learning</h2><ul>
-<li>clustering 聚类</li>
-</ul>
-<p>需要注意的是，机器学习的目标是学得的模型可以很好的适用“新样本”，而不仅是在训练样本上工作良好，即使对于聚类这样的无监督学习任务，也希望他能适用于新样本，称为 泛化 generaliazation</p>
+        <a id="more"></a>
+<h1 id="线性回归"><a href="#线性回归" class="headerlink" title="线性回归"></a>线性回归</h1><p><img src="linear-regression.png" alt="linear-regression"></p>
+<h1 id="梯度下降和正规方程"><a href="#梯度下降和正规方程" class="headerlink" title="梯度下降和正规方程"></a>梯度下降和正规方程</h1><p><img src="gradient.png" alt="gradient"></p>
+<h1 id="多元线性回归"><a href="#多元线性回归" class="headerlink" title="多元线性回归"></a>多元线性回归</h1><p><img src="linear-regression2.png" alt="linear-regression2"></p>
 
       
     </div>
@@ -367,6 +374,14 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/技术/" rel="tag"># 技术</a>
+          
+            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
+          
+        </div>
+      
 
       
       
@@ -376,8 +391,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/09/20/ML-LogicRegression/" rel="next" title="ML:LogicRegression">
-                <i class="fa fa-chevron-left"></i> ML:LogicRegression
+              <a href="/2017/09/08/ML-Introduction/" rel="next" title="ML:Introduction">
+                <i class="fa fa-chevron-left"></i> ML:Introduction
               </a>
             
           </div>
@@ -386,8 +401,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/09/20/ML-Overfitting/" rel="prev" title="ML:Overfitting">
-                ML:Overfitting <i class="fa fa-chevron-right"></i>
+              <a href="/2017/09/13/ML-LogicRegression/" rel="prev" title="ML:LogicRegression">
+                ML:LogicRegression <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -487,7 +502,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-count">16</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -522,7 +537,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Introduction"><span class="nav-number">1.</span> <span class="nav-text">Introduction</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Machine-Learning"><span class="nav-number">1.1.</span> <span class="nav-text">Machine Learning</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Supervised-Learning"><span class="nav-number">1.2.</span> <span class="nav-text">Supervised Learning</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Unsupervised-Learning"><span class="nav-number">1.3.</span> <span class="nav-text">Unsupervised Learning</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#线性回归"><span class="nav-number">1.</span> <span class="nav-text">线性回归</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#梯度下降和正规方程"><span class="nav-number">2.</span> <span class="nav-text">梯度下降和正规方程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#多元线性回归"><span class="nav-number">3.</span> <span class="nav-text">多元线性回归</span></a></li></ol></div>
             
 
           </div>
