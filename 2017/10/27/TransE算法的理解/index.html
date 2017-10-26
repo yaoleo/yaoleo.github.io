@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="nlp,知识图谱,相似度计算,翻译模型,算法," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="TransE 作用就是把三元组翻译成embedding词向量的方法三元组，也就是（头实体，关系，尾实体）的形式，头实体和尾实体统称为实体。为了简化起见，我们用(h,r,t)来表示三元组。其中 h表示头实体 r表示关系 t表示尾实体 我们的目标是将知识库中所有的实体、关系表示成一个低维的向量。我们把三元组(h,r,t)对应的向量表示为(h,r,t)。 h 表示头实体对应的向量 r 表示关系对应的向量">
+<meta name="keywords" content="nlp,知识图谱,相似度计算,翻译模型,算法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TransE算法的理解">
+<meta property="og:url" content="http://yoursite.com/2017/10/27/TransE算法的理解/index.html">
+<meta property="og:site_name" content="Yaoleo">
+<meta property="og:description" content="TransE 作用就是把三元组翻译成embedding词向量的方法三元组，也就是（头实体，关系，尾实体）的形式，头实体和尾实体统称为实体。为了简化起见，我们用(h,r,t)来表示三元组。其中 h表示头实体 r表示关系 t表示尾实体 我们的目标是将知识库中所有的实体、关系表示成一个低维的向量。我们把三元组(h,r,t)对应的向量表示为(h,r,t)。 h 表示头实体对应的向量 r 表示关系对应的向量">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiangrongzeng/xiangrongzeng.github.io/master/_posts/graph/transe.jpg">
+<meta property="og:image" content="http://img.blog.csdn.net/20160413081202892?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:updated_time" content="2017-10-26T12:34:47.900Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TransE算法的理解">
+<meta name="twitter:description" content="TransE 作用就是把三元组翻译成embedding词向量的方法三元组，也就是（头实体，关系，尾实体）的形式，头实体和尾实体统称为实体。为了简化起见，我们用(h,r,t)来表示三元组。其中 h表示头实体 r表示关系 t表示尾实体 我们的目标是将知识库中所有的实体、关系表示成一个低维的向量。我们把三元组(h,r,t)对应的向量表示为(h,r,t)。 h 表示头实体对应的向量 r 表示关系对应的向量">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/xiangrongzeng/xiangrongzeng.github.io/master/_posts/graph/transe.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/10/27/TransE算法的理解/"/>
+
+
+
+
+
+  <title>TransE算法的理解 | Yaoleo</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?15a3d2502832fb272e3ae0271f49e6c8";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Yaoleo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">I pray to myself, for myself.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/27/TransE算法的理解/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="yaoleo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yaoleo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">TransE算法的理解</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-27T04:30:04+08:00">
+                2017-10-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/黑客/" itemprop="url" rel="index">
+                    <span itemprop="name">黑客</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/10/27/TransE算法的理解/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/10/27/TransE算法的理解/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="TransE-作用"><a href="#TransE-作用" class="headerlink" title="TransE 作用"></a>TransE 作用</h2><p>就是把三元组翻译成embedding词向量的方法<br>三元组，也就是（头实体，关系，尾实体）的形式，头实体和尾实体统称为实体。为了简化起见，我们用(h,r,t)来表示三元组。其中</p>
+<pre><code>h表示头实体
+r表示关系
+t表示尾实体
+</code></pre><p>我们的目标是将知识库中所有的实体、关系表示成一个低维的向量。我们把三元组(h,r,t)对应的向量表示为(h,r,t)。</p>
+<pre><code>h 表示头实体对应的向量
+r 表示关系对应的向量
+t 表示尾实体对应的向量
+</code></pre><a id="more"></a>
+<p>这样，“姚明”这个实体就不再是一个孤立的符号了，而是一个低维的稠密的向量。它看起来就像下面这样：</p>
+<pre><code>[0.01, 0.04, 0.8, 0.32, 0.09, 0.18]
+</code></pre><p>上面这个向量的维度是6维，真实情况下向量的维度会比这个大，但具体取多大并没有一个统一的标准，一般取为50~200左右。</p>
+<h2 id="TransE的基本思想"><a href="#TransE的基本思想" class="headerlink" title="TransE的基本思想"></a>TransE的基本思想</h2><p><img src="https://raw.githubusercontent.com/xiangrongzeng/xiangrongzeng.github.io/master/_posts/graph/transe.jpg" alt="TranseModel"></p>
+<p>TransE模型认为一个正确的三元组的embedding向量(h,r,t)会满足公式:h+r=t</p>
+<p>头实体embedding加上关系embedding会等于尾实体embedding。<br>如果是一个错误的三元组，那么它们的embedding之间就不满足这种关系。</p>
+<h2 id="TransE的目标函数"><a href="#TransE的目标函数" class="headerlink" title="TransE的目标函数"></a>TransE的目标函数</h2><p>目标是学得所有实体和关系的embedding。</p>
+<p>理想情况下，一个正确的三元组的embedding之间会有h+r=t的关系，而错误的三元组之间不会有这个关系。</p>
+<p>因此我们定义如下的势能函数：$$ f(h,r,t) = ||h+r-t||_2 $$<br>通过h和r之和与t之差的二范数来表示这个三元组的势能。</p>
+<p>二范数：$ ||\textbf{x}||<em>2 =\sqrt{\sum</em>{i=1}^Nx_i^2} $ Euclid范数（欧几里得范数，常用计算向量长度），即向量元素绝对值的平方和再开方。</p>
+<p>对于一个正确的三元组，我们希望势能越低越好，而对于一个错误的三元组，我们希望势能越高越好。这样我们就很容易给出目标函数了：</p>
+<p>$$ min\sum<em>{(h,r,t)\in\Delta} \sum</em>{(h^{‘},r^{‘},t^{‘})\in\Delta}[\gamma + f(h,r,t) - f(h^{‘},r^{‘},t^{‘})]<em>+ $$<br>其中<br>$\Delta$ 表示正确的三元组集合<br>$\Delta^{‘} $表示错误的三元组集合<br>$\gamma$  表示正负样本之间的间距，是一个常数<br>$[x]</em>+$ 表示max(0,x)</p>
+<p>为了方便训练，避免过拟合，通常还会在上述目标函数后面增加约束条件<br>||h||≤1,||r||≤1,||t||≤1。<br><img src="http://img.blog.csdn.net/20160413081202892?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="算法"></p>
+<h2 id="负样本（错误三元组）的产生"><a href="#负样本（错误三元组）的产生" class="headerlink" title="负样本（错误三元组）的产生"></a>负样本（错误三元组）的产生</h2><p>通常我们得到的知识库是三元组的集合，所有在知识库中出现了的三元组都被看作是正例，那我们如何产生负例呢？我们通常使用替换法来获取负例。</p>
+<p>对于三元组(h,r,t)<br>我们随机用知识库中的某个实体h′来替换h，或者用某个实体t′来替换t，这样我们就得到了两个负例(h′,r,t)和(h,r,t′)。</p>
+<p>为了避免出现生成的负例其实存在于知识库中的情况，我们可以对生成的负例进行过滤，如果它是知识库中的正例，那我们就不把它作为负例，而是重新生成一个负例。</p>
+<h2 id="transE评价方法"><a href="#transE评价方法" class="headerlink" title="transE评价方法"></a>transE评价方法</h2><p>transE得到每个实体和关系的embedding之后，如何评估这些学得的embedding的质量—-Link prediction。<br>这个方法不仅可以用于评估transE，但凡是评估embedding的质量，都可以用这个评估方法。</p>
+<h3 id="基本的评价过程"><a href="#基本的评价过程" class="headerlink" title="基本的评价过程"></a>基本的评价过程</h3><p>假设整个知识库中一共有n个实体，那么评价过程如下：</p>
+<ul>
+<li>将一个正确的三元组a中的头实体或者尾实体，依次替换为整个知识库中的所有其它实体，也就是会产生n个三元组。</li>
+<li>分别对上述n个三元组计算其能量值，在transE中，就是计算h+r-t的值。这样可以得到n个能量值，分别对应上述n个三元组。</li>
+<li>对上述n个能量值进行升序排序。</li>
+<li>记录三元组a的能量值排序后的序号。</li>
+<li>对所有的正确的三元组重复上述过程。</li>
+<li>每个正确三元组的能量值排序后的序号求平均，得到的值我们称为Mean Rank。</li>
+<li>计算正确三元组的能量排序后的序号小于10的比例，得到的值我们称为Hits@10。</li>
+</ul>
+<p>有两个指标：Mean Rank和Hits@10。<br>其中Mean Rank越小越好，Hits@10越大越好。</p>
+<h3 id="改进"><a href="#改进" class="headerlink" title="改进"></a>改进</h3><p>上述过程存在一个不合理的地方：在将一个正确的三元组a的头或者尾实体替换成其它实体之后得到的这个三元组也有可能是正确的，在计算每个三元组的能量并排序之后，这类正确的三元组的能量有可能排在三元组a的前面。但是上面所说的基本评价过程并没有考虑这点。因此我们把上述基本评价过程得到的结果称为Raw Mean Rank和Raw Hits@10，把改进方法得到的结果称为Filtered Mean Rank和Filtered Hits@10。</p>
+<p>为了更好的评价embedding的质量，我们对上述方法进行改进。</p>
+<ul>
+<li>将一个正确的三元组a中的头实体或者尾实体，依次替换为整个知识库中的所有其它实体，也就是会产生n个三元组。</li>
+<li>分别对上述n个三元组计算其能量值，在transE中，就是计算h+r-t的值。这样可以得到n个能量值，分别对应上述n个三元组。</li>
+<li>对上述n个能量值进行升序排序。</li>
+<li>记录三元组a的能量值排序后的序号k。</li>
+<li>如果前k-1个能量对应的三元组中有m个三元组也是正确的，那么三元组a的序号改为k-m。</li>
+<li>对所有的正确的三元组重复上述过程。</li>
+<li>每个正确三元组的能量值排序后的序号求平均，得到的值我们称为Filtered Mean Rank。</li>
+<li>计算正确三元组的能量排序后的序号小于10的比例，得到的值我们称为Filtered Hits@10。</li>
+</ul>
+<h2 id="算法局限和进阶"><a href="#算法局限和进阶" class="headerlink" title="算法局限和进阶"></a>算法局限和进阶</h2><p>虽然 TransE 模型具有训练速度快、易于实现等优点，但是它不能够解决多对一和一对多关系的问题。以多对一关系为例，固定 r 和 t，TransE 模型为了满足三角闭包关系，训练出来的头节点的向量会很相似。</p>
+<p>该模型已经成为了知识图谱向量化表示的 baseline，并衍生出不同的变体：TransH ，TransR ，TransD ，CTransR ，TransA 等等</p>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><p><a href="https://xiangrongzeng.github.io/knowledge%20graph/transE.html" target="_blank" rel="external">知识表示-TransE</a><br><a href="http://blog.csdn.net/fffnull/article/details/51130028" target="_blank" rel="external">TransE论文：多元关系数据嵌入</a><br><a href="https://www.utc.fr/~bordesan/dokuwiki/_media/en/transe_nips13.pdf" target="_blank" rel="external">Translating Embeddings for Modeling Multi-relational Data</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/nlp/" rel="tag"># nlp</a>
+          
+            <a href="/tags/知识图谱/" rel="tag"># 知识图谱</a>
+          
+            <a href="/tags/相似度计算/" rel="tag"># 相似度计算</a>
+          
+            <a href="/tags/翻译模型/" rel="tag"># 翻译模型</a>
+          
+            <a href="/tags/算法/" rel="tag"># 算法</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/27/基于TransE算法计算相似度的理论知识/" rel="next" title="基于TransE算法计算相似度的理论知识">
+                <i class="fa fa-chevron-left"></i> 基于TransE算法计算相似度的理论知识
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/10/27/基于TransE算法计算相似度的实现/" rel="prev" title="基于TransE算法计算相似度的实现">
+                基于TransE算法计算相似度的实现 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="yaoleo" />
+          <p class="site-author-name" itemprop="name">yaoleo</p>
+           
+              <p class="site-description motion-element" itemprop="description">极简不矫情&无知不作恶</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yaoleo" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/yaoleo" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                    
+                      知乎
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#TransE-作用"><span class="nav-number">1.</span> <span class="nav-text">TransE 作用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TransE的基本思想"><span class="nav-number">2.</span> <span class="nav-text">TransE的基本思想</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TransE的目标函数"><span class="nav-number">3.</span> <span class="nav-text">TransE的目标函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#负样本（错误三元组）的产生"><span class="nav-number">4.</span> <span class="nav-text">负样本（错误三元组）的产生</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#transE评价方法"><span class="nav-number">5.</span> <span class="nav-text">transE评价方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本的评价过程"><span class="nav-number">5.1.</span> <span class="nav-text">基本的评价过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#改进"><span class="nav-number">5.2.</span> <span class="nav-text">改进</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算法局限和进阶"><span class="nav-number">6.</span> <span class="nav-text">算法局限和进阶</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#References"><span class="nav-number">7.</span> <span class="nav-text">References</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yaoleo</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://yaoleo.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2017/10/27/TransE算法的理解/';
+          this.page.identifier = '2017/10/27/TransE算法的理解/';
+          this.page.title = 'TransE算法的理解';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://yaoleo.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

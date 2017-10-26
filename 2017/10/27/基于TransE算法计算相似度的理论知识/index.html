@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="nlp,知识图谱,相似度计算,翻译模型," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="知识图谱什么是知识图谱2012年5月，搜索引擎巨头谷歌在它的搜索页面中首次引入“知识图谱”：用户除了得到搜索网页链接外，还将看到与查询词有关的更加智能化的答案。谷歌高级副总裁艾米特·辛格博士一语道破知识图谱的重要意义所在：“构成这个世界的是实体，而非字符串（things, not strings）”。">
+<meta name="keywords" content="nlp,知识图谱,相似度计算,翻译模型">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于TransE算法计算相似度的理论知识">
+<meta property="og:url" content="http://yoursite.com/2017/10/27/基于TransE算法计算相似度的理论知识/index.html">
+<meta property="og:site_name" content="Yaoleo">
+<meta property="og:description" content="知识图谱什么是知识图谱2012年5月，搜索引擎巨头谷歌在它的搜索页面中首次引入“知识图谱”：用户除了得到搜索网页链接外，还将看到与查询词有关的更加智能化的答案。谷歌高级副总裁艾米特·辛格博士一语道破知识图谱的重要意义所在：“构成这个世界的是实体，而非字符串（things, not strings）”。">
+<meta property="og:updated_time" content="2017-10-26T12:37:34.642Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于TransE算法计算相似度的理论知识">
+<meta name="twitter:description" content="知识图谱什么是知识图谱2012年5月，搜索引擎巨头谷歌在它的搜索页面中首次引入“知识图谱”：用户除了得到搜索网页链接外，还将看到与查询词有关的更加智能化的答案。谷歌高级副总裁艾米特·辛格博士一语道破知识图谱的重要意义所在：“构成这个世界的是实体，而非字符串（things, not strings）”。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/10/27/基于TransE算法计算相似度的理论知识/"/>
+
+
+
+
+
+  <title>基于TransE算法计算相似度的理论知识 | Yaoleo</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?15a3d2502832fb272e3ae0271f49e6c8";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Yaoleo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">I pray to myself, for myself.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/27/基于TransE算法计算相似度的理论知识/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="yaoleo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yaoleo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">基于TransE算法计算相似度的理论知识</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-27T04:29:41+08:00">
+                2017-10-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/黑客/" itemprop="url" rel="index">
+                    <span itemprop="name">黑客</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/10/27/基于TransE算法计算相似度的理论知识/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/10/27/基于TransE算法计算相似度的理论知识/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="知识图谱"><a href="#知识图谱" class="headerlink" title="知识图谱"></a>知识图谱</h2><h3 id="什么是知识图谱"><a href="#什么是知识图谱" class="headerlink" title="什么是知识图谱"></a>什么是知识图谱</h3><p>2012年5月，搜索引擎巨头谷歌在它的搜索页面中首次引入“知识图谱”：用户除了得到搜索网页链接外，还将看到与查询词有关的更加智能化的答案。谷歌高级副总裁艾米特·辛格博士一语道破知识图谱的重要意义所在：“构成这个世界的是实体，而非字符串（things, not strings）”。</p>
+<a id="more"></a>
+<p>传统搜索引擎只是机械地比对查询词和网页之间的匹配关系，没有真正理解用户要查询的到底是什么。而知识图谱则会将“泰山”理解为一个“实体”（entity），也就是一个现实世界中的事物。</p>
+<p>知识图谱可以为查询词赋予丰富的语义信息，建立与现实世界实体的关系，从而帮助用户更快找到所需的信息。</p>
+<h3 id="知识图谱的构建"><a href="#知识图谱的构建" class="headerlink" title="知识图谱的构建"></a>知识图谱的构建</h3><ol>
+<li><p>大规模知识库<br>维基百科。</p>
+</li>
+<li><p>互联网链接数据<br>国际万维网组织W3C在2007年发起了开放互联数据项目（Linked Open Data，LOD）。LOD以RDF（Resource Description Framework）形式在Web上发布各种开放数据集，RDF是一种描述结构化知识的框架，它将实体间的关系表示为（实体1，关系，实体2）的三元组。LOD还允许在不同来源的数据项之间设置RDF链接，实现语义Web知识库。</p>
+</li>
+<li><p>互联网网页文本数据<br>与整个互联网相比，维基百科等知识库仍只能算沧海一粟。因此，人们还需要从海量互联网网页中直接抽取知识。OpenIE项目，NELL项目。与从维基百科中抽取的知识库相比，开放信息抽取从无结构网页中抽取的信息准确率还很低，其主要原因在于网页形式多样，噪声信息较多，信息可信度较低。</p>
+</li>
+<li><p>多数据源的知识融合<br>从以上数据来源进行知识图谱构建并非孤立地进行。在商用知识图谱构建过程中，需要实现多数据源的知识融合。</p>
+</li>
+</ol>
+<h3 id="开放知识图谱"><a href="#开放知识图谱" class="headerlink" title="开放知识图谱"></a>开放知识图谱</h3><ul>
+<li>DBpedia 是一个大规模的多语言百科知识图谱，可视为是维基百科的结构化版本。</li>
+<li>Yago 是一个整合了维基百科与 WordNet的大规模本体。</li>
+<li>Wikidata 是一个可以自由协作编辑的多语言百科知识库。</li>
+<li>BabelNet 是目前世界范围内最大的多语言百科同义词典。</li>
+<li>ConceptNet 是一个大规模的多语言常识知识库，其本质为一个以自然语言的方式描述人类常识的大型语义网络。</li>
+<li>中文目前可用的大规模开放知识图谱有 Zhishi.me与XLore[103]，中文开放知识图谱联盟（OpenKG）。</li>
+</ul>
+<h3 id="知识图谱推理技术"><a href="#知识图谱推理技术" class="headerlink" title="知识图谱推理技术"></a>知识图谱推理技术</h3><p>知识库推理可以粗略地分为基于符号的推理和基于统计的推理。</p>
+<pre><code>基于符号的推理可以从一个已有的知识图谱，利用规则，
+推理出新的实体间关系，还可以对知识图谱进行逻辑的冲突检测。
+基于统计的推理方法一般指关系机器学习方法。
+</code></pre><p>基于统计：实体关系学习方法</p>
+<p>实体关系学习的目的是学习知识图谱中实例和实例之间的关系。是最近几年知识图谱的一个比较热的研究方向，可以分为潜在特征模型和图特征模型两种。</p>
+<p>潜在特征模型通过实例的潜在特征来解释三元组。</p>
+<p>其中包括：<br>翻译（translation）模型将实体与关系统一映射至低维向量空间中，且认为关系向量中承载了头实体翻译至尾实体的潜在特征。因此，通过发掘、对比向量空间中存在类似潜在特征的实体向量对，我们可以得到知识图谱中潜在的三元组关系。</p>
+<h2 id="词向量表示"><a href="#词向量表示" class="headerlink" title="词向量表示"></a>词向量表示</h2><h3 id="one-hot-representation"><a href="#one-hot-representation" class="headerlink" title="one-hot representation"></a>one-hot representation</h3><pre><code>就是用一个很长的向量来表示一个词，向量的长度为词典的大小，
+向量的分量只有一个 1，其他全为 0， 1 的位置对应该词在词典中的位置。
+</code></pre><h3 id="word-embedding"><a href="#word-embedding" class="headerlink" title="word embedding"></a>word embedding</h3><pre><code>通过训练将某种语言中的每一个词映射成一个固定长度的短向量
+（当然这里的“短”是相对于 one-hot representation 的“长”而言的）
+将所有这些向量放在一起形成一个词向量空间，
+而每一向量则为该空间中的一个点，在这个空间上引入“距离”，
+则可以根据词之间的距离来判断它们之间的（词法、语义上的）相似性了。
+</code></pre><h2 id="相似度计算"><a href="#相似度计算" class="headerlink" title="相似度计算"></a>相似度计算</h2><p>核心思路就是：<br>开源知识图谱三元组数据-&gt; 利用知识图谱的翻译模型-&gt; 得到词向量表示的word embedding形式-&gt; 计算相似度</p>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><p><a href="http://blog.sina.com.cn/s/blog_574a437f0102w2bk.html" target="_blank" rel="external">《大数据智能》第2章：知识图谱 </a>-by 刘知远THU<br><a href="https://www.jiqizhixin.com/articles/2017-03-20" target="_blank" rel="external">知识图谱研究进展 </a>-by 漆桂林、高桓、吴天星<br><a href="https://mp.weixin.qq.com/s/c-p5Fv5ebKHPY25HJu859A" target="_blank" rel="external">知识图谱向量化表示</a> -by 窦洪健<br><a href="https://mp.weixin.qq.com/s/GGXI-ZzPc9LLjVQpf5ia1A" target="_blank" rel="external">词嵌入2017年进展全面梳理：趋势和未来方向</a> by 机器之心<br><a href="http://www.zmonster.me/2016/07/04/dl_and_nlp.html#orgheadline8" target="_blank" rel="external">词的表示: one-hot 与 embedding</a> by 集智俱乐部活动笔记<br><a href="%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E4%B8%AD%E5%AE%9E%E4%BD%93%E7%9B%B8%E4%BC%BC%E5%BA%A6%E8%AE%A1%E7%AE%97%E7%9A%84%E7%A0%94%E7%A9%B6">实体相似度计算的研究</a> -by 李阳</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/nlp/" rel="tag"># nlp</a>
+          
+            <a href="/tags/知识图谱/" rel="tag"># 知识图谱</a>
+          
+            <a href="/tags/相似度计算/" rel="tag"># 相似度计算</a>
+          
+            <a href="/tags/翻译模型/" rel="tag"># 翻译模型</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/26/2017阅读-片报告/" rel="next" title="">
+                <i class="fa fa-chevron-left"></i> 
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/10/27/TransE算法的理解/" rel="prev" title="TransE算法的理解">
+                TransE算法的理解 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="yaoleo" />
+          <p class="site-author-name" itemprop="name">yaoleo</p>
+           
+              <p class="site-description motion-element" itemprop="description">极简不矫情&无知不作恶</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yaoleo" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/yaoleo" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                    
+                      知乎
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#知识图谱"><span class="nav-number">1.</span> <span class="nav-text">知识图谱</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是知识图谱"><span class="nav-number">1.1.</span> <span class="nav-text">什么是知识图谱</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#知识图谱的构建"><span class="nav-number">1.2.</span> <span class="nav-text">知识图谱的构建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开放知识图谱"><span class="nav-number">1.3.</span> <span class="nav-text">开放知识图谱</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#知识图谱推理技术"><span class="nav-number">1.4.</span> <span class="nav-text">知识图谱推理技术</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#词向量表示"><span class="nav-number">2.</span> <span class="nav-text">词向量表示</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#one-hot-representation"><span class="nav-number">2.1.</span> <span class="nav-text">one-hot representation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#word-embedding"><span class="nav-number">2.2.</span> <span class="nav-text">word embedding</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相似度计算"><span class="nav-number">3.</span> <span class="nav-text">相似度计算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#References"><span class="nav-number">4.</span> <span class="nav-text">References</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yaoleo</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://yaoleo.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2017/10/27/基于TransE算法计算相似度的理论知识/';
+          this.page.identifier = '2017/10/27/基于TransE算法计算相似度的理论知识/';
+          this.page.title = '基于TransE算法计算相似度的理论知识';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://yaoleo.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
