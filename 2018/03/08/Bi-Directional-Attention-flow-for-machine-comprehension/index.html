@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="paper,机器理解,SQuAD," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="【特征/features 】 Attention mechanisms characteristics:  将上下文总结成固定大小的向量 在文本领域上是动态的，当前步骤的attention weights 是前一步骤attended vector的函数 通常是单向的  BiDAF: A hierarchical multi-stage architecture for modeling the r">
+<meta name="keywords" content="paper,机器理解,SQuAD">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Bi-Directional Attention flow for machine comprehension">
+<meta property="og:url" content="http://yoursite.com/2018/03/08/Bi-Directional-Attention-flow-for-machine-comprehension/index.html">
+<meta property="og:site_name" content="Yaoleo">
+<meta property="og:description" content="【特征/features 】 Attention mechanisms characteristics:  将上下文总结成固定大小的向量 在文本领域上是动态的，当前步骤的attention weights 是前一步骤attended vector的函数 通常是单向的  BiDAF: A hierarchical multi-stage architecture for modeling the r">
+<meta property="og:image" content="http://static.zybuluo.com/yaoleo/63ep38o7gz4g3dzggrgnucwk/image.png">
+<meta property="og:image" content="http://static.zybuluo.com/yaoleo/usa5141ox8193hir2o4eambx/image.png">
+<meta property="og:image" content="http://static.zybuluo.com/yaoleo/nol584mnmmt338j5elpauiso/image.png">
+<meta property="og:updated_time" content="2018-03-07T12:58:54.890Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Bi-Directional Attention flow for machine comprehension">
+<meta name="twitter:description" content="【特征/features 】 Attention mechanisms characteristics:  将上下文总结成固定大小的向量 在文本领域上是动态的，当前步骤的attention weights 是前一步骤attended vector的函数 通常是单向的  BiDAF: A hierarchical multi-stage architecture for modeling the r">
+<meta name="twitter:image" content="http://static.zybuluo.com/yaoleo/63ep38o7gz4g3dzggrgnucwk/image.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/03/08/Bi-Directional-Attention-flow-for-machine-comprehension/"/>
+
+
+
+
+
+  <title>Bi-Directional Attention flow for machine comprehension | Yaoleo</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?15a3d2502832fb272e3ae0271f49e6c8";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Yaoleo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">I pray to myself, for myself.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/08/Bi-Directional-Attention-flow-for-machine-comprehension/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="yaoleo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yaoleo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Bi-Directional Attention flow for machine comprehension</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-08T04:11:51+08:00">
+                2018-03-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/黑客/" itemprop="url" rel="index">
+                    <span itemprop="name">黑客</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/03/08/Bi-Directional-Attention-flow-for-machine-comprehension/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/03/08/Bi-Directional-Attention-flow-for-machine-comprehension/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="【特征-features-】"><a href="#【特征-features-】" class="headerlink" title="【特征/features 】"></a>【特征/features 】</h1><hr>
+<p>Attention mechanisms characteristics:</p>
+<ul>
+<li>将上下文总结成固定大小的向量</li>
+<li>在文本领域上是动态的，当前步骤的attention weights 是前一步骤attended vector的函数</li>
+<li>通常是单向的</li>
+</ul>
+<p>BiDAF: A hierarchical multi-stage architecture for modeling the representations of context paragraph at different levels of granularity.</p>
+<p>改进attention mechanisms：</p>
+<ol>
+<li>attention layer不用把上下文段落总结成固定大小的向量。每个时间步都要计算attention，而且attention向量和来自前层的表示可以流到后面的modeling layer。<ul>
+<li>减少了早期汇总造成的信息损失。</li>
+</ul>
+</li>
+<li>Memory-less attention mechanism： 每个时间步的attention只是当前查询和上下文段的函数，不依赖与前一时间段的attention。<ul>
+<li>attention layer 和 modeling layer 分工明确，attention layer专注学习查询与上下文之间的attention，modeling layer 专注于学习查询感知上下文表示（attention layer的输出）</li>
+<li>每个时间步不会因前一步不正确而受到影响。</li>
+</ul>
+</li>
+<li>在两个方向上使用attention mechanisms。<ul>
+<li>查询-&gt;上下文， 上下文-&gt;查询，互相补充。</li>
+</ul>
+</li>
+</ol>
+<h1 id="【模型-model】"><a href="#【模型-model】" class="headerlink" title="【模型/model】"></a>【模型/model】</h1><hr>
+<p>六层：<br><img src="http://static.zybuluo.com/yaoleo/63ep38o7gz4g3dzggrgnucwk/image.png" alt="image.png-153.2kB"><br>\1. Character embedding：用character-level的CNNs（Kim，2014）把单词映射到向量空间<br>\2. Word embedding： 用预先训练的词嵌入模型（GloVe，Pemmomgton et al.,2014）把单词映射到向量空间。字符和单词的词嵌入向量传递到two-layer Highway Network9Srivastava et al.,2015)。<br>\3. Contextual embedding：用周围词语的情景提示优化词嵌入。用LSTM(Horchreiter 1997）在以前层提供的词嵌入上模拟单词之间的相互作用。<br><strong>前三层应用于查询和上下文。值得注意的是，前三层是在不同粒度级别的计算特征，类似于计算机视觉领域中卷积神经网络的多级特征计算。</strong><br>\4. Attention flow: 耦合查询和上下文向量，为上下文中的每个单词生成一组查询识别的特征向量。上下文-&gt;查询（C2Q)：哪些查询词与哪个上下文词最相关。查询-&gt;上下文（Q2C):哪些上下文词与其中一个查询字词最相似。<br>\5. Modeling：RNN扫描上下文。双向LSTM。<br>\6. Output： 为查询提供答案。BiDAF模块化特性可以轻松更换输出层，在这里，对输出层进行了修饰，已获得完形填空式的理解。</p>
+<h1 id="【相关工作-related-works】"><a href="#【相关工作-related-works】" class="headerlink" title="【相关工作/related works】"></a>【相关工作/related works】</h1><hr>
+<p>机器理解：</p>
+<ul>
+<li>SQuAD(Rajpurkar et al.,2016)</li>
+<li>CNN/DailyMail(Hermannet al.,2015)<br>300k/4k/3k and 879k/65k/53k (train/dev/test) examples from CNN and DailyMail news articles。每个例子都有一篇新闻文章和从文章的人工撰写摘要中提取的不完整的句子。</li>
+</ul>
+<p>attention模型相关（分成三组）：</p>
+<ul>
+<li>动态关注机制。</li>
+<li>计算第一次关注权重，输入到输出层中最终预测。</li>
+<li>重复计算查询与上下文之间的注意向量通常通过多个层来引用到多跳</li>
+</ul>
+<h1 id="【实验-Expriments】"><a href="#【实验-Expriments】" class="headerlink" title="【实验/Expriments】"></a>【实验/Expriments】</h1><hr>
+<p>评估指标：Exact Match（EM） and F1 score<br>SQuAD结果<br><img src="http://static.zybuluo.com/yaoleo/usa5141ox8193hir2o4eambx/image.png" alt="image.png-109kB"><br>CNN/DailyMail close test结果<br><img src="http://static.zybuluo.com/yaoleo/nol584mnmmt338j5elpauiso/image.png" alt="image.png-218.4kB"></p>
+<h1 id="【简评-Brief-comment】"><a href="#【简评-Brief-comment】" class="headerlink" title="【简评/Brief comment】"></a>【简评/Brief comment】</h1><hr>
+<p>无</p>
+<h1 id="【资源-Resources】"><a href="#【资源-Resources】" class="headerlink" title="【资源/Resources】"></a>【资源/Resources】</h1><hr>
+<p>源码：<a href="https://github.com/allenai/bi-att-flow" target="_blank" rel="external">https://github.com/allenai/bi-att-flow</a><br>Demo：<a href="http://allgood.cs.washington.edu:1995/" target="_blank" rel="external">http://allgood.cs.washington.edu:1995/</a><br>paper：<a href="https://arxiv.org/abs/1611.01603" target="_blank" rel="external">https://arxiv.org/abs/1611.01603</a></p>
+<h1 id="【参考文献】"><a href="#【参考文献】" class="headerlink" title="【参考文献】"></a>【参考文献】</h1><hr>
+<p>[无]</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/paper/" rel="tag"># paper</a>
+          
+            <a href="/tags/机器理解/" rel="tag"># 机器理解</a>
+          
+            <a href="/tags/SQuAD/" rel="tag"># SQuAD</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/08/SQuAD-100-000-Questions-for-Machine-Comprehension-of-Text/" rel="next" title="SQuAD 100,000+ Questions for Machine Comprehension of Text">
+                <i class="fa fa-chevron-left"></i> SQuAD 100,000+ Questions for Machine Comprehension of Text
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/08/neo4j记录/" rel="prev" title="neo4j记录">
+                neo4j记录 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="yaoleo" />
+          <p class="site-author-name" itemprop="name">yaoleo</p>
+           
+              <p class="site-description motion-element" itemprop="description">极简不矫情&无知不作恶</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">52</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yaoleo" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/yaoleo" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                    
+                      知乎
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#【特征-features-】"><span class="nav-number">1.</span> <span class="nav-text">【特征/features 】</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#【模型-model】"><span class="nav-number">2.</span> <span class="nav-text">【模型/model】</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#【相关工作-related-works】"><span class="nav-number">3.</span> <span class="nav-text">【相关工作/related works】</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#【实验-Expriments】"><span class="nav-number">4.</span> <span class="nav-text">【实验/Expriments】</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#【简评-Brief-comment】"><span class="nav-number">5.</span> <span class="nav-text">【简评/Brief comment】</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#【资源-Resources】"><span class="nav-number">6.</span> <span class="nav-text">【资源/Resources】</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#【参考文献】"><span class="nav-number">7.</span> <span class="nav-text">【参考文献】</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yaoleo</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://yaoleo.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2018/03/08/Bi-Directional-Attention-flow-for-machine-comprehension/';
+          this.page.identifier = '2018/03/08/Bi-Directional-Attention-flow-for-machine-comprehension/';
+          this.page.title = 'Bi-Directional Attention flow for machine comprehension';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://yaoleo.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

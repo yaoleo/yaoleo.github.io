@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="paper,机器理解,SQuAD," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="Why Tackle real-world MRC(machine reading comprehension) problems. Reading comprehension is one of the crucial abilities that machine has to have to acquire knowledge through reading the whole web. Mo">
+<meta name="keywords" content="paper,机器理解,SQuAD">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DuReader A Chinese machine reading comprehension dataset from real-world application">
+<meta property="og:url" content="http://yoursite.com/2018/03/06/DuReader-A-Chinese-machine-reading-comprehension-dataset-from-real-world-application/index.html">
+<meta property="og:site_name" content="Yaoleo">
+<meta property="og:description" content="Why Tackle real-world MRC(machine reading comprehension) problems. Reading comprehension is one of the crucial abilities that machine has to have to acquire knowledge through reading the whole web. Mo">
+<meta property="og:image" content="http://static.zybuluo.com/yaoleo/qf49ppgtgwshgxnt5670f8h2/image.png">
+<meta property="og:image" content="http://static.zybuluo.com/yaoleo/sjnilh74u0z63axqsx95u5rz/image.png">
+<meta property="og:image" content="http://static.zybuluo.com/yaoleo/m36x62dvxiv23p8l9xkxmpps/image.png">
+<meta property="og:image" content="http://static.zybuluo.com/yaoleo/h83zh64ecgxlfcy2sl543n41/image.png">
+<meta property="og:updated_time" content="2018-03-07T13:00:06.765Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="DuReader A Chinese machine reading comprehension dataset from real-world application">
+<meta name="twitter:description" content="Why Tackle real-world MRC(machine reading comprehension) problems. Reading comprehension is one of the crucial abilities that machine has to have to acquire knowledge through reading the whole web. Mo">
+<meta name="twitter:image" content="http://static.zybuluo.com/yaoleo/qf49ppgtgwshgxnt5670f8h2/image.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/03/06/DuReader-A-Chinese-machine-reading-comprehension-dataset-from-real-world-application/"/>
+
+
+
+
+
+  <title>DuReader A Chinese machine reading comprehension dataset from real-world application | Yaoleo</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?15a3d2502832fb272e3ae0271f49e6c8";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Yaoleo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">I pray to myself, for myself.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/06/DuReader-A-Chinese-machine-reading-comprehension-dataset-from-real-world-application/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="yaoleo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yaoleo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">DuReader A Chinese machine reading comprehension dataset from real-world application</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-05T20:12:16Z">
+                2018-03-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/黑客/" itemprop="url" rel="index">
+                    <span itemprop="name">黑客</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/03/06/DuReader-A-Chinese-machine-reading-comprehension-dataset-from-real-world-application/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/03/06/DuReader-A-Chinese-machine-reading-comprehension-dataset-from-real-world-application/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Why"><a href="#Why" class="headerlink" title="Why"></a>Why</h1><ul>
+<li>Tackle real-world MRC(machine reading comprehension) problems.</li>
+<li>Reading comprehension is one of the crucial abilities that machine has to have to acquire knowledge through reading the whole web.</li>
+<li>Most existing MRC dataset are different from real-world.<br><img src="http://static.zybuluo.com/yaoleo/qf49ppgtgwshgxnt5670f8h2/image.png" alt="image.png-102.9kB"></li>
+<li>Experimental results show there exist big gap between the state-of-the-art baseline systems(Match-LSTM,BiDAF) and human performance.</li>
+<li>MRC: challenging work: ccomprehension,inference and summarization.</li>
+</ul>
+<h1 id="What"><a href="#What" class="headerlink" title="What"></a>What</h1><ul>
+<li>The largest Chinese MRC dataset so far.</li>
+<li>questions/documents: real application data<br>answers: human generated</li>
+<li>question types: rich annotations.Eg：yes-no/opinion</li>
+<li>answers for each question: multiple</li>
+<li>Sample 1000 questions annotate from two different views:<br><img src="http://static.zybuluo.com/yaoleo/sjnilh74u0z63axqsx95u5rz/image.png" alt="image.png-98.9kB"></li>
+<li>distribution of the questions in sample data:</li>
+</ul>
+<p><img src="http://static.zybuluo.com/yaoleo/m36x62dvxiv23p8l9xkxmpps/image.png" alt="image.png-49.3kB"></p>
+<h1 id="Difficulty"><a href="#Difficulty" class="headerlink" title="Difficulty?"></a>Difficulty?</h1><h1 id="Expriments"><a href="#Expriments" class="headerlink" title="Expriments"></a>Expriments</h1><ul>
+<li>Basic evaluation: BLEU(Paponeni et al.,2002) / Rouge(Lin,2004)</li>
+<li>Match-LSTM(Wang and Jiang,2017)</li>
+<li>BiDAF(Seo et al.,2016): best single model on SQuAD dataset</li>
+</ul>
+<h1 id="Set-up"><a href="#Set-up" class="headerlink" title="Set up"></a>Set up</h1><p>word embedding: 300 dimension<br>hidden vector size: 150 for all layer<br>Adam algorithm(Kingma and Ba,2014) to train both models<br>initial learning rate: 0.001<br>batch size:32<br>heuristic strategy(启发式策略） is employed to select representative paragraph from each passage</p>
+<h1 id="Evaluation"><a href="#Evaluation" class="headerlink" title="Evaluation"></a>Evaluation</h1><p>BLEU-4(Papineni et al.,2002) + Rouge-L(Lin, 2004)<br>Also evaluate the Selected Paragraph system<br><img src="http://static.zybuluo.com/yaoleo/h83zh64ecgxlfcy2sl543n41/image.png" alt="image.png-72.5kB"><br>YESNO 问题不适合bleu-4和rouge-l.Propose a novel opinion-aware evaluation method（意见感知评估方法），require not only output an answer in natual language but also give it an opinion label.</p>
+<h1 id="Discussion"><a href="#Discussion" class="headerlink" title="Discussion"></a>Discussion</h1><ol>
+<li>目前的模型把reading comprehension 当成一个span selection任务，但是在DuReader中，人类是通过理解来总结答案的。如何总结或生成答案呢？简单的段落选择策略与黄金段落相比，理解准确度大大降低了，有必要为现实世界的MRC设计新颖高效的全文档表示模型。</li>
+<li>数据集中一些新特性还没有被广泛研究。yes-no 问题和意见问题需要多文档的MRC.Opinion recognition,cross-sentence reasoning, and multi-document summarization 需要新方法？希望丰富的注释有用。</li>
+<li>数据集还需要怎样的改进？</li>
+</ol>
+<h1 id="Future-work"><a href="#Future-work" class="headerlink" title="Future work"></a>Future work</h1><p>扩大规模，丰富注释（基于反馈）</p>
+<h1 id="原文："><a href="#原文：" class="headerlink" title="原文："></a>原文：</h1><p><a href="http://static.zybuluo.com/yaoleo/jpcffyt20cl54jm8o9c6kene/dureader.pdf" target="_blank" rel="external">**dureader.pdf545.2kB</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/paper/" rel="tag"># paper</a>
+          
+            <a href="/tags/机器理解/" rel="tag"># 机器理解</a>
+          
+            <a href="/tags/SQuAD/" rel="tag"># SQuAD</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/02/cs224n笔记1-4-Natural-Language-Processing-with-Deep-Learning/" rel="next" title="cs224n笔记1~4 Natural Language Processing with Deep Learning">
+                <i class="fa fa-chevron-left"></i> cs224n笔记1~4 Natural Language Processing with Deep Learning
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/08/SQuAD-100-000-Questions-for-Machine-Comprehension-of-Text/" rel="prev" title="SQuAD 100,000+ Questions for Machine Comprehension of Text">
+                SQuAD 100,000+ Questions for Machine Comprehension of Text <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="yaoleo" />
+          <p class="site-author-name" itemprop="name">yaoleo</p>
+           
+              <p class="site-description motion-element" itemprop="description">极简不矫情&无知不作恶</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">52</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yaoleo" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/yaoleo" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                    
+                      知乎
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Why"><span class="nav-number">1.</span> <span class="nav-text">Why</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#What"><span class="nav-number">2.</span> <span class="nav-text">What</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Difficulty"><span class="nav-number">3.</span> <span class="nav-text">Difficulty?</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Expriments"><span class="nav-number">4.</span> <span class="nav-text">Expriments</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Set-up"><span class="nav-number">5.</span> <span class="nav-text">Set up</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Evaluation"><span class="nav-number">6.</span> <span class="nav-text">Evaluation</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Discussion"><span class="nav-number">7.</span> <span class="nav-text">Discussion</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Future-work"><span class="nav-number">8.</span> <span class="nav-text">Future work</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#原文："><span class="nav-number">9.</span> <span class="nav-text">原文：</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yaoleo</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://yaoleo.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2018/03/06/DuReader-A-Chinese-machine-reading-comprehension-dataset-from-real-world-application/';
+          this.page.identifier = '2018/03/06/DuReader-A-Chinese-machine-reading-comprehension-dataset-from-real-world-application/';
+          this.page.title = 'DuReader A Chinese machine reading comprehension dataset from real-world application';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://yaoleo.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

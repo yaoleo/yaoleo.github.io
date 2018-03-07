@@ -282,6 +282,960 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/08/neo4j记录/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="yaoleo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yaoleo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/08/neo4j记录/" itemprop="url">neo4j记录</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-07T20:13:05Z">
+                2018-03-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/黑客/" itemprop="url" rel="index">
+                    <span itemprop="name">黑客</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/03/08/neo4j记录/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/03/08/neo4j记录/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="neo4j记录"><a href="#neo4j记录" class="headerlink" title="neo4j记录"></a>neo4j记录</h1><hr>
+<h2 id="图数据库存储三元组"><a href="#图数据库存储三元组" class="headerlink" title="图数据库存储三元组"></a>图数据库存储三元组</h2><p>三元组一般有两种：</p>
+<ul>
+<li>实体-关系-实体<br><img src="http://static.zybuluo.com/yaoleo/tmhbf7y409hq2j2ayutu1cjh/image.png" alt="image.png-29.5kB"></li>
+<li>实体-属性-属性值</li>
+</ul>
+<p>比特犬和可蒙犬都有一个属性“种”是家犬 但是家犬暂时数据中并不是实体<br><img src="http://static.zybuluo.com/yaoleo/6003193jndgkt2v1dar6oj44/QQ%E5%9B%BE%E7%89%8720180204203653.jpg" alt="QQ图片20180204203653.jpg-43.6kB"></p>
+<p>可以把任何属性当作一个新节点来存（如上图）：<br>优点是：存储速度快<br>缺点是：节点数目多，查询会慢，而且边的标签有限制65532</p>
+<p>可以把三元组的宾语当作节点的属性存（如下图）：<br><img src="http://static.zybuluo.com/yaoleo/09f41980j8atrmbyyepnv8dq/image.png" alt="image.png-56.2kB"><br>优点是：节点少 逻辑清楚<br>缺点是：插入节点是要判断是否该节点已保存过，建立数据库慢</p>
+<h2 id="下载安装"><a href="#下载安装" class="headerlink" title="下载安装"></a>下载安装</h2><p>最新的Desktop版本<br>创建Project：Demo<br>创建数据库local<br><img src="http://static.zybuluo.com/yaoleo/udclez60d2qt9rrjokoprdlq/image.png" alt="image.png-33.3kB"><br>点击start启动<br>在manage项里可以查看状态并可视化查看数据库状态<br><img src="http://static.zybuluo.com/yaoleo/ai7q8jujuepmofholdz3xv59/image.png" alt="image.png-95.1kB"></p>
+<p>常用语句<br>创建：<br>CREATE (TheMatrix:Movie {title:’The Matrix’, released:1999, tagline:’Welcome to the Real World’})<br>CREATE (Keanu:Person {name:’Keanu Reeves’, born:1964})<br>CREATE (Carrie:Person {name:’Carrie-Anne Moss’, born:1967})<br>查找：<br>MATCH (n) RETURN n<br>MATCH (tom {name: “Tom Hanks”}) RETURN tom<br>MATCH (cloudAtlas {title: “Cloud Atlas”}) RETURN cloudAtlas<br>MATCH (people:Person) RETURN people.name LIMIT 10<br>MATCH (tom:Person {name: “Tom Hanks”})-[:ACTED_IN]-&gt;(tomHanksMovies) RETURN tom,tomHanksMovies<br>删除：<br>MATCH (n) DETACH DELETE n</p>
+<h2 id="jCypher"><a href="#jCypher" class="headerlink" title="jCypher"></a>jCypher</h2><h3 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h3><ul>
+<li>初始化连接</li>
+<li>创建节点，属性，边</li>
+<li>添加属性</li>
+<li>查找</li>
+</ul>
+<h3 id="初始化连接"><a href="#初始化连接" class="headerlink" title="初始化连接"></a>初始化连接</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">private static IDBAccess dbAccess;</div><div class="line">private static void initDBConnection() &#123;</div><div class="line">    Properties props = new Properties();</div><div class="line">    props.setProperty(DBProperties.SERVER_ROOT_URI, &quot;bolt://localhost:7687&quot;); // bolt连接参数</div><div class="line">    props.setProperty(DBProperties.DATABASE_DIR, &quot;C:/NEO4J_DBS/01&quot;); // 本地建立参数</div><div class="line">    dbAccess = DBAccessFactory.createDBAccess(DBType.IN_MEMORY, props); // 内存</div><div class="line">    dbAccess = DBAccessFactory.createDBAccess(DBType.REMOTE, props); // 远程bolt连接用</div><div class="line">    dbAccess = DBAccessFactory.createDBAccess(DBType.EMBEDDED, props); // embedded</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="创建节点，属性，边"><a href="#创建节点，属性，边" class="headerlink" title="创建节点，属性，边"></a>创建节点，属性，边</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">String queryTitle = &quot;CREATE MOVIE DATABASE&quot;;</div><div class="line">JcQuery query = new JcQuery();</div><div class="line">query.setClauses(new IClause[] &#123;</div><div class="line">        CREATE.node(matrix1).label(&quot;Movie&quot;)</div><div class="line">                .property(&quot;title&quot;).value(&quot;The Matrix&quot;)</div><div class="line">                .property(&quot;year&quot;).value(&quot;1999-03-31&quot;),</div><div class="line">        CREATE.node(keanu).label(&quot;Actor&quot;)</div><div class="line">                .property(&quot;name&quot;).value(&quot;Keanu Reeves&quot;)</div><div class="line">                .property(&quot;like&quot;).value(8.5)</div><div class="line">                .property(&quot;numbers&quot;).values(1, 2, 3),</div><div class="line">        CREATE.node(keanu).relation().out().type(&quot;ACTS_IN&quot;).property(&quot;role&quot;).value(&quot;Neo&quot;).node(matrix1),</div><div class="line">&#125;);</div><div class="line">JcQueryResult result = dbAccess.execute(query);</div></pre></td></tr></table></figure>
+<h3 id="添加属性"><a href="#添加属性" class="headerlink" title="添加属性"></a>添加属性</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">String queryTitle = &quot;ADD PROPERTY&quot;;</div><div class="line">query.setClauses(new IClause[] &#123;</div><div class="line">        MATCH.node(n),</div><div class="line">        WHERE.valueOf(n.property(&quot;name&quot;)).EQUALS(objectname),</div><div class="line">        DO.SET(n.property(propertyname)).to(subjectname),</div><div class="line">&#125;);</div><div class="line">JcQueryResult result = dbAccess.execute(query);</div></pre></td></tr></table></figure>
+<h3 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">query.setClauses(new IClause[] &#123;</div><div class="line">                MATCH.node(n),</div><div class="line">                WHERE.valueOf(n.property(&quot;name&quot;)).EQUALS(subjectname),</div><div class="line">                RETURN.value(n)</div><div class="line">        &#125;);</div><div class="line">        JcQueryResult result = dbAccess.execute(query);</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/08/Bi-Directional-Attention-flow-for-machine-comprehension/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="yaoleo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yaoleo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/08/Bi-Directional-Attention-flow-for-machine-comprehension/" itemprop="url">Bi-Directional Attention flow for machine comprehension</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-07T20:11:51Z">
+                2018-03-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/黑客/" itemprop="url" rel="index">
+                    <span itemprop="name">黑客</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/03/08/Bi-Directional-Attention-flow-for-machine-comprehension/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/03/08/Bi-Directional-Attention-flow-for-machine-comprehension/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="【特征-features-】"><a href="#【特征-features-】" class="headerlink" title="【特征/features 】"></a>【特征/features 】</h1><hr>
+<p>Attention mechanisms characteristics:</p>
+<ul>
+<li>将上下文总结成固定大小的向量</li>
+<li>在文本领域上是动态的，当前步骤的attention weights 是前一步骤attended vector的函数</li>
+<li>通常是单向的</li>
+</ul>
+<p>BiDAF: A hierarchical multi-stage architecture for modeling the representations of context paragraph at different levels of granularity.</p>
+<p>改进attention mechanisms：</p>
+<ol>
+<li>attention layer不用把上下文段落总结成固定大小的向量。每个时间步都要计算attention，而且attention向量和来自前层的表示可以流到后面的modeling layer。<ul>
+<li>减少了早期汇总造成的信息损失。</li>
+</ul>
+</li>
+<li>Memory-less attention mechanism： 每个时间步的attention只是当前查询和上下文段的函数，不依赖与前一时间段的attention。<ul>
+<li>attention layer 和 modeling layer 分工明确，attention layer专注学习查询与上下文之间的attention，modeling layer 专注于学习查询感知上下文表示（attention layer的输出）</li>
+<li>每个时间步不会因前一步不正确而受到影响。</li>
+</ul>
+</li>
+<li>在两个方向上使用attention mechanisms。<ul>
+<li>查询-&gt;上下文， 上下文-&gt;查询，互相补充。</li>
+</ul>
+</li>
+</ol>
+<h1 id="【模型-model】"><a href="#【模型-model】" class="headerlink" title="【模型/model】"></a>【模型/model】</h1><hr>
+<p>六层：<br><img src="http://static.zybuluo.com/yaoleo/63ep38o7gz4g3dzggrgnucwk/image.png" alt="image.png-153.2kB"><br>\1. Character embedding：用character-level的CNNs（Kim，2014）把单词映射到向量空间<br>\2. Word embedding： 用预先训练的词嵌入模型（GloVe，Pemmomgton et al.,2014）把单词映射到向量空间。字符和单词的词嵌入向量传递到two-layer Highway Network9Srivastava et al.,2015)。<br>\3. Contextual embedding：用周围词语的情景提示优化词嵌入。用LSTM(Horchreiter 1997）在以前层提供的词嵌入上模拟单词之间的相互作用。<br><strong>前三层应用于查询和上下文。值得注意的是，前三层是在不同粒度级别的计算特征，类似于计算机视觉领域中卷积神经网络的多级特征计算。</strong><br>\4. Attention flow: 耦合查询和上下文向量，为上下文中的每个单词生成一组查询识别的特征向量。上下文-&gt;查询（C2Q)：哪些查询词与哪个上下文词最相关。查询-&gt;上下文（Q2C):哪些上下文词与其中一个查询字词最相似。<br>\5. Modeling：RNN扫描上下文。双向LSTM。<br>\6. Output： 为查询提供答案。BiDAF模块化特性可以轻松更换输出层，在这里，对输出层进行了修饰，已获得完形填空式的理解。</p>
+<h1 id="【相关工作-related-works】"><a href="#【相关工作-related-works】" class="headerlink" title="【相关工作/related works】"></a>【相关工作/related works】</h1><hr>
+<p>机器理解：</p>
+<ul>
+<li>SQuAD(Rajpurkar et al.,2016)</li>
+<li>CNN/DailyMail(Hermannet al.,2015)<br>300k/4k/3k and 879k/65k/53k (train/dev/test) examples from CNN and DailyMail news articles。每个例子都有一篇新闻文章和从文章的人工撰写摘要中提取的不完整的句子。</li>
+</ul>
+<p>attention模型相关（分成三组）：</p>
+<ul>
+<li>动态关注机制。</li>
+<li>计算第一次关注权重，输入到输出层中最终预测。</li>
+<li>重复计算查询与上下文之间的注意向量通常通过多个层来引用到多跳</li>
+</ul>
+<h1 id="【实验-Expriments】"><a href="#【实验-Expriments】" class="headerlink" title="【实验/Expriments】"></a>【实验/Expriments】</h1><hr>
+<p>评估指标：Exact Match（EM） and F1 score<br>SQuAD结果<br><img src="http://static.zybuluo.com/yaoleo/usa5141ox8193hir2o4eambx/image.png" alt="image.png-109kB"><br>CNN/DailyMail close test结果<br><img src="http://static.zybuluo.com/yaoleo/nol584mnmmt338j5elpauiso/image.png" alt="image.png-218.4kB"></p>
+<h1 id="【简评-Brief-comment】"><a href="#【简评-Brief-comment】" class="headerlink" title="【简评/Brief comment】"></a>【简评/Brief comment】</h1><hr>
+<p>无</p>
+<h1 id="【资源-Resources】"><a href="#【资源-Resources】" class="headerlink" title="【资源/Resources】"></a>【资源/Resources】</h1><hr>
+<p>源码：<a href="https://github.com/allenai/bi-att-flow" target="_blank" rel="external">https://github.com/allenai/bi-att-flow</a><br>Demo：<a href="http://allgood.cs.washington.edu:1995/" target="_blank" rel="external">http://allgood.cs.washington.edu:1995/</a><br>paper：<a href="https://arxiv.org/abs/1611.01603" target="_blank" rel="external">https://arxiv.org/abs/1611.01603</a></p>
+<h1 id="【参考文献】"><a href="#【参考文献】" class="headerlink" title="【参考文献】"></a>【参考文献】</h1><hr>
+<p>[无]</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/08/SQuAD-100-000-Questions-for-Machine-Comprehension-of-Text/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="yaoleo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yaoleo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/08/SQuAD-100-000-Questions-for-Machine-Comprehension-of-Text/" itemprop="url">SQuAD 100,000+ Questions for Machine Comprehension of Text</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-07T20:10:39Z">
+                2018-03-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/黑客/" itemprop="url" rel="index">
+                    <span itemprop="name">黑客</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/03/08/SQuAD-100-000-Questions-for-Machine-Comprehension-of-Text/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/03/08/SQuAD-100-000-Questions-for-Machine-Comprehension-of-Text/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h1><table>
+<thead>
+<tr>
+<th>Dataset</th>
+<th>Query</th>
+<th>Query source</th>
+<th>Doc.</th>
+<th>Doc. source</th>
+<th>Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SQuAD</td>
+<td>100k</td>
+<td>crowdsourced</td>
+<td>536</td>
+<td>Wiki</td>
+<td>Span of words</td>
+</tr>
+<tr>
+<td>DuReader</td>
+<td>200k</td>
+<td>user logs</td>
+<td>1000k</td>
+<td>Web doc. /CQA</td>
+<td>Summary by human</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h1 id="数据集分析"><a href="#数据集分析" class="headerlink" title="数据集分析"></a>数据集分析</h1><table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>答案</th>
+<th>答题逻辑</th>
+<th>问题</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SQuAD</td>
+<td><img src="http://static.zybuluo.com/yaoleo/9xjuoa9k59085l1cmc6dzf79/image.png" alt="image.png-86.7kB"></td>
+<td><img src="http://static.zybuluo.com/yaoleo/qg6929t9r0rccv3nwu4kj44o/image.png" alt="image.png-156.6kB"></td>
+<td></td>
+</tr>
+<tr>
+<td>DuReader</td>
+<td>每个问题对应的十篇相关网页文档中，5篇来自百度搜索首页的条目，5篇来自百度知道中的用户回答。通过阅读和总结文件，要求用他/她自己的话来回答问题。</td>
+<td></td>
+<td><img src="http://static.zybuluo.com/yaoleo/bqmtzfmmdrk6ew1mi1rqxstk/image.png" alt="image.png-151.3kB"><img src="http://static.zybuluo.com/yaoleo/mxxivwc4mcqj41jx5ajy3xd7/image.png" alt="image.png-64kB"></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h1 id="BiDAF"><a href="#BiDAF" class="headerlink" title="BiDAF"></a>BiDAF</h1><ul>
+<li>BiDAF模型适用于哪些场景的问题？<br>回答正确的分析：<br><img src="http://static.zybuluo.com/yaoleo/qfxakjvgp06cixif6wencvlm/image.png" alt="image.png-14.3kB"></li>
+<li>错误的分析：<br>随机选取50个不正确的问题（基于EM），并将它们分为6类。 50％的错误是由于答案的边界不精确造成的，28％涉及语法复杂性和模糊性，14％是复述问题，4％需要外部知识，2％需要多个句子来回答，2％是由于错误符号化。</li>
+<li>字符级的词嵌入不知道中文环境有木有必要0.0 而且还有把字符和单词向量放到two-layer Highway<br>Network (Srivastava et al., 2015)上的过程。</li>
+<li>输出层为查询提供答案。BiDAF模块化特性可以轻松更换输出层，在这里，对输出层进行了修饰，已获得完形填空式的理解。这里要改吧0.0</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/06/DuReader-A-Chinese-machine-reading-comprehension-dataset-from-real-world-application/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="yaoleo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yaoleo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/06/DuReader-A-Chinese-machine-reading-comprehension-dataset-from-real-world-application/" itemprop="url">DuReader A Chinese machine reading comprehension dataset from real-world application</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-05T20:12:16Z">
+                2018-03-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/黑客/" itemprop="url" rel="index">
+                    <span itemprop="name">黑客</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/03/06/DuReader-A-Chinese-machine-reading-comprehension-dataset-from-real-world-application/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/03/06/DuReader-A-Chinese-machine-reading-comprehension-dataset-from-real-world-application/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Why"><a href="#Why" class="headerlink" title="Why"></a>Why</h1><ul>
+<li>Tackle real-world MRC(machine reading comprehension) problems.</li>
+<li>Reading comprehension is one of the crucial abilities that machine has to have to acquire knowledge through reading the whole web.</li>
+<li>Most existing MRC dataset are different from real-world.<br><img src="http://static.zybuluo.com/yaoleo/qf49ppgtgwshgxnt5670f8h2/image.png" alt="image.png-102.9kB"></li>
+<li>Experimental results show there exist big gap between the state-of-the-art baseline systems(Match-LSTM,BiDAF) and human performance.</li>
+<li>MRC: challenging work: ccomprehension,inference and summarization.</li>
+</ul>
+<h1 id="What"><a href="#What" class="headerlink" title="What"></a>What</h1><ul>
+<li>The largest Chinese MRC dataset so far.</li>
+<li>questions/documents: real application data<br>answers: human generated</li>
+<li>question types: rich annotations.Eg：yes-no/opinion</li>
+<li>answers for each question: multiple</li>
+<li>Sample 1000 questions annotate from two different views:<br><img src="http://static.zybuluo.com/yaoleo/sjnilh74u0z63axqsx95u5rz/image.png" alt="image.png-98.9kB"></li>
+<li>distribution of the questions in sample data:</li>
+</ul>
+<p><img src="http://static.zybuluo.com/yaoleo/m36x62dvxiv23p8l9xkxmpps/image.png" alt="image.png-49.3kB"></p>
+<h1 id="Difficulty"><a href="#Difficulty" class="headerlink" title="Difficulty?"></a>Difficulty?</h1><h1 id="Expriments"><a href="#Expriments" class="headerlink" title="Expriments"></a>Expriments</h1><ul>
+<li>Basic evaluation: BLEU(Paponeni et al.,2002) / Rouge(Lin,2004)</li>
+<li>Match-LSTM(Wang and Jiang,2017)</li>
+<li>BiDAF(Seo et al.,2016): best single model on SQuAD dataset</li>
+</ul>
+<h1 id="Set-up"><a href="#Set-up" class="headerlink" title="Set up"></a>Set up</h1><p>word embedding: 300 dimension<br>hidden vector size: 150 for all layer<br>Adam algorithm(Kingma and Ba,2014) to train both models<br>initial learning rate: 0.001<br>batch size:32<br>heuristic strategy(启发式策略） is employed to select representative paragraph from each passage</p>
+<h1 id="Evaluation"><a href="#Evaluation" class="headerlink" title="Evaluation"></a>Evaluation</h1><p>BLEU-4(Papineni et al.,2002) + Rouge-L(Lin, 2004)<br>Also evaluate the Selected Paragraph system<br><img src="http://static.zybuluo.com/yaoleo/h83zh64ecgxlfcy2sl543n41/image.png" alt="image.png-72.5kB"><br>YESNO 问题不适合bleu-4和rouge-l.Propose a novel opinion-aware evaluation method（意见感知评估方法），require not only output an answer in natual language but also give it an opinion label.</p>
+<h1 id="Discussion"><a href="#Discussion" class="headerlink" title="Discussion"></a>Discussion</h1><ol>
+<li>目前的模型把reading comprehension 当成一个span selection任务，但是在DuReader中，人类是通过理解来总结答案的。如何总结或生成答案呢？简单的段落选择策略与黄金段落相比，理解准确度大大降低了，有必要为现实世界的MRC设计新颖高效的全文档表示模型。</li>
+<li>数据集中一些新特性还没有被广泛研究。yes-no 问题和意见问题需要多文档的MRC.Opinion recognition,cross-sentence reasoning, and multi-document summarization 需要新方法？希望丰富的注释有用。</li>
+<li>数据集还需要怎样的改进？</li>
+</ol>
+<h1 id="Future-work"><a href="#Future-work" class="headerlink" title="Future work"></a>Future work</h1><p>扩大规模，丰富注释（基于反馈）</p>
+<h1 id="原文："><a href="#原文：" class="headerlink" title="原文："></a>原文：</h1><p><a href="http://static.zybuluo.com/yaoleo/jpcffyt20cl54jm8o9c6kene/dureader.pdf" target="_blank" rel="external">**dureader.pdf545.2kB</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/02/cs224n笔记1-4-Natural-Language-Processing-with-Deep-Learning/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="yaoleo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yaoleo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/02/cs224n笔记1-4-Natural-Language-Processing-with-Deep-Learning/" itemprop="url">cs224n笔记1~4 Natural Language Processing with Deep Learning</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-01T20:11:05Z">
+                2018-03-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/03/02/cs224n笔记1-4-Natural-Language-Processing-with-Deep-Learning/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/03/02/cs224n笔记1-4-Natural-Language-Processing-with-Deep-Learning/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="1-Intro"><a href="#1-Intro" class="headerlink" title="1. Intro"></a>1. Intro</h1><h2 id="自然语言处理"><a href="#自然语言处理" class="headerlink" title="自然语言处理"></a>自然语言处理</h2><p><img src="http://static.zybuluo.com/yaoleo/q0rz3vp6alv3ythls87htlhm/image.png" alt="image.png-124.5kB"><br>输入： 语音/文本<br>处理：</p>
+<ul>
+<li>语音识别+OCR/分词</li>
+<li>形态学</li>
+<li>句法分析</li>
+<li>语义分析</li>
+</ul>
+<blockquote>
+<p>形态学（morphology）：形态学（又称“词汇形态学”或“词法”）是语言学的一个分支，研究词的内部结构，包括屈折变化和构词法两个部分。由于词具有语音特征、句法特征和语义特征，形态学处于音位学、句法学和语义学的结合部位，所以形态学是每个语言学家都要关注的一门学科［Matthews,2000］。</p>
+</blockquote>
+<p>这门课主要关注画圈的三个部分，其中中间的两个是重中之重，虽然深度学习在语音识别上的发力最大。</p>
+<p><strong>人类语言的特殊之处</strong>：</p>
+<ul>
+<li>自然语言的随机性小而目的性强</li>
+<li>人类语言是离散的、明确的符号系统。</li>
+<li>但又允许出现各种变种，比如颜文字，随意的错误拼写“I loooove it”。</li>
+<li>符号传输到大脑的过程是通过连续的声学光学信号，大脑编码似乎是连续的激活值上的模式。</li>
+<li>巨大的词表也导致数据稀疏，不利于机器学习。</li>
+</ul>
+<p>这构成一种动机，是不是应该用连续的信号而不是离散的符号去处理语言。</p>
+<h2 id="深度学习"><a href="#深度学习" class="headerlink" title="深度学习"></a>深度学习</h2><p><strong>机器学习</strong>：（学习的其实是人类，而不是机器。机器仅仅做了一道数值优化的题目而已）<br>+ 对专业问题理解非常透彻。<br>+ 手工设计特征，比如地名和机构名识别的特征模板。<br>+ 把特征交给某个机器学习算法，比如线性分类器。<br>+ 机器为这些特征调整找到合适的权值，将误差优化到最小。</p>
+<p><strong>深度学习</strong>：（表示学习的一部分，用来学习原始输入的多层特征表示）</p>
+<ul>
+<li>手工特征耗时耗力，还不易拓展</li>
+<li>自动特征学习快，方便拓展</li>
+<li>深度学习提供了一种通用的学习框架，可用来表示世界、视觉和语言学信息</li>
+<li>深度学习既可以无监督学习，也可以监督学习</li>
+</ul>
+<h1 id="2-Word2Vec"><a href="#2-Word2Vec" class="headerlink" title="2. Word2Vec"></a>2. Word2Vec</h1><h2 id="理解词义"><a href="#理解词义" class="headerlink" title="理解词义"></a>理解词义</h2><p><strong>传统：分类词典</strong></p>
+<ul>
+<li>丢失微妙的差别：adept, expert, good, practiced, proficient, skillful</li>
+<li>缺少新词</li>
+<li>主观化</li>
+<li>需要耗费大量人力去整理</li>
+<li>无法计算准确的词语相似度</li>
+</ul>
+<p><strong>one-hot向量</strong></p>
+<ul>
+<li>词表大小不同。Google的1TB语料词汇量是1300万，这个向量的确太长了。</li>
+<li>词语在符号表示上体现不出意义的相似性，比如Dell notebook battery size和Dell laptop battery capacity。而one-hot向量是正交的，无法通过任何运算得到相似度。</li>
+</ul>
+<p><strong>Distributional similarity based representations</strong><br><img src="http://static.zybuluo.com/yaoleo/g94rikk9c8gkojcbaw9np66x/image.png" alt="image.png-280.7kB"></p>
+<ul>
+<li>一种用向量直接编码含义的方法</li>
+<li>通过调整一个单词及其上下文单词的向量，使得根据两个向量可以推测两个词语的相似度；或根据向量可以预测词语的上下文。这种手法也是递归的，根据向量来调整向量，与词典中意项的定义相似。</li>
+</ul>
+<h2 id="Word2Vec"><a href="#Word2Vec" class="headerlink" title="Word2Vec"></a>Word2Vec</h2><p>待完成 参考word2vec的数学原理</p>
+<h1 id="3-GloVe"><a href="#3-GloVe" class="headerlink" title="3. GloVe"></a>3. GloVe</h1>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/02/Review-doodling/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -984,7 +1938,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/09/2017-11/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/28/AllegroGraph记录/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="yaoleo">
@@ -1003,7 +1957,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/12/09/2017-11/" itemprop="url">2017-11</a></h1>
+                <a class="post-title-link" href="/2017/12/28/AllegroGraph记录/" itemprop="url">AllegroGraph记录</a></h1>
         
 
         <div class="post-meta">
@@ -1015,339 +1969,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-09T11:18:00Z">
-                2017-12-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/画家/" itemprop="url" rel="index">
-                    <span itemprop="name">画家</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/12/09/2017-11/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/12/09/2017-11/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="记录"><a href="#记录" class="headerlink" title="记录"></a>记录</h2><p>从10.21弃坑纸质改用电子版，看记录刚好持续到11.21,然后从12月继续开始，显然统计更清楚，搜索更方便。</p>
-<p>11.08 面试 爱因互动 党课上台表演 mp3到货</p>
-<p>11.09篮球赛 冠军</p>
-<p>11.12头条面试 基础知识有问题</p>
-<p>11.13模式识别考试 聚餐</p>
-<p>11.14确认导师</p>
-<p>11.15 数学之美</p>
-<p>11.18 日本新中产阶级 kindle到货</p>
-<p>11.20看完日新中产</p>
-<p>11.21统计学方法两章</p>
-<p>回头看其实没什么重要的事情啊，时间就这么过去了。一个月如此，一生亦然。</p>
-<h2 id="精进"><a href="#精进" class="headerlink" title="精进"></a>精进</h2><p>同时要做的事情不应该太多。有这样几件比较重要：</p>
-<p>1健康2专业3英语4画画</p>
-<p>11-12点之间上床休息 运动10min</p>
-<p>1.18之前读完统计学习方法和代码</p>
-<p>12.30前原著听力</p>
-<p>周末晚上两个小时</p>
-<p>暂时放弃leetcode</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/06/2017-10/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="yaoleo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Yaoleo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/11/06/2017-10/" itemprop="url">2017-10</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-06T10:54:39Z">
-                2017-11-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/画家/" itemprop="url" rel="index">
-                    <span itemprop="name">画家</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/11/06/2017-10/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/11/06/2017-10/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="项目"><a href="#项目" class="headerlink" title="项目"></a>项目</h1><p>参加任务差不多一个月时间了，学习到非常多的东西，也有很多内容需要进一步深入学习沉淀，非常感谢老师和学长的指导。</p>
-<p>10/02~10/08 接受任务 修改两个前端页面 学习java和spring<br>10/09~10/16 学习ansj 和 stanfordNLP<br>10/17~10/22 PageRank 关键词和摘要<br>10/23~10/29 整理问题库 学习nltk<br>10/30~11/05 提取实体 自定义词典 时间 火箭型号 部位 发射场</p>
-<p>也不知道能不能通过考核，但我已经差不多尽力了。</p>
-<h1 id="生活学习"><a href="#生活学习" class="headerlink" title="生活学习"></a>生活学习</h1><p>十一假期烤了月饼，自那之后生活一片混乱，作息有问题，亚健康。改用电子的流水账，弃坑纸质手账。</p>
-<p>上课没有认真听讲，大作业完成的不错，Transe和机器学习分类webshell 做了很多工作。</p>
-<p>投了几份简历，有两家创业公司回复，工程经验不足，三个月时间也不能学到什么，严肃思考规划，不要浮躁。</p>
-<h1 id="反思"><a href="#反思" class="headerlink" title="反思"></a>反思</h1><p>上床不能拿手机，锻炼没有坚持。心情不好的时候不要做记录。</p>
-<h1 id="规划"><a href="#规划" class="headerlink" title="规划"></a>规划</h1><p>读论文–80篇自然语言处理相关。<br>读书-数学之美。<br>公开课-知识图谱。</p>
-<p>认真复习课堂知识准备考试。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/27/基于TransE算法计算相似度的实现/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="yaoleo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Yaoleo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/10/27/基于TransE算法计算相似度的实现/" itemprop="url">基于TransE算法计算相似度的实现</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-26T20:30:27Z">
-                2017-10-26
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-27T20:23:11Z">
+                2017-12-27
               </time>
             
 
@@ -1387,9 +2010,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/10/27/基于TransE算法计算相似度的实现/#comments" itemprop="discussionUrl">
+                <a href="/2017/12/28/AllegroGraph记录/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/10/27/基于TransE算法计算相似度的实现/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2017/12/28/AllegroGraph记录/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1418,500 +2041,21 @@
 
       
         
-          <h2 id="项目"><a href="#项目" class="headerlink" title="项目"></a>项目</h2><p><a href="https://github.com/yaoleo/transE" target="_blank" rel="external">项目地址</a></p>
-<h3 id="已有资源："><a href="#已有资源：" class="headerlink" title="已有资源："></a>已有资源：</h3><ul>
-<li>基于开源的transE算法 <a href="https://github.com/wuxiyu/transE" target="_blank" rel="external">https://github.com/wuxiyu/transE</a></li>
-<li>使用开源的数据集 <a href="http://openkg.cn/dataset/" target="_blank" rel="external">http://openkg.cn/dataset/</a></li>
+          
+            <h2 id="安装服务器："><a href="#安装服务器：" class="headerlink" title="安装服务器："></a>安装服务器：</h2><p>win的开发环境真的是！！！！<br>参考这个即可：<a href="https://franz.com/agraph/allegrograph/vm/" target="_blank" rel="external">https://franz.com/agraph/allegrograph/vm/</a></p>
+<p>注意这教程有几个过时和缺少的细节：</p>
+<ul>
+<li>vmware必须是pro版本 之前我原本有免费版的不行<br>否则桥接会有问题 桥接按照教程设置 </li>
+<li><p>还可以参考这个： <a href="https://jingyan.baidu.com/album/f79b7cb36db0309144023e89.html?picindex=2" target="_blank" rel="external">https://jingyan.baidu.com/album/f79b7cb36db0309144023e89.html?picindex=2</a> 还要注意用管理员模式运行vmware</p>
+</li>
+<li><p>里面关于eclipse版本也不对了 java application 不能执行 要用maven方式</p>
+</li>
+<li>最开始需要注意执行franz里的loadwilbur.sh恢复Repositories</li>
+<li>虚拟机会弹出一个backup 但是我安装总是失败 不知道为什么 好像不影响</li>
 </ul>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/10/27/基于TransE算法计算相似度的实现/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/27/TransE算法的理解/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="yaoleo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Yaoleo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/10/27/TransE算法的理解/" itemprop="url">TransE算法的理解</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-26T20:30:04Z">
-                2017-10-26
-              </time>
-            
-
-            
-
-            
-          </span>
+<h2 id="教程："><a href="#教程：" class="headerlink" title="教程："></a>教程：</h2><p><a href="https://franz.com/agraph/support/learning/" target="_blank" rel="external">https://franz.com/agraph/support/learning/</a></p>
 
           
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/黑客/" itemprop="url" rel="index">
-                    <span itemprop="name">黑客</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/10/27/TransE算法的理解/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/10/27/TransE算法的理解/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="TransE-作用"><a href="#TransE-作用" class="headerlink" title="TransE 作用"></a>TransE 作用</h2><p>就是把三元组翻译成embedding词向量的方法<br>三元组，也就是（头实体，关系，尾实体）的形式，头实体和尾实体统称为实体。为了简化起见，我们用(h,r,t)来表示三元组。其中</p>
-<pre><code>h表示头实体
-r表示关系
-t表示尾实体
-</code></pre><p>我们的目标是将知识库中所有的实体、关系表示成一个低维的向量。我们把三元组(h,r,t)对应的向量表示为(h,r,t)。</p>
-<pre><code>h 表示头实体对应的向量
-r 表示关系对应的向量
-t 表示尾实体对应的向量
-</code></pre>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/10/27/TransE算法的理解/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/27/基于TransE算法计算相似度的理论知识/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="yaoleo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Yaoleo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/10/27/基于TransE算法计算相似度的理论知识/" itemprop="url">基于TransE算法计算相似度的理论知识</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-26T20:29:41Z">
-                2017-10-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/黑客/" itemprop="url" rel="index">
-                    <span itemprop="name">黑客</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/10/27/基于TransE算法计算相似度的理论知识/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/10/27/基于TransE算法计算相似度的理论知识/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="知识图谱"><a href="#知识图谱" class="headerlink" title="知识图谱"></a>知识图谱</h2><h3 id="什么是知识图谱"><a href="#什么是知识图谱" class="headerlink" title="什么是知识图谱"></a>什么是知识图谱</h3><p>2012年5月，搜索引擎巨头谷歌在它的搜索页面中首次引入“知识图谱”：用户除了得到搜索网页链接外，还将看到与查询词有关的更加智能化的答案。谷歌高级副总裁艾米特·辛格博士一语道破知识图谱的重要意义所在：“构成这个世界的是实体，而非字符串（things, not strings）”。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/10/27/基于TransE算法计算相似度的理论知识/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/08/SpringLearn/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="yaoleo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Yaoleo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/10/08/SpringLearn/" itemprop="url">Spring核心</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-08T15:30:04Z">
-                2017-10-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/黑客/" itemprop="url" rel="index">
-                    <span itemprop="name">黑客</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/10/08/SpringLearn/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/10/08/SpringLearn/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="IoC"><a href="#IoC" class="headerlink" title="IoC"></a>IoC</h1><p>Inverse of Control 控制反转</p>
-<p>某一接口的具体实现类的选择控制权从调用类中移除，转交给第三方决定，即Spring容器借由Bean配置来进行控制。不够容易理解。</p>
-<p>提出DI（Dependency Injection)依赖注入来代替IoC</p>
-<p>调用类对魔衣接口的实现类的依赖关系由第三方注入，以移除调用类对某一接口实现类的依赖。<br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/10/08/SpringLearn/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
         
       
     </div>
@@ -1949,7 +2093,7 @@ t 表示尾实体对应的向量
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1995,7 +2139,7 @@ t 表示尾实体对应的向量
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-count">52</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2017,7 +2161,7 @@ t 表示尾实体对应的向量
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-count">29</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

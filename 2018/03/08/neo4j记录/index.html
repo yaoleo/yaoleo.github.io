@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="知识图谱,数据库,neo4j," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="neo4j记录 图数据库存储三元组三元组一般有两种：  实体-关系-实体 实体-属性-属性值  比特犬和可蒙犬都有一个属性“种”是家犬 但是家犬暂时数据中并不是实体 可以把任何属性当作一个新节点来存（如上图）：优点是：存储速度快缺点是：节点数目多，查询会慢，而且边的标签有限制65532 可以把三元组的宾语当作节点的属性存（如下图）：优点是：节点少 逻辑清楚缺点是：插入节点是要判断是否该节点已保存过">
+<meta name="keywords" content="知识图谱,数据库,neo4j">
+<meta property="og:type" content="article">
+<meta property="og:title" content="neo4j记录">
+<meta property="og:url" content="http://yoursite.com/2018/03/08/neo4j记录/index.html">
+<meta property="og:site_name" content="Yaoleo">
+<meta property="og:description" content="neo4j记录 图数据库存储三元组三元组一般有两种：  实体-关系-实体 实体-属性-属性值  比特犬和可蒙犬都有一个属性“种”是家犬 但是家犬暂时数据中并不是实体 可以把任何属性当作一个新节点来存（如上图）：优点是：存储速度快缺点是：节点数目多，查询会慢，而且边的标签有限制65532 可以把三元组的宾语当作节点的属性存（如下图）：优点是：节点少 逻辑清楚缺点是：插入节点是要判断是否该节点已保存过">
+<meta property="og:image" content="http://static.zybuluo.com/yaoleo/tmhbf7y409hq2j2ayutu1cjh/image.png">
+<meta property="og:image" content="http://static.zybuluo.com/yaoleo/6003193jndgkt2v1dar6oj44/QQ%E5%9B%BE%E7%89%8720180204203653.jpg">
+<meta property="og:image" content="http://static.zybuluo.com/yaoleo/09f41980j8atrmbyyepnv8dq/image.png">
+<meta property="og:image" content="http://static.zybuluo.com/yaoleo/udclez60d2qt9rrjokoprdlq/image.png">
+<meta property="og:image" content="http://static.zybuluo.com/yaoleo/ai7q8jujuepmofholdz3xv59/image.png">
+<meta property="og:updated_time" content="2018-03-07T12:58:54.890Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="neo4j记录">
+<meta name="twitter:description" content="neo4j记录 图数据库存储三元组三元组一般有两种：  实体-关系-实体 实体-属性-属性值  比特犬和可蒙犬都有一个属性“种”是家犬 但是家犬暂时数据中并不是实体 可以把任何属性当作一个新节点来存（如上图）：优点是：存储速度快缺点是：节点数目多，查询会慢，而且边的标签有限制65532 可以把三元组的宾语当作节点的属性存（如下图）：优点是：节点少 逻辑清楚缺点是：插入节点是要判断是否该节点已保存过">
+<meta name="twitter:image" content="http://static.zybuluo.com/yaoleo/tmhbf7y409hq2j2ayutu1cjh/image.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/03/08/neo4j记录/"/>
+
+
+
+
+
+  <title>neo4j记录 | Yaoleo</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?15a3d2502832fb272e3ae0271f49e6c8";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Yaoleo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">I pray to myself, for myself.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/08/neo4j记录/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="yaoleo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yaoleo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">neo4j记录</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-08T04:13:05+08:00">
+                2018-03-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/黑客/" itemprop="url" rel="index">
+                    <span itemprop="name">黑客</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/03/08/neo4j记录/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/03/08/neo4j记录/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="neo4j记录"><a href="#neo4j记录" class="headerlink" title="neo4j记录"></a>neo4j记录</h1><hr>
+<h2 id="图数据库存储三元组"><a href="#图数据库存储三元组" class="headerlink" title="图数据库存储三元组"></a>图数据库存储三元组</h2><p>三元组一般有两种：</p>
+<ul>
+<li>实体-关系-实体<br><img src="http://static.zybuluo.com/yaoleo/tmhbf7y409hq2j2ayutu1cjh/image.png" alt="image.png-29.5kB"></li>
+<li>实体-属性-属性值</li>
+</ul>
+<p>比特犬和可蒙犬都有一个属性“种”是家犬 但是家犬暂时数据中并不是实体<br><img src="http://static.zybuluo.com/yaoleo/6003193jndgkt2v1dar6oj44/QQ%E5%9B%BE%E7%89%8720180204203653.jpg" alt="QQ图片20180204203653.jpg-43.6kB"></p>
+<p>可以把任何属性当作一个新节点来存（如上图）：<br>优点是：存储速度快<br>缺点是：节点数目多，查询会慢，而且边的标签有限制65532</p>
+<p>可以把三元组的宾语当作节点的属性存（如下图）：<br><img src="http://static.zybuluo.com/yaoleo/09f41980j8atrmbyyepnv8dq/image.png" alt="image.png-56.2kB"><br>优点是：节点少 逻辑清楚<br>缺点是：插入节点是要判断是否该节点已保存过，建立数据库慢</p>
+<h2 id="下载安装"><a href="#下载安装" class="headerlink" title="下载安装"></a>下载安装</h2><p>最新的Desktop版本<br>创建Project：Demo<br>创建数据库local<br><img src="http://static.zybuluo.com/yaoleo/udclez60d2qt9rrjokoprdlq/image.png" alt="image.png-33.3kB"><br>点击start启动<br>在manage项里可以查看状态并可视化查看数据库状态<br><img src="http://static.zybuluo.com/yaoleo/ai7q8jujuepmofholdz3xv59/image.png" alt="image.png-95.1kB"></p>
+<p>常用语句<br>创建：<br>CREATE (TheMatrix:Movie {title:’The Matrix’, released:1999, tagline:’Welcome to the Real World’})<br>CREATE (Keanu:Person {name:’Keanu Reeves’, born:1964})<br>CREATE (Carrie:Person {name:’Carrie-Anne Moss’, born:1967})<br>查找：<br>MATCH (n) RETURN n<br>MATCH (tom {name: “Tom Hanks”}) RETURN tom<br>MATCH (cloudAtlas {title: “Cloud Atlas”}) RETURN cloudAtlas<br>MATCH (people:Person) RETURN people.name LIMIT 10<br>MATCH (tom:Person {name: “Tom Hanks”})-[:ACTED_IN]-&gt;(tomHanksMovies) RETURN tom,tomHanksMovies<br>删除：<br>MATCH (n) DETACH DELETE n</p>
+<h2 id="jCypher"><a href="#jCypher" class="headerlink" title="jCypher"></a>jCypher</h2><h3 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h3><ul>
+<li>初始化连接</li>
+<li>创建节点，属性，边</li>
+<li>添加属性</li>
+<li>查找</li>
+</ul>
+<h3 id="初始化连接"><a href="#初始化连接" class="headerlink" title="初始化连接"></a>初始化连接</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">private static IDBAccess dbAccess;</div><div class="line">private static void initDBConnection() &#123;</div><div class="line">    Properties props = new Properties();</div><div class="line">    props.setProperty(DBProperties.SERVER_ROOT_URI, &quot;bolt://localhost:7687&quot;); // bolt连接参数</div><div class="line">    props.setProperty(DBProperties.DATABASE_DIR, &quot;C:/NEO4J_DBS/01&quot;); // 本地建立参数</div><div class="line">    dbAccess = DBAccessFactory.createDBAccess(DBType.IN_MEMORY, props); // 内存</div><div class="line">    dbAccess = DBAccessFactory.createDBAccess(DBType.REMOTE, props); // 远程bolt连接用</div><div class="line">    dbAccess = DBAccessFactory.createDBAccess(DBType.EMBEDDED, props); // embedded</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="创建节点，属性，边"><a href="#创建节点，属性，边" class="headerlink" title="创建节点，属性，边"></a>创建节点，属性，边</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">String queryTitle = &quot;CREATE MOVIE DATABASE&quot;;</div><div class="line">JcQuery query = new JcQuery();</div><div class="line">query.setClauses(new IClause[] &#123;</div><div class="line">        CREATE.node(matrix1).label(&quot;Movie&quot;)</div><div class="line">                .property(&quot;title&quot;).value(&quot;The Matrix&quot;)</div><div class="line">                .property(&quot;year&quot;).value(&quot;1999-03-31&quot;),</div><div class="line">        CREATE.node(keanu).label(&quot;Actor&quot;)</div><div class="line">                .property(&quot;name&quot;).value(&quot;Keanu Reeves&quot;)</div><div class="line">                .property(&quot;like&quot;).value(8.5)</div><div class="line">                .property(&quot;numbers&quot;).values(1, 2, 3),</div><div class="line">        CREATE.node(keanu).relation().out().type(&quot;ACTS_IN&quot;).property(&quot;role&quot;).value(&quot;Neo&quot;).node(matrix1),</div><div class="line">&#125;);</div><div class="line">JcQueryResult result = dbAccess.execute(query);</div></pre></td></tr></table></figure>
+<h3 id="添加属性"><a href="#添加属性" class="headerlink" title="添加属性"></a>添加属性</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">String queryTitle = &quot;ADD PROPERTY&quot;;</div><div class="line">query.setClauses(new IClause[] &#123;</div><div class="line">        MATCH.node(n),</div><div class="line">        WHERE.valueOf(n.property(&quot;name&quot;)).EQUALS(objectname),</div><div class="line">        DO.SET(n.property(propertyname)).to(subjectname),</div><div class="line">&#125;);</div><div class="line">JcQueryResult result = dbAccess.execute(query);</div></pre></td></tr></table></figure>
+<h3 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">query.setClauses(new IClause[] &#123;</div><div class="line">                MATCH.node(n),</div><div class="line">                WHERE.valueOf(n.property(&quot;name&quot;)).EQUALS(subjectname),</div><div class="line">                RETURN.value(n)</div><div class="line">        &#125;);</div><div class="line">        JcQueryResult result = dbAccess.execute(query);</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/知识图谱/" rel="tag"># 知识图谱</a>
+          
+            <a href="/tags/数据库/" rel="tag"># 数据库</a>
+          
+            <a href="/tags/neo4j/" rel="tag"># neo4j</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/08/Bi-Directional-Attention-flow-for-machine-comprehension/" rel="next" title="Bi-Directional Attention flow for machine comprehension">
+                <i class="fa fa-chevron-left"></i> Bi-Directional Attention flow for machine comprehension
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="yaoleo" />
+          <p class="site-author-name" itemprop="name">yaoleo</p>
+           
+              <p class="site-description motion-element" itemprop="description">极简不矫情&无知不作恶</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">52</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yaoleo" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/yaoleo" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                    
+                      知乎
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#neo4j记录"><span class="nav-number">1.</span> <span class="nav-text">neo4j记录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#图数据库存储三元组"><span class="nav-number">1.1.</span> <span class="nav-text">图数据库存储三元组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#下载安装"><span class="nav-number">1.2.</span> <span class="nav-text">下载安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jCypher"><span class="nav-number">1.3.</span> <span class="nav-text">jCypher</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#目录"><span class="nav-number">1.3.1.</span> <span class="nav-text">目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#初始化连接"><span class="nav-number">1.3.2.</span> <span class="nav-text">初始化连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建节点，属性，边"><span class="nav-number">1.3.3.</span> <span class="nav-text">创建节点，属性，边</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加属性"><span class="nav-number">1.3.4.</span> <span class="nav-text">添加属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查找"><span class="nav-number">1.3.5.</span> <span class="nav-text">查找</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yaoleo</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://yaoleo.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2018/03/08/neo4j记录/';
+          this.page.identifier = '2018/03/08/neo4j记录/';
+          this.page.title = 'neo4j记录';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://yaoleo.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
