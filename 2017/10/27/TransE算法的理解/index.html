@@ -103,7 +103,7 @@
 <meta property="og:description" content="TransE 作用就是把三元组翻译成embedding词向量的方法三元组，也就是（头实体，关系，尾实体）的形式，头实体和尾实体统称为实体。为了简化起见，我们用(h,r,t)来表示三元组。其中 h表示头实体 r表示关系 t表示尾实体 我们的目标是将知识库中所有的实体、关系表示成一个低维的向量。我们把三元组(h,r,t)对应的向量表示为(h,r,t)。 h 表示头实体对应的向量 r 表示关系对应的向量">
 <meta property="og:image" content="https://raw.githubusercontent.com/xiangrongzeng/xiangrongzeng.github.io/master/_posts/graph/transe.jpg">
 <meta property="og:image" content="http://img.blog.csdn.net/20160413081202892?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
-<meta property="og:updated_time" content="2017-10-26T12:34:47.900Z">
+<meta property="og:updated_time" content="2019-03-10T09:07:43.086Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="TransE算法的理解">
 <meta name="twitter:description" content="TransE 作用就是把三元组翻译成embedding词向量的方法三元组，也就是（头实体，关系，尾实体）的形式，头实体和尾实体统称为实体。为了简化起见，我们用(h,r,t)来表示三元组。其中 h表示头实体 r表示关系 t表示尾实体 我们的目标是将知识库中所有的实体、关系表示成一个低维的向量。我们把三元组(h,r,t)对应的向量表示为(h,r,t)。 h 表示头实体对应的向量 r 表示关系对应的向量">
@@ -392,10 +392,15 @@ t 表示尾实体对应的向量
 <h2 id="TransE的目标函数"><a href="#TransE的目标函数" class="headerlink" title="TransE的目标函数"></a>TransE的目标函数</h2><p>目标是学得所有实体和关系的embedding。</p>
 <p>理想情况下，一个正确的三元组的embedding之间会有h+r=t的关系，而错误的三元组之间不会有这个关系。</p>
 <p>因此我们定义如下的势能函数：$$ f(h,r,t) = ||h+r-t||_2 $$<br>通过h和r之和与t之差的二范数来表示这个三元组的势能。</p>
-<p>二范数：$ ||\textbf{x}||<em>2 =\sqrt{\sum</em>{i=1}^Nx_i^2} $ Euclid范数（欧几里得范数，常用计算向量长度），即向量元素绝对值的平方和再开方。</p>
+<p>二范数：</p>
+<p>$$ ||\textbf{x}||<em>2 =\sqrt{\sum</em>{i=1}^Nx_i^2}  $$ </p>
+<p>Euclid范数（欧几里得范数，常用计算向量长度），即向量元素绝对值的平方和再开方。</p>
 <p>对于一个正确的三元组，我们希望势能越低越好，而对于一个错误的三元组，我们希望势能越高越好。这样我们就很容易给出目标函数了：</p>
-<p>$$ min\sum<em>{(h,r,t)\in\Delta} \sum</em>{(h^{‘},r^{‘},t^{‘})\in\Delta}[\gamma + f(h,r,t) - f(h^{‘},r^{‘},t^{‘})]<em>+ $$<br>其中<br>$\Delta$ 表示正确的三元组集合<br>$\Delta^{‘} $表示错误的三元组集合<br>$\gamma$  表示正负样本之间的间距，是一个常数<br>$[x]</em>+$ 表示max(0,x)</p>
-<p>为了方便训练，避免过拟合，通常还会在上述目标函数后面增加约束条件<br>||h||≤1,||r||≤1,||t||≤1。<br><img src="http://img.blog.csdn.net/20160413081202892?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="算法"></p>
+<p>$$ min\sum<em>{(h,r,t)\in\Delta} \sum</em>{(h^{‘},r^{‘},t^{‘})\in\Delta}[\gamma + f(h,r,t) - f(h^{‘},r^{‘},t^{‘})]_+ $$</p>
+<p>其中</p>
+<p>$\Delta$ 表示正确的三元组集合<br>$\Delta^{‘} $表示错误的三元组集合<br>$\gamma$  表示正负样本之间的间距，是一个常数<br>$[x]_+$ 表示max(0,x)</p>
+<p>为了方便训练，避免过拟合，通常还会在上述目标函数后面增加约束条件<br>||h||≤1,||r||≤1,||t||≤1。</p>
+<p><img src="http://img.blog.csdn.net/20160413081202892?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="算法"></p>
 <h2 id="负样本（错误三元组）的产生"><a href="#负样本（错误三元组）的产生" class="headerlink" title="负样本（错误三元组）的产生"></a>负样本（错误三元组）的产生</h2><p>通常我们得到的知识库是三元组的集合，所有在知识库中出现了的三元组都被看作是正例，那我们如何产生负例呢？我们通常使用替换法来获取负例。</p>
 <p>对于三元组(h,r,t)<br>我们随机用知识库中的某个实体h′来替换h，或者用某个实体t′来替换t，这样我们就得到了两个负例(h′,r,t)和(h,r,t′)。</p>
 <p>为了避免出现生成的负例其实存在于知识库中的情况，我们可以对生成的负例进行过滤，如果它是知识库中的正例，那我们就不把它作为负例，而是重新生成一个负例。</p>
@@ -553,7 +558,7 @@ t 表示尾实体对应的向量
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">55</span>
+                <span class="site-state-item-count">54</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
